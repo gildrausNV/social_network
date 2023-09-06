@@ -1,0 +1,32 @@
+.navbar{
+  background-color: #000080;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar button{
+  background-color: transparent;
+  border-color: transparent;
+  color: #C0C0C0;
+  font-size: x-large;
+  padding: 20px;
+}
+
+.navbar button:hover{
+  font-size: xx-large;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.page{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 
+.login-btn{
+  background-color: #000080;
+} */

@@ -1,0 +1,20 @@
+/* Profile.css */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.info {
+  /* Styles for your Info component filling the whole width */
+}
+
+.recommendations {
+  /* Styles for the Recommendations section acting as a navbar */
+  flex: 1; /* Fill the whole width */
+}
+
+.posts {
+  /* Styles for the Posts section below the Recommendations navbar */
+  flex-grow: 1; /* Fill the remaining vertical space */
+}
