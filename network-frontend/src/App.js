@@ -9,6 +9,7 @@ import Profile from './components/profile/Profile';
 import Navbar from './components/Menu/Navbar';
 import CurrentUserProfile from './components/profile/CurrentUserProfile';
 import MainPage from './components/main/MainPage';
+import Users from './components/users/Users';
 
 export const AuthContext = React.createContext();
 
@@ -31,6 +32,7 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/profile' element={<CurrentUserProfile />} />
               <Route path='/main' element={<MainPage />} />
+              <Route path='/users' element={<Users />} />
           </Routes>
           </div>
         </Router>

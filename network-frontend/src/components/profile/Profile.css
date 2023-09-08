@@ -5,10 +5,6 @@
   height: 100vh;
 }
 
-.info {
-  /* Styles for your Info component filling the whole width */
-}
-
 .recommendations {
   /* Styles for the Recommendations section acting as a navbar */
   flex: 1; /* Fill the whole width */
@@ -17,4 +13,90 @@
 .posts {
   /* Styles for the Posts section below the Recommendations navbar */
   flex-grow: 1; /* Fill the remaining vertical space */
+}
+
+.post{
+  width: 800px;
+  background-color: #000080;
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  margin: 8px;
+  /* height: 200px; */
+}
+
+
+.row{
+  margin: 5px;
+}
+
+.row textarea{
+  width: 100%;
+  height: 150px;
+  border-radius: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  height: 30px;
+}
+
+.row.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically center the content */
+  height: 40px;
+}
+
+
+.delete-btn{
+  background-color: rgb(172, 0, 0);
+  border-radius: 20px;
+  border-color: transparent;
+  color: white;
+  width: 60px;
+  height: 30px;
+}
+
+.delete-btn:hover{
+  cursor: pointer;
+  background-color: rgb(255, 0, 0);
+  transition: 0.1s;
+  width: 62px;
+  height: 32px;
+}
+
+.like-btn{
+  background-color: #000099;
+  border-radius: 20px;
+  border-color: transparent;
+  color: white;
+  width: 60px;
+  height: 30px;
+}
+
+.like-btn:hover{
+  cursor: pointer;
+  background-color: #0000cf;
+  transition: 0.1s;
+  width: 62px;
+  height: 32px;
+}
+
+.comment-btn{
+  background-color: #000099;
+  border-radius: 20px;
+  border-color: transparent;
+  color: white;
+  width: 90px;
+  height: 30px;
+}
+
+.comment-btn:hover{
+  cursor: pointer;
+  background-color: #0000cf;
+  transition: 0.1s;
+  width: 92px;
+  height: 32px;
 }
