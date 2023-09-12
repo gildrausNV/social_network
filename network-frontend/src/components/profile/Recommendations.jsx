@@ -18,12 +18,16 @@ const Recommendations = () => {
   return (
     <div className="recommendations">
       <h3>People you might know:</h3>
-      {data?.map((user) => (
+      {data?.content.map((user) => (
         <div className="recommended-user" key={user.id}>
-          {user.firstname} {user.lastname}
-          <button className='follow-btn' onClick={() => handleFollow(user.id)}>
-            Follow
-          </button>
+          <div className="recommended-user-info">
+            <p>{user.firstname} {user.lastname}</p>
+          </div>
+          <div className="follow-button-container">
+            <button className='follow-btn' onClick={() => handleFollow(user.id)}>
+              Follow
+            </button>
+          </div>
         </div>
       ))}
     </div>

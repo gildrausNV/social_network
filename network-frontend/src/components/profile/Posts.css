@@ -1,0 +1,140 @@
+/* Add these styles to your CSS file */
+.posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    margin: 20px;
+  }
+  
+  .new-post {
+    width: 100%;
+    max-width: 600px; /* Adjust the maximum width as needed */
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .new-post textarea {
+    width: 96%;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    resize: none;
+  }
+  
+  .comment-btn {
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .comment-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .comment-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style for individual posts, adjust as needed */
+  .post {
+    width: 100%;
+    max-width: 600px; /* Adjust the maximum width as needed */
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  /* Add these styles to your CSS file */
+.post {
+  width: 100%;
+  max-width: 600px; /* Adjust the maximum width as needed */
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 20px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.text-container {
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.delete-btn {
+  background-color: rgb(172, 0, 0);
+  border-radius: 8px;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.like-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.row-content {
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 96%;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+.comment-btn {
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-btn:hover {
+  background-color: #0056b3;
+}

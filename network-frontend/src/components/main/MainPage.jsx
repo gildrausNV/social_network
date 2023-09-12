@@ -12,8 +12,39 @@ const MainPage = () => {
     // const [totalPages, setTotalPages] = useState(0);
     const apiUrl = 'http://localhost:8080/api/v1/posts';
     const token = useContext(AuthContext);
-    const { data, loading, error} = useFetchData(apiUrl, token);
-    console.log(data)
+    // const { data, loading, error} = useFetchData(apiUrl, token);
+    // console.log(data.content)
+    const [posts, setPosts] = useState();
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    useEffect(() => {
+        const getPosts = async () => {
+          
+          try {
+            const response = await axios.get(
+              "http://localhost:8080/api/v1/posts",
+              {
+                params: {
+                  size: 3,
+                  page: currentPage,
+                },
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            setPosts(response.data.content);
+            setTotalPages(response.data.totalPages);
+          } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
+          }
+        };
+        getPosts();
+      }, [currentPage]);
+
+      console.log(posts);
 
     
     // useEffect(() => {
@@ -37,17 +68,17 @@ const MainPage = () => {
     //     fetchData();
     // }, [currentPage]);
 
-    // const nextPage = () => {
-    //     setCurrentPage((currentPage) => currentPage + 1);
-    // };
+    const nextPage = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    };
 
-    // const previousPage = () => {
-    //     setCurrentPage((currentPage) => currentPage - 1);
-    // };
+    const previousPage = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
+    };
 
     return ( 
         <div className="main-page">
-            {/* <div className="pagination">
+            <div className="pagination">
                 <button
                     onClick={previousPage}
                     disabled={currentPage === 0}
@@ -62,8 +93,8 @@ const MainPage = () => {
                 >
                     Next
                 </button>
-            </div> */}
-            {data?.map((post, index) => (
+            </div>
+            {posts?.map((post, index) => (
                 <Post post = {post} key={index}/>
             ))}
         </div>

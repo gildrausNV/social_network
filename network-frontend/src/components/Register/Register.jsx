@@ -7,8 +7,6 @@ const Register = ({ onSubmit }) => {
   const token = useContext(AuthContext)
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Implement form submission logic here and call onSubmit function
-    // with the form data to handle the registration process.
   };
 
   return (
@@ -25,7 +23,6 @@ const Register = ({ onSubmit }) => {
             <input type="password" id="password" required />
           </div>
         </div>
-        {/* Add other form fields here */}
         <div className="form-row">
           <div className="form-group">
             <Link to="/login">Already have an account? Log in</Link>
@@ -33,7 +30,6 @@ const Register = ({ onSubmit }) => {
         </div>
         <button type="submit">Register</button>
       </form>
-      {token}
     </div>
   );
 };

@@ -9,11 +9,15 @@ const Profile = ({data}) => {
       
         return ( 
             <div className="profile-container">
-                <Info id={id} className="info" />
-                <div className="recommendations">
-                    <Recommendations id={id} />
+                <div className="left-container">
+                    <div className="info-container">
+                        <Info id={id} className="info" />
+                    </div>
+                    <div className="recommendations-container">
+                        <Recommendations id={id} />
+                    </div>
                 </div>
-                <div className="posts">
+                <div className="right-container">
                     <Posts id={id} />
                 </div>
             </div>

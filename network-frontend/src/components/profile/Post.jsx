@@ -48,7 +48,6 @@ const Post = ({ post }) => {
       </div>
       <div className="row">
         <div className="button-container">
-          {/* Move buttons to the right */}
           <button onClick={handlePostSubmit} className="comment-btn">
             Comment
           </button>

@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../../App';
 import { Link } from 'react-router-dom';
 import useFetchData from '../../useFetchData';
+import myImage from '../users/user.png';
 
 const Info = ({id}) => {
     const token = useContext(AuthContext)
@@ -13,8 +14,11 @@ const Info = ({id}) => {
     return ( 
         <div className="info">
             {token ? <>
-                Email: {data?.email}
-                Name: {data?.firstname} {data?.lastname}
+                <img src={myImage} alt=""  className="picture"/>
+                <div className="info-row">
+                    <p>Name: {data?.firstname} {data?.lastname}</p>
+                    <p>Email: {data?.email}</p>
+                </div>
             </>:<>
                 <Link to={'/login'}>Login</Link>
             </>}

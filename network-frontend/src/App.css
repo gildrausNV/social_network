@@ -1,32 +1,79 @@
-.navbar{
-  background-color: #000080;
-  height: 50px;
+/* Navbar.css */
+/* Navbar.css */
+.navbar {
   display: flex;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  position: relative;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+
+
+/* Navbar.css */
+
+/* Initial styles for all buttons */
+.navbar-button {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  outline: none;
+  position: relative; /* Position relative for pseudo-element */
+}
+
+/* Add a pseudo-element for the border */
+.navbar-button::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0; /* Initial width is 0 (no border) */
+  height: 2px; /* Border height */
+  background-color: #007bff; /* Border color */
+  transition: width 0.3s ease; /* Smoothly transition the width */
+}
+
+/* Style for the active button */
+.navbar-button.active {
+  color: #007bff;
+}
+
+.navbar-button.active::before {
+  width: 100%; /* Full width for the border */
+}
+
+
+
+.left-buttons {
+  display: flex;
+  gap: 10px; /* Adjust the gap between left buttons */
   align-items: center;
 }
 
-.navbar button{
+.left-buttons button {
+  color: #333;
   background-color: transparent;
-  border-color: transparent;
-  color: #C0C0C0;
-  font-size: x-large;
-  padding: 20px;
+  padding: 5px 10px;
 }
 
-.navbar button:hover{
-  font-size: xx-large;
-  transition: 0.5s;
-  cursor: pointer;
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .page{
   width: 100%;
   height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
-/* 
-.login-btn{
-  background-color: #000080;
-} */
+

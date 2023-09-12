@@ -33,14 +33,15 @@ const Login = ({setToken}) => {
         }
       );
 
-      const { token } = response.data;
+      const { token, id } = response.data;
 
+      localStorage.setItem('id', id);
       localStorage.setItem('token', token);
       setToken(token);
 
       setUsername('');
       setPassword('');
-      
+      // console.log(response.data.id)
       navigate('/profile');
       
     } catch (error) {
