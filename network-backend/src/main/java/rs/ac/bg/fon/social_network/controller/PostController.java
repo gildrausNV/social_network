@@ -20,8 +20,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public List<Post> getAll() {
-        return postService.getAll();
+    public Page<Post> getAll(Pageable pageable) {
+        return postService.getAll(pageable);
     }
 
     @GetMapping("/users/{userId}")

@@ -1,6 +1,8 @@
 package rs.ac.bg.fon.social_network.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.social_network.domain.Action;
@@ -24,12 +26,14 @@ public class UserService {
     private final ActionService actionService;
     private final NotificationRepository notificationRepository;
 
-    public List<User> getAll() {
-        return userRepository.findAll()
-                        .stream()
-                        .filter(user -> user.getRole().equals(Role.USER))
-                        .filter(user -> !user.equals(getCurrentlyLoggedInUser()))
-                        .toList();
+    public Page<User> getAll(Pageable pageable) {
+//        return userRepository.findByRoleAndId(Role.USER, getCurrentlyLoggedInUser().getId(), pageable);
+        return userRepository.findByRoleAndIdNot(Role.USER, getCurrentlyLoggedInUser().getId(), pageable);
+//        return userRepository.findAll()
+//                        .stream()
+//                        .filter(user -> user.getRole().equals(Role.USER))
+//                        .filter(user -> !user.equals(getCurrentlyLoggedInUser()))
+//                        .toList();
     }
 
     public User getCurrentlyLoggedInUser() {

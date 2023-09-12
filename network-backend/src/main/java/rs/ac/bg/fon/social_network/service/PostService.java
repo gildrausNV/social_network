@@ -26,15 +26,16 @@ public class PostService {
     private final ReportRepository reportRepository;
     private final ActionService actionService;
 
-    public List<Post> getAll() {
+    public Page<Post> getAll(Pageable pageable) {
         User currentlyLoggedInUser = userService.getCurrentlyLoggedInUser();
         if (currentlyLoggedInUser.getRole().equals(Role.ADMIN))
-            return postRepository.findAll();
-        return postRepository
-                .findAll()
-                .stream()
-                .filter(post -> post.getCreator().getFollowers().contains(currentlyLoggedInUser))
-                .toList();
+            return postRepository.findAll(pageable);
+        return postRepository.findByCreatorFollowersIn(List.of(currentlyLoggedInUser), pageable);
+//        return postRepository
+//                .findAll()
+//                .stream()
+//                .filter(post -> post.getCreator().getFollowers().contains(currentlyLoggedInUser))
+//                .toList();
     }
 
     public Post getById(Long id) {

@@ -33,7 +33,7 @@ public class AuthenticationService {
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken, Role.USER);
+        return new AuthenticationResponse(jwtToken, Role.USER, user.getId());
     }
 
     public AuthenticationResponse login(LoginRequest request) {
@@ -43,6 +43,6 @@ public class AuthenticationService {
                         request.getPassword()));
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(NoSuchElementException::new);
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken, user.getRole());
+        return new AuthenticationResponse(jwtToken, user.getRole(), user.getId());
     }
 }
