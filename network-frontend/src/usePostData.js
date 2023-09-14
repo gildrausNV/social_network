@@ -4,6 +4,7 @@ import axios from 'axios';
 const usePostData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [response, setResponse] = useState('');
 
   const postDataRequest = async (url, postData, token = null) => {
     setLoading(true);
@@ -16,6 +17,7 @@ const usePostData = () => {
       setLoading(false);
       
       console.log(response.data);
+      setResponse(response);
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -23,7 +25,7 @@ const usePostData = () => {
     }
   };
 
-  return { loading, error, postDataRequest };
+  return { loading, error, response, postDataRequest };
 };
 
 export default usePostData;

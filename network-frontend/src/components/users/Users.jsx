@@ -67,7 +67,6 @@ const Users = () => {
           }
         );
         setUsers(response.data);
-
       } catch (error) {
         console.error("Login failed:", error);
         throw error;
@@ -75,7 +74,7 @@ const Users = () => {
     };
     getUsers();
   }, []);
-
+  
   const handleButtonClick = (option) => {
     setSelectedOption(option);
   };

@@ -3,9 +3,8 @@ import Posts from './Posts';
 import './Profile.css'
 import Recommendations from './Recommendations';
 
-const Profile = ({data}) => {
+const Profile = ({id, isCurrentUser}) => {
     
-      const { id } = data;
       
         return ( 
             <div className="profile-container">
@@ -14,11 +13,11 @@ const Profile = ({data}) => {
                         <Info id={id} className="info" />
                     </div>
                     <div className="recommendations-container">
-                        <Recommendations id={id} />
+                        {isCurrentUser && <Recommendations id={id} />}
                     </div>
                 </div>
                 <div className="right-container">
-                    <Posts id={id} />
+                    <Posts id={id} isCurrentUser={isCurrentUser}/>
                 </div>
             </div>
      );

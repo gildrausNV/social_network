@@ -26,7 +26,7 @@ const MainPage = () => {
               "http://localhost:8080/api/v1/posts",
               {
                 params: {
-                  size: 3,
+                  size: 2,
                   page: currentPage,
                 },
                 headers: {

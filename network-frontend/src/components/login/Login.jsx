@@ -6,7 +6,7 @@ import { AuthContext } from '../../App';
 
 import './Login.css';
 
-const Login = ({setToken}) => {
+const Login = ({setToken, setId}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -38,7 +38,7 @@ const Login = ({setToken}) => {
       localStorage.setItem('id', id);
       localStorage.setItem('token', token);
       setToken(token);
-
+      setId(id);
       setUsername('');
       setPassword('');
       // console.log(response.data.id)

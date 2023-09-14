@@ -8,6 +8,7 @@ import React from 'react';
 import Profile from './components/profile/Profile';
 import Navbar from './components/Menu/Navbar';
 import CurrentUserProfile from './components/profile/CurrentUserProfile';
+import OtherUserProfile from './components/profile/OtherUserProfile';
 import MainPage from './components/main/MainPage';
 import Users from './components/users/Users';
 
@@ -15,11 +16,12 @@ export const AuthContext = React.createContext();
 
 function App() {  
   const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [id, setId] = useState(localStorage.getItem('id') || null);
   // const [id, setId] = useState(localStorage.getItem('id') || null);
 
   useEffect(() => {
     localStorage.setItem('token', token);
-    // localStorage.setItem('id', id);
+    localStorage.setItem('id', id);
   }, [token]);
 
   return (
@@ -29,10 +31,11 @@ function App() {
           <Navbar />
           <div className='page'>
           <Routes>
-              <Route path='/' element={<Login setToken={setToken}/>} />
-              <Route path='/login' element={<Login setToken={setToken}/>} />
+              <Route path='/' element={<Login setToken={setToken} setId={setId}/>} />
+              <Route path='/login' element={<Login setToken={setToken} setId={setId}/>} />
               <Route path='/register' element={<Register />} />
               <Route path='/profile' element={<CurrentUserProfile />} />
+              <Route path='/profile/:id' element={<OtherUserProfile />} />
               <Route path='/main' element={<MainPage />} />
               <Route path='/users' element={<Users />} />
           </Routes>

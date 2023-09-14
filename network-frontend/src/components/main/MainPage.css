@@ -32,3 +32,37 @@
     opacity: 1; /* Change opacity to 1 on hover */
   }
   
+  /* Add this CSS to your stylesheet */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  background-color: transparent;
+  border: 2px solid #007bff; /* Border style */
+  border-radius: 4px; /* Rounded corners */
+  color: #007bff; /* Text color */
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 0 10px; /* Add spacing between buttons */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  outline: none;
+}
+
+/* Style for the disabled button */
+.pagination-button[disabled] {
+  background-color: #ccc; /* Background color for disabled button */
+  border-color: #ccc; /* Border color for disabled button */
+  color: #666; /* Text color for disabled button */
+  cursor: not-allowed; /* Show 'not-allowed' cursor */
+}
+
+/* Hover effect */
+.pagination-button:hover {
+  background-color: #007bff; /* Background color on hover */
+  color: #fff; /* Text color on hover */
+}
