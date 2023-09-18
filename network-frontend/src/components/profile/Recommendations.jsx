@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import usePostData from '../../usePostData'; // Import the usePostData hook
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';
+import { useNavigate } from 'react-router-dom';
 
 const Recommendations = () => {
   const apiUrl = 'http://localhost:8080/api/v1/users';
   const token = useContext(AuthContext);
   const { data, loading, error } = useFetchData(apiUrl, token);
-  const { postDataRequest } = usePostData(); // Use the custom hook
+  const { postDataRequest } = usePostData();
+  const navigate = useNavigate();
 
   // Function to handle the follow action
   const handleFollow = (userId) => {
@@ -19,7 +21,7 @@ const Recommendations = () => {
     <div className="recommendations">
       <h3>People you might know:</h3>
       {data?.content.map((user) => (
-        <div className="recommended-user" key={user.id}>
+        <div className="recommended-user"  onClick={() => navigate('/profile/' + user.id)} key={user.id}>
           <div className="recommended-user-info">
             <p>{user.firstname} {user.lastname}</p>
           </div>

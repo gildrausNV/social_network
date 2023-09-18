@@ -6,7 +6,7 @@ import { AuthContext } from '../../App';
 
 import './Login.css';
 
-const Login = ({setToken, setId}) => {
+const Login = ({setToken, setId, setIsAdmin}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -33,12 +33,14 @@ const Login = ({setToken, setId}) => {
         }
       );
 
-      const { token, id } = response.data;
+      const { token, id, role } = response.data;
 
       localStorage.setItem('id', id);
       localStorage.setItem('token', token);
+      localStorage.setItem('isAdmin', role==='ADMIN');
       setToken(token);
       setId(id);
+      setIsAdmin(role==='ADMIN');
       setUsername('');
       setPassword('');
       // console.log(response.data.id)

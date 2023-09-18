@@ -4,26 +4,26 @@ import { useContext, useState } from "react";
 
 const Navbar = () => {
     const token = useContext(AuthContext);
-    const [activeButton, setActiveButton] = useState("Profile");
+    const [activeButton, setActiveButton] = useState("");
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName);
     }
-
+    console.log(localStorage.getItem('isAdmin'))
     return (
         <>
             {token ?
                 <>
                     <div className="navbar">
                         <div className="left-buttons">
-                            <Link to={'/profile'}>
+                            {!localStorage.getItem('isAdmin') && <Link to={'/profile'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Profile' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Profile')}
                                 >
                                     Profile
                                 </button>
-                            </Link>
+                            </Link>}
                             <Link to={'/main'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Main page' ? 'active' : ''}`}
@@ -32,14 +32,22 @@ const Navbar = () => {
                                     Main page
                                 </button>
                             </Link>
-                            <Link to={'/users'}>
+                            {!localStorage.getItem('isAdmin') && <Link to={'/users'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Users' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Users')}
                                 >
                                     Users
                                 </button>
-                            </Link>
+                            </Link>}
+                            {localStorage.getItem('isAdmin') && <Link to={'/reports'}>
+                                <button
+                                    className={`navbar-button ${activeButton === 'Reports' ? 'active' : ''}`}
+                                    onClick={() => handleButtonClick('Reports')}
+                                >
+                                    Reports
+                                </button>
+                            </Link>}
                         </div>
                         <div className="auth-buttons">
                             <Link to={'/login'}>
@@ -47,15 +55,7 @@ const Navbar = () => {
                                     className={`navbar-button ${activeButton === 'Login' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Login')}
                                 >
-                                    Login
-                                </button>
-                            </Link>
-                            <Link to={'/register'}>
-                                <button
-                                    className={`navbar-button ${activeButton === 'Register' ? 'active' : ''}`}
-                                    onClick={() => handleButtonClick('Register')}
-                                >
-                                    Register
+                                    Logout
                                 </button>
                             </Link>
                         </div>

@@ -4,6 +4,8 @@ import "./Profile.css";
 import { AuthContext } from "../../App";
 import axios from "axios";
 import useFetchData from "../../useFetchData";
+import Comments from "./Comments";
+import Reactions from "./Reactions";
 
 const Post = ({ post, deletePost, isCurrentUser }) => {
   const token = useContext(AuthContext);
@@ -11,17 +13,17 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();
   const [comments, setComments] = useState();
+  const [reactions, setReactions] = useState();
 
   const getCommentsUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comments";
+  const getReactionsUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/reactions";
   const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comment";
-  const likeUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/like";
-
-  // const { data } = useFetchData(getCommentsUrl, token);
-  // console.log(data)
+  const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
+  const reportUrl = "http://localhost:8080/api/v1/reports/post/" + post.id;
 
   useEffect(() => {
     const getComments = async () => {
-      
+
       try {
         const response = await axios.get(
           getCommentsUrl,
@@ -32,6 +34,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           }
         );
         setComments(response.data.content);
+        console.log(response.data.content)
       } catch (error) {
         console.error("Login failed:", error);
         throw error;
@@ -40,7 +43,27 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
     getComments();
   }, [comment]);
 
-  // console.log(comments);
+  useEffect(() => {
+    const getReactions = async () => {
+
+      try {
+        const response = await axios.get(
+          getReactionsUrl,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setReactions(response.data.content);
+      } catch (error) {
+        console.error("Login failed:", error);
+        throw error;
+      }
+    };
+    getReactions();
+  }, []);
+
 
   const handleNewPostChange = (event) => {
     setComment(event.target.value);
@@ -51,11 +74,25 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
     setComment("");
   };
 
-  // const handleLikeClick = () => {
-  //   postDataRequest(apiUrl, { content: comment }, token);
-  //   setComment("");
-  // };
+  const handleReportSubmit = () => {
+    postDataRequest(reportUrl, null, token);
+  }
 
+  const handleReactionSubmit = (reaction) => {
+    postDataRequest(reactionUrl, { reactionType: reaction }, token);
+  }
+
+  const [modalComments, setModalComments] = useState(false);
+
+  const toggleModalComments = () => {
+    setModalComments(!modalComments);
+  }
+
+  const [modalReactions, setModalReactions] = useState(false);
+
+  const toggleModalReactions = () => {
+    setModalReactions(!modalReactions);
+  }
 
   return (
     <div className="post">
@@ -66,16 +103,23 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
         {isCurrentUser ? <div className="button-container">
           <button className="delete-btn" onClick={() => deletePost(post.id)}>Delete</button>
         </div> : <div className="button-container">
-          <button className="delete-btn" onClick={() => alert(post.id + " dodaj funkciju za report")}>Report</button>
+          <button className="delete-btn" onClick={() => handleReportSubmit()}>Report</button>
         </div>}
       </div>
       <div className="row-content">{post?.content}</div>
       <div className="row">
         <div className="button-container">
-          <button className="like-btn">👍</button>
-          <button className="like-btn">😂</button>
-          <button className="like-btn">😡</button>
+          {!isCurrentUser && <>
+            <button className="like-btn" onClick={() => handleReactionSubmit('LIKE')}>👍</button>
+            <button className="like-btn" onClick={() => handleReactionSubmit('ANGRY')}>😡</button>
+            <button className="like-btn" onClick={() => handleReactionSubmit('LOVE')}>😍</button>
+            <button className="like-btn" onClick={() => handleReactionSubmit('SAD')}>😭</button></>
+          }
+          <div className="text-container" style={{ paddingLeft: '40%' }}>
+            <u style={{ color: 'blue' }} onClick={toggleModalReactions}>Show reactions({reactions?.length})</u>
+          </div>
         </div>
+
       </div>
       <div className="row">
         <textarea
@@ -91,20 +135,27 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           <button onClick={handleCommentSubmit} className="comment-btn">
             Comment
           </button>
-          <div className="text-container" style={{ paddingLeft: '60%' }}>
-            <u style={{ color: 'blue' }} onClick={() => setShowComments(!showComments)}>Show comments</u>
+          <div className="text-container" style={{ paddingLeft: '55%' }}>
+            <u style={{ color: 'blue' }} onClick={() => setModalComments(!showComments)}>Show comments({comments?.length})</u>
           </div>
         </div>
-        {showComments &&
-          <div className="comments">
-              {comments && comments?.map((comment) => (
-                <div className="comment">
-                  {comment.creator.username} : {comment.content}
-                </div>
-              ))}
-          </div>
-        }
       </div>
+      {modalComments && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <Comments comments={comments} />
+            <button onClick={toggleModalComments}>Close</button>
+          </div>
+        </div>
+      )}
+      {modalReactions && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <Reactions reactions={reactions} />
+            <button onClick={toggleModalReactions}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
