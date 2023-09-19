@@ -44,7 +44,7 @@ const Login = ({setToken, setId, setIsAdmin}) => {
       setUsername('');
       setPassword('');
       // console.log(response.data.id)
-      navigate('/profile');
+      navigate('/main');
       
     } catch (error) {
       console.error('Login failed:', error);
