@@ -7,19 +7,21 @@ import { AuthContext } from '../../App';
 import './Login.css';
 
 const Login = ({setToken, setId, setIsAdmin}) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+  });
   const [message, setMessage] = useState('');
   const token = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleUserChange = (event) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,8 +30,8 @@ const Login = ({setToken, setId, setIsAdmin}) => {
       const response = await axios.post(
         'http://localhost:8080/api/v1/auth/login',
         {
-          username,
-          password,
+          username: user.username,
+          password: user.password,
         }
       );
 
@@ -41,11 +43,7 @@ const Login = ({setToken, setId, setIsAdmin}) => {
       setToken(token);
       setId(id);
       setIsAdmin(role==='ADMIN');
-      setUsername('');
-      setPassword('');
-      // console.log(response.data.id)
       navigate('/main');
-      
     } catch (error) {
       console.error('Login failed:', error);
       setMessage('Login failed');
@@ -66,8 +64,9 @@ const Login = ({setToken, setId, setIsAdmin}) => {
           <input
             type="text"
             id="username"
-            value={username}
-            onChange={handleUsernameChange}
+            name="username"
+            value={user.username}
+            onChange={handleUserChange}
             required
           />
         </div>
@@ -76,8 +75,9 @@ const Login = ({setToken, setId, setIsAdmin}) => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={handlePasswordChange}
+            name="password"
+            value={user.password}
+            onChange={handleUserChange}
             required
           />
         </div>

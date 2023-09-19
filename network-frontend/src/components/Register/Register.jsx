@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Make sure to import Axios
 import './Register.css';
 import { AuthContext } from '../../App';
+import usePostData from '../../usePostData';
 
 const Register = ({ setId, setIsAdmin, setToken }) => {
   const token = useContext(AuthContext);
@@ -11,26 +11,26 @@ const Register = ({ setId, setIsAdmin, setToken }) => {
     firstName: '',
     lastName: '',
     email: '',
-    gender: 'MALE', // Default to Male, you can change it to an empty string if needed
+    gender: 'MALE',
     username: '',
     password: '',
   });
+  const url = "http://localhost:8080/api/v1/auth/register";
+  const { response, postDataRequest } = usePostData();
+  const postData = {
+    username: formData.username,
+    password: formData.password,
+    firstname: formData.firstName,
+    lastname: formData.lastName,
+    email: formData.email,
+    gender: formData.gender
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/auth/register',
-        {
-          username: formData.username,
-          password: formData.password,
-          firstname: formData.firstName,
-          lastname: formData.lastName,
-          email: formData.email,
-          gender: formData.gender
-        }
-      );
+      const response = postDataRequest(url, postData);
 
       const { token, id, role } = response.data;
 
@@ -43,8 +43,7 @@ const Register = ({ setId, setIsAdmin, setToken }) => {
       navigate('/main');
 
     } catch (error) {
-      console.error('Login failed:', error);
-      // setMessage('Login failed');
+      console.error('Register failed:', error);
     }
   };
 
@@ -100,7 +99,7 @@ const Register = ({ setId, setIsAdmin, setToken }) => {
               <input
                 type="radio"
                 name="gender"
-                value="male"
+                value="MALE"
                 checked={formData.gender === 'MALE'}
                 onChange={handleChange}
               /> Male
@@ -109,7 +108,7 @@ const Register = ({ setId, setIsAdmin, setToken }) => {
               <input
                 type="radio"
                 name="gender"
-                value="female"
+                value="FEMALE"
                 checked={formData.gender === 'FEMALE'}
                 onChange={handleChange}
               /> Female

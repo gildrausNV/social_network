@@ -11,12 +11,6 @@ const Recommendations = () => {
   const { postDataRequest } = usePostData();
   const navigate = useNavigate();
 
-  // Function to handle the follow action
-  const handleFollow = (userId) => {
-    const followUrl = `http://localhost:8080/api/v1/users/follow/${userId}`;
-    postDataRequest(followUrl, null, token);
-  };
-
   return (
     <div className="recommendations">
       <h3>People you might know:</h3>

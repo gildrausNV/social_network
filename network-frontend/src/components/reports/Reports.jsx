@@ -3,50 +3,40 @@ import './Reports.css';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import usePostData from '../../usePostData';
+import useFetchData from '../../useFetchData';
+import useDeleteData from '../../useDeleteData';
 
 const Reports = () => {
     const [reports, setReports] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
-    useEffect(() => {
-        const getReports = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:8080/api/v1/reports",
-                    {
-                        params: {
-                            size: 4,
-                            page: currentPage,
-                        },
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        },
-                    }
-                );
-                setReports(response.data.content);
-                setTotalPages(response.data.totalPages);
-            } catch (error) {
-                console.error("Login failed:", error);
-                throw error;
-            }
-        };
-        getReports();
+    const apiUrl = "http://localhost:8080/api/v1/reports";
+    const token = localStorage.getItem('token');
 
-    }, [currentPage]);
+    const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, token);
+
+    const { deleteRequest } = useDeleteData();
+
+    useEffect(() => {
+        fetchWithParams({
+            size: 3,
+            page: currentPage,
+        });
+    }, [currentPage, fetchWithParams]);
+
+    useEffect(() => {
+        if (data) {
+            setReports(data.content);
+            console.log(data.content)
+            setTotalPages(data.totalPages);
+        }
+    }, [data]);
 
     const deletePost = async (id) => {
-        try {
-            const response = await axios.delete('http://localhost:8080/api/v1/posts/' + id, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-            });
-            setReports(reports.filter((report) => report.id != id))
-        } catch (error) {
-            console.error('Post failed:', error);
-            throw error;
-        }
+        const url = "http://localhost:8080/api/v1/posts/" + id;
+        deleteRequest(url, localStorage.getItem("token"));
+        window.location.reload();
     };
 
     function calculateTimeAgo(givenDate) {
@@ -75,17 +65,9 @@ const Reports = () => {
     }
 
     const dismissReport = async (id) => {
-        try {
-            const response = await axios.delete('http://localhost:8080/api/v1/reports/' + id, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-            });
-            setReports(reports.filter((report) => report.id != id))
-        } catch (error) {
-            console.error('Post failed:', error);
-            throw error;
-        }
+        const url = "http://localhost:8080/api/v1/reports/" + id;
+        deleteRequest(url, localStorage.getItem("token"));
+        window.location.reload();
     }
     console.log(reports)
 

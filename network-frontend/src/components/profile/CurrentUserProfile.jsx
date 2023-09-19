@@ -1,4 +1,3 @@
-// CurrentUserProfile.js
 import { useContext } from 'react';
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';

@@ -4,7 +4,6 @@ const Comments = ({ comments }) => {
         const currentDate = new Date();
         const givenDateTime = new Date(givenDate);
       
-        // Check if the date is valid
         if (isNaN(givenDateTime)) {
           return "Invalid date";
         }

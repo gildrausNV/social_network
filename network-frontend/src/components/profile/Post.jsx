@@ -145,7 +145,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           <div className="modal">
           <h1>Comments</h1>
             <Comments comments={comments} />
-            <button onClick={toggleModalComments} className="close-btn">Close</button>
+            <button onClick={toggleModalComments}>Close</button>
           </div>
         </div>
       )}
@@ -154,7 +154,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           <div className="modal">
           <h1>Reactions</h1>
             <Reactions reactions={reactions} />
-            <button onClick={toggleModalReactions} className="close-btn">Close</button>
+            <button onClick={toggleModalReactions}>Close</button>
           </div>
         </div>
       )}

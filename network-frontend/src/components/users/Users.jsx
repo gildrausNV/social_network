@@ -27,10 +27,6 @@ const Users = () => {
         const response = await axios.get(
           apiUrl,
           {
-            params: {
-              size: 5,
-              page: 0,
-            },
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -50,34 +46,7 @@ const Users = () => {
     setSelectedOption(option);
   };
 
-  const handleFollow = (userId) => {
-    const followUrl = `http://localhost:8080/api/v1/users/follow/${userId}`;
-    postDataRequest(followUrl, null, token);
-  };
 
-  const handleUnfollow = (userId) => {
-    const unfollowUrl = `http://localhost:8080/api/v1/users/unfollow/${userId}`;
-    postDataRequest(unfollowUrl, null, token);
-  };
-
-  async function isFollowing(id, name) {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/users/isFollowing/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // console.log('Response from isFollowing:', response.data);
-      console.log(typeof response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Error checking if following:", error);
-      return false; // Return false in case of an error
-    }
-  }
 
   const getUsersByUsername = async (username) => {
     if (username != '') {
@@ -100,7 +69,7 @@ const Users = () => {
   return (
     <div className="users">
       <div className="users-button-container">
-        <div class="search-container">
+        <div className="search-container">
           <input type="text" className="search-input" placeholder="Search..." onChange={(event) => getUsersByUsername(event.target.value)} />
           <img src={magnifyingGlass} alt="" className="picture" style={{ width: '30px', height: '30px', marginTop: '6px' }} />
         </div>
