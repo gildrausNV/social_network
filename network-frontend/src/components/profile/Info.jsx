@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 import useFetchData from '../../useFetchData';
 import myImage from '../users/user.png';
 
-const Info = ({id}) => {
+const Info = ({ id, isFollowing, follow, unfollow }) => {
     const token = useContext(AuthContext)
     const apiUrl = 'http://localhost:8080/api/v1/users/'+id;
     const { data, loading, error } = useFetchData(apiUrl, token);
+
 
     return ( 
         <div className="info">
@@ -18,6 +19,7 @@ const Info = ({id}) => {
                 <div className="info-row">
                     <p>Name: {data?.firstname} {data?.lastname}</p>
                     <p>Email: {data?.email}</p>
+                    {!isFollowing ? <button onClick={() => follow()}>Follow</button> : <button onClick={() => unfollow()}>Unfollow</button>}
                 </div>
             </>:<>
                 <Link to={'/login'}>Login</Link>

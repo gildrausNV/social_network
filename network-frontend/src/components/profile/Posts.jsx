@@ -7,11 +7,11 @@ import './Posts.css';
 import Post from './Post';
 import axios from 'axios';
 
-const Posts = ({ id, isCurrentUser }) => {
+const Posts = ({ id, isCurrentUser, isFollowing }) => {
   const apiUrl = 'http://localhost:8080/api/v1/posts/users/' + id;
   const apiUrlPost = 'http://localhost:8080/api/v1/posts';
   const token = useContext(AuthContext);
-  
+
 
 
   // const { data, loading, error, refetchData } = useFetchData(apiUrl, token);
@@ -41,35 +41,38 @@ const Posts = ({ id, isCurrentUser }) => {
   // }, [postLoading, postError, newPostContent, refetchData]);
 
   const [posts, setPosts] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-    useEffect(() => {
-        const getPosts = async () => {
-          try {
-            const response = await axios.get(
-              "http://localhost:8080/api/v1/posts/users/" + id,
-              {
-                params: {
-                  size: 1,
-                  page: currentPage,
-                },
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-            setPosts(response.data.content);
-            setTotalPages(response.data.totalPages);
-          } catch (error) {
-            console.error("Login failed:", error);
-            throw error;
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/posts/users/" + id,
+          {
+            params: {
+              size: 1,
+              page: currentPage,
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
-        };
-        getPosts();
-        
-      }, [currentPage]);
-      
+        );
+        setPosts(response.data.content);
+        setTotalPages(response.data.totalPages);
+      } catch (error) {
+        console.error("Fetch data failed:", error);
+        // throw error;
+      }
+    };
+
+    if (isFollowing || isCurrentUser) {
+      // alert('fetching')
+      getPosts();
+    }
+  }, [currentPage, id]);
+
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
@@ -80,25 +83,25 @@ const Posts = ({ id, isCurrentUser }) => {
 
   const deletePost = async (id) => {
     try {
-        const response = await axios.delete('http://localhost:8080/api/v1/posts/' + id,{
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
-        setPosts(posts.filter((post) => post.id!=id))
+      const response = await axios.delete('http://localhost:8080/api/v1/posts/' + id, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+      setPosts(posts.filter((post) => post.id != id))
     } catch (error) {
-        console.error('Post failed:', error);
-        throw error;
+      console.error('Post failed:', error);
+      throw error;
     }
-};
+  };
 
-const nextPage = () => {
-  setCurrentPage((currentPage) => currentPage + 1);
-};
+  const nextPage = () => {
+    setCurrentPage((currentPage) => currentPage + 1);
+  };
 
-const previousPage = () => {
-  setCurrentPage((currentPage) => currentPage - 1);
-};
+  const previousPage = () => {
+    setCurrentPage((currentPage) => currentPage - 1);
+  };
 
   return (
     <div className="posts">
@@ -118,26 +121,26 @@ const previousPage = () => {
         {postError && <div>Error: {postError.message}</div>}
       </div>}
       <div className="pagination">
-                <button
-                    onClick={previousPage}
-                    disabled={currentPage === 0}
-                    className="pagination-button"
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={nextPage}
-                    disabled={currentPage === totalPages - 1}
-                    className="pagination-button"
-                >
-                    Next
-                </button>
-            </div>
-    
-    {posts!=null && posts?.map((post, index) => (
-      <Post post = {post} deletePost={deletePost} isCurrentUser={isCurrentUser} key={index}/>
-    ))}
-  </div>
+        <button
+          onClick={previousPage}
+          disabled={currentPage === 0}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+        <button
+          onClick={nextPage}
+          disabled={currentPage === totalPages - 1}
+          className="pagination-button"
+        >
+          Next
+        </button>
+      </div>
+
+      {posts != null && posts?.map((post, index) => (
+        <Post post={post} deletePost={deletePost} isCurrentUser={isCurrentUser} key={index} />
+      ))}
+    </div>
 
   );
 };

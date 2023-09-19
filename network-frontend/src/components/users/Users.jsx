@@ -5,6 +5,8 @@ import axios from "axios";
 import useFetchData from "../../useFetchData";
 import usePostData from "../../usePostData";
 import myImage from './user.png';
+import magnifyingGlass from './glass3.png';
+import { useNavigate } from "react-router-dom";
 
 const Users = () => {
   const apiUrlBase = "http://localhost:8080/api/v1/users";
@@ -15,50 +17,18 @@ const Users = () => {
   const [isFollowingData, setIsFollowingData] = useState([]);
   const { data, loading, error } = useFetchData(apiUrl, token);
   const { postDataRequest } = usePostData();
-
-  // useEffect(() => {
-  //   const fetchIsFollowingData = async () => {
-  //     const promises = data.map(async (user) => {
-  //       try {
-  //         const response = await axios.get(
-  //           `http://localhost:8080/api/v1/users/isFollowing/${user.id}`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         return {
-  //           user: user,
-  //           isFollowing: response.data,
-  //         };
-  //       } catch (error) {
-  //         console.log(error);
-  //         return null;
-  //       }
-  //     });
-
-  //     const updatedIsFollowingData = await Promise.all(promises);
-  //     setIsFollowingData(
-  //       updatedIsFollowingData.filter((item) => item !== null)
-  //     );
-  //   };
-
-  //   if (data) {
-  //     fetchIsFollowingData();
-  //   }
-  // }, [data, token]);
   const [users, setUsers] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUsers = async () => {
 
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/v1/users",
+          apiUrl,
           {
             params: {
-              size: 1,
+              size: 5,
               page: 0,
             },
             headers: {
@@ -67,14 +37,15 @@ const Users = () => {
           }
         );
         setUsers(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Login failed:", error);
         throw error;
       }
     };
     getUsers();
-  }, []);
-  
+  }, [apiUrl]);
+
   const handleButtonClick = (option) => {
     setSelectedOption(option);
   };
@@ -89,7 +60,7 @@ const Users = () => {
     postDataRequest(unfollowUrl, null, token);
   };
 
-  async function isFollowing(id) {
+  async function isFollowing(id, name) {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/v1/users/isFollowing/${id}`,
@@ -99,6 +70,8 @@ const Users = () => {
           },
         }
       );
+      // console.log('Response from isFollowing:', response.data);
+      console.log(typeof response.data);
       return response.data;
     } catch (error) {
       console.error("Error checking if following:", error);
@@ -106,10 +79,31 @@ const Users = () => {
     }
   }
 
+  const getUsersByUsername = async (username) => {
+    if (username != '') {
+      try {
+        const response = await axios.get('http://localhost:8080/api/v1/users/username/' + username, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setUsers(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Failed to fetch users by username:', error);
+        throw error;
+      }
+    }
+  };
+
+
   return (
     <div className="users">
       <div className="users-button-container">
-
+        <div class="search-container">
+          <input type="text" className="search-input" placeholder="Search..." onChange={(event) => getUsersByUsername(event.target.value)} />
+          <img src={magnifyingGlass} alt="" className="picture" style={{ width: '30px', height: '30px', marginTop: '6px' }} />
+        </div>
         <button
           onClick={() => handleButtonClick("followers")}
           className={`user-button ${selectedOption === 'followers' ? 'active' : ''}`}
@@ -122,25 +116,28 @@ const Users = () => {
         >
           Following
         </button>
+
       </div>
       <div className="users-content">
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
-        {data && data.map((user) => (
+        {users && users?.map((user) => (
           <div key={user.id} className="user">
             <img src={myImage} alt="" className="picture" />
             <div className="user-name">{user.firstname}</div>
             <div className="user-btn">
               <div className="user-btn-row">
-                {isFollowing(user.id)===true ? (
-                  <button onClick={() => handleFollow(user.id)}>
-                    Follow
-                  </button>
-                ) : (
-                  <button onClick={() => handleUnfollow(user.id)}>
-                    Unfollow
-                  </button>
-                )}
+                {/* {isFollowing(user.id, user.firstname) === true ? 
+              <button onClick={() => handleFollow(user.id)} disabled={isFollowing(user.id, user.firstname)}>
+              Follow
+            </button>
+            :
+            <button onClick={() => handleUnfollow(user.id)} disabled={!isFollowing(user.id, user.firstname)}>
+              Unfollow
+            </button>
+            } */}
+                <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
+
               </div>
               <div className="user-btn-row">
                 <button>Chat</button>

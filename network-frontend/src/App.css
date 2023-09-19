@@ -77,3 +77,28 @@
   justify-content: center;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* Hide overflow to prevent scrollbar when sidebar is hidden */
+}
+
+/* Sidebar.css */
+
+/* Adjust the trigger element styles */
+
+
+.main-content {
+  flex: 1;
+}
+
+.main-container {
+  display: flex;
+}
+
+
+
+
+
+/* Add styling for Navbar and Sidebar here */

@@ -96,3 +96,35 @@
 .user-btn button:hover {
   color: #007bff;
 }
+
+/* Style the search container */
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 300px; /* Adjust the width as needed */
+}
+
+/* Style the search input */
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Style the search icon container */
+.search-icon-container {
+  background-color: #f2f2f2;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Style the search icon */
+.search-icon {
+  color: #666;
+}
+

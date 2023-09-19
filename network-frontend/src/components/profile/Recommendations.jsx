@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import usePostData from '../../usePostData'; // Import the usePostData hook
+import usePostData from '../../usePostData';
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';
 import { useNavigate } from 'react-router-dom';
@@ -26,8 +26,8 @@ const Recommendations = () => {
             <p>{user.firstname} {user.lastname}</p>
           </div>
           <div className="follow-button-container">
-            <button className='follow-btn' onClick={() => handleFollow(user.id)}>
-              Follow
+            <button className='follow-btn' onClick={() => navigate('/profile/' + user.id)}>
+              View profile
             </button>
           </div>
         </div>

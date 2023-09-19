@@ -12,10 +12,11 @@ import OtherUserProfile from './components/profile/OtherUserProfile';
 import MainPage from './components/main/MainPage';
 import Users from './components/users/Users';
 import Reports from './components/reports/Reports';
+import Sidebar from './components/Sidebar/Sidebar';
 
 export const AuthContext = React.createContext();
 
-function App() {  
+function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [id, setId] = useState(localStorage.getItem('id') || null);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('admin') || null);
@@ -26,22 +27,40 @@ function App() {
     // localStorage.setItem('isAdmin', isAdmin);
   }, [token]);
 
+  // const [showSidebar, setShowSidebar] = useState(false);
+
+  // const handleSidebarHover = (hovered) => {
+  //   setShowSidebar(hovered);
+  // };
+
+
   return (
     <AuthContext.Provider value={token}>
       <div className='App'>
         <Router>
-          <Navbar isAdmin={isAdmin}/>
-          <div className='page'>
-          <Routes>
-              <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
-              <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
-              <Route path='/register' element={<Register setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
-              <Route path='/profile' element={<CurrentUserProfile />} />
-              <Route path='/profile/:id' element={<OtherUserProfile />} />
-              <Route path='/main' element={<MainPage />} />
-              <Route path='/users' element={<Users />} />
-              <Route path='/reports' element={<Reports />} />
-          </Routes>
+          <Navbar isAdmin={isAdmin} />
+          <div className="main-container">
+            <div className="left-container">
+              {/* <Info id={id} className="info" /> */}
+              <Sidebar />
+              <div className="recommendations-container">
+                {/* {isCurrentUser && <Recommendations id={id} />} */}
+              </div>
+            </div>
+
+            <div className='page'>
+              <Routes>
+                <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
+                <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
+                <Route path='/register' element={<Register setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
+                <Route path='/profile' element={<CurrentUserProfile />} />
+                <Route path='/profile/:id' element={<OtherUserProfile />} />
+                <Route path='/main' element={<MainPage />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/reports' element={<Reports />} />
+              </Routes>
+            </div>
+
           </div>
         </Router>
       </div>
