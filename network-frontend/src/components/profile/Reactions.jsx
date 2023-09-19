@@ -26,8 +26,7 @@ const Reactions = ({ reactions }) => {
       }
       
     return (
-        <div className="reactions">
-            <h1>Reactions</h1>
+        <div className="reactions-container">
             {reactions && reactions?.map((reaction) => (
                 <div className="reactions" key={reaction.id}>
                     {reaction.reactionType === "LIKE" && '👍'} 

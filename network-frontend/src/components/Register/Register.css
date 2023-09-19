@@ -1,74 +1,91 @@
-/* Profile.css */
+/* Register.css */
 
-.login {
-    width: 400px;
-    max-width: 400px;
-    height: 330px;
-    margin: 0 auto;
-    padding: 10px;
-    margin-top: 200px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-  }
-  
-  .login h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .form-group input {
-    width: 95%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .login button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #000000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .login button:hover {
-    background-color: #858585;
-    transition: 0.5s;
-  }
-  
-  p {
-    text-align: center;
-    margin-top: 15px;
-  }
-  
-  p a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  p a:hover {
-    text-decoration: underline;
-  } 
-  
+.register {
+  width: 400px;
+  max-width: 400px;
+  height: 630px; /* Adjust the height as needed */
+  margin: 0 auto;
+  padding: 20px; /* Increased padding for better spacing */
+  margin-top: 100px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.register h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Style the gender options */
+.radio-group {
+  display: flex;
+  justify-content: center; /* Center the radio buttons horizontally */
+  align-items: center; /* Center the radio buttons vertically */
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* Adjust the spacing between options */
+}
+
+/* Style the radio buttons */
+.radio-group input[type="radio"] {
+  margin-right: 5px; /* Adjust the spacing between the radio button and label text */
+}
+
+.register button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.register button:hover {
+  background-color: #858585;
+  transition: 0.5s;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+}
+
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}

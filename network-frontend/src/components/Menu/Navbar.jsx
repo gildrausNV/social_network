@@ -1,22 +1,29 @@
 import { Link } from "react-router-dom";
 import { AuthContext } from '../../App';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
     const token = useContext(AuthContext);
     const [activeButton, setActiveButton] = useState("");
+    // const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin'));
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName);
     }
-    console.log(localStorage.getItem('isAdmin'))
+    // console.log(localStorage.getItem('isAdmin'))
+
+    // useEffect(() => {
+        // setIsAdmin(localStorage.getItem('isAdmin'));
+        // console.log(isAdmin)
+    // }, [localStorage.getItem('isAdmin')])
+
     return (
         <>
             {token ?
                 <>
                     <div className="navbar">
                         <div className="left-buttons">
-                            {!localStorage.getItem('isAdmin') && <Link to={'/profile'}>
+                            {!isAdmin && <Link to={'/profile'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Profile' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Profile')}
@@ -32,7 +39,7 @@ const Navbar = () => {
                                     Main page
                                 </button>
                             </Link>
-                            {!localStorage.getItem('isAdmin') && <Link to={'/users'}>
+                            {!isAdmin && <Link to={'/users'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Users' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Users')}
@@ -40,7 +47,7 @@ const Navbar = () => {
                                     Users
                                 </button>
                             </Link>}
-                            {localStorage.getItem('isAdmin') && <Link to={'/reports'}>
+                            {isAdmin && <Link to={'/reports'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Reports' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Reports')}

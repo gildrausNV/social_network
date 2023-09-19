@@ -28,10 +28,9 @@ const Comments = ({ comments }) => {
       
 
     return (
-        <div className="comments">
-            <h1>Comments</h1>
+        <div className="comments-container">
             {comments && comments?.map((comment) => (
-                <div className="comment" key={comment.id}>
+                <div className="comments" key={comment.id}>
                     {comment.creator.username} : {comment.content} {calculateTimeAgo(comment.timePosted)}
                 </div>
             ))}

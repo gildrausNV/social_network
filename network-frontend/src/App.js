@@ -21,21 +21,21 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('admin') || null);
 
   useEffect(() => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('id', id);
-    localStorage.setItem('isAdmin', isAdmin);
+    // localStorage.setItem('token', token);
+    // localStorage.setItem('id', id);
+    // localStorage.setItem('isAdmin', isAdmin);
   }, [token]);
 
   return (
     <AuthContext.Provider value={token}>
       <div className='App'>
         <Router>
-          <Navbar />
+          <Navbar isAdmin={isAdmin}/>
           <div className='page'>
           <Routes>
               <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
               <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
-              <Route path='/register' element={<Register />} />
+              <Route path='/register' element={<Register setToken={setToken} setId={setId} setIsAdmin={setIsAdmin}/>} />
               <Route path='/profile' element={<CurrentUserProfile />} />
               <Route path='/profile/:id' element={<OtherUserProfile />} />
               <Route path='/main' element={<MainPage />} />

@@ -143,16 +143,18 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
       {modalComments && (
         <div className="modal-overlay">
           <div className="modal">
+          <h1>Comments</h1>
             <Comments comments={comments} />
-            <button onClick={toggleModalComments}>Close</button>
+            <button onClick={toggleModalComments} className="close-btn">Close</button>
           </div>
         </div>
       )}
       {modalReactions && (
         <div className="modal-overlay">
           <div className="modal">
+          <h1>Reactions</h1>
             <Reactions reactions={reactions} />
-            <button onClick={toggleModalReactions}>Close</button>
+            <button onClick={toggleModalReactions} className="close-btn">Close</button>
           </div>
         </div>
       )}
