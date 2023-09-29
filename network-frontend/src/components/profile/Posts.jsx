@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';
+import useFetchData2 from '../../useFetchData2';
 import usePostData from '../../usePostData';
 import './Posts.css';
 import Post from './Post';
@@ -32,15 +33,20 @@ const Posts = ({ id, isCurrentUser, isFollowing }) => {
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [params, setParams] = useState({
+    size: 1,
+    page: currentPage,
+  });
 
-  const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, token);
+  const { data, refetchData } = useFetchData2(apiUrl, params, token);
 
   useEffect(() => {
-    fetchWithParams({
+    refetchData({
       size: 1,
       page: currentPage,
     });
-  }, [currentPage, fetchWithParams]);
+    console.log(data);
+  }, [currentPage]);
 
   useEffect(() => {
     if (data) {
@@ -54,9 +60,7 @@ const Posts = ({ id, isCurrentUser, isFollowing }) => {
   const deletePost = async (id) => {
     const url = "http://localhost:8080/api/v1/posts/" + id;
     deleteRequest(url, localStorage.getItem("token"));
-    // setPosts(posts.filter((post) => post.id != id))
-    // refetchData();
-    window.location.reload();
+    setPosts(posts.filter((post) => post.id != id))
   };
 
   const nextPage = () => {

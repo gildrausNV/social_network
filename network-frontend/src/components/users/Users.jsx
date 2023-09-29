@@ -1,12 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import "./Users.css";
 import { AuthContext } from "../../App";
-import axios from "axios";
-import useFetchData from "../../useFetchData";
-import usePostData from "../../usePostData";
 import myImage from './user.png';
 import magnifyingGlass from './glass3.png';
 import { useNavigate } from "react-router-dom";
+import useFetchData2 from "../../useFetchData2";
 
 const Users = () => {
   const apiUrlBase = "http://localhost:8080/api/v1/users";
@@ -15,32 +13,14 @@ const Users = () => {
   const apiUrl =
     selectedOption === "All" ? apiUrlBase : `${apiUrlBase}/${selectedOption}`;
   const [isFollowingData, setIsFollowingData] = useState([]);
-  const { data, loading, error } = useFetchData(apiUrl, token);
-  const { postDataRequest } = usePostData();
-  const [users, setUsers] = useState();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getUsers = async () => {
+  const { data: users, error, loading, refetchData, updateUrl, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
 
-      try {
-        const response = await axios.get(
-          apiUrl,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setUsers(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
-      }
-    };
-    getUsers();
+  useEffect(() => {
+    fetchDataNewUrl(apiUrl);
   }, [apiUrl]);
+
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
@@ -50,18 +30,8 @@ const Users = () => {
 
   const getUsersByUsername = async (username) => {
     if (username != '') {
-      try {
-        const response = await axios.get('http://localhost:8080/api/v1/users/username/' + username, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        setUsers(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error('Failed to fetch users by username:', error);
-        throw error;
-      }
+      setSelectedOption('username/' + username);
+      console.log(apiUrl);
     }
   };
 
@@ -94,22 +64,13 @@ const Users = () => {
           <div key={user.id} className="user">
             <img src={myImage} alt="" className="picture" />
             <div className="user-name">{user.firstname}</div>
-            <div className="user-btn">
+            <div className="user-btn"> 
               <div className="user-btn-row">
-                {/* {isFollowing(user.id, user.firstname) === true ? 
-              <button onClick={() => handleFollow(user.id)} disabled={isFollowing(user.id, user.firstname)}>
-              Follow
-            </button>
-            :
-            <button onClick={() => handleUnfollow(user.id)} disabled={!isFollowing(user.id, user.firstname)}>
-              Unfollow
-            </button>
-            } */}
                 <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
 
               </div>
               <div className="user-btn-row">
-                <button>Chat</button>
+                <button onClick={() => navigate('/chat/' + user.id)}>Chat</button>
               </div>
             </div>
           </div>

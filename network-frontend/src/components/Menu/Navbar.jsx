@@ -5,17 +5,10 @@ import { useContext, useEffect, useState } from "react";
 const Navbar = ({ isAdmin }) => {
     const token = useContext(AuthContext);
     const [activeButton, setActiveButton] = useState("");
-    // const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin'));
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName);
     }
-    // console.log(localStorage.getItem('isAdmin'))
-
-    // useEffect(() => {
-        // setIsAdmin(localStorage.getItem('isAdmin'));
-        // console.log(isAdmin)
-    // }, [localStorage.getItem('isAdmin')])
 
     return (
         <>

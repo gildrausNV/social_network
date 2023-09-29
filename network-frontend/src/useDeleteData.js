@@ -17,7 +17,6 @@ const useDeleteData = () => {
               'Authorization': `Bearer ${token}`
             },
           });
-        //   setPosts(posts.filter((post) => post.id != id))
         console.log(response)
         } catch (error) {
           console.error('Post failed:', error);

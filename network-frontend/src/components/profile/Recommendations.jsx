@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import usePostData from '../../usePostData';
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,6 @@ const Recommendations = () => {
   const apiUrl = 'http://localhost:8080/api/v1/users';
   const token = useContext(AuthContext);
   const { data, loading, error } = useFetchData(apiUrl, token);
-  const { postDataRequest } = usePostData();
   const navigate = useNavigate();
 
   return (

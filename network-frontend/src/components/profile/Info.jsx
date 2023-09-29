@@ -19,7 +19,7 @@ const Info = ({ id, isFollowing, follow, unfollow }) => {
                 <div className="info-row">
                     <p>Name: {data?.firstname} {data?.lastname}</p>
                     <p>Email: {data?.email}</p>
-                    {!isFollowing ? <button onClick={() => follow()}>Follow</button> : <button onClick={() => unfollow()}>Unfollow</button>}
+                    {!isFollowing ? <button className='follow-btn' onClick={() => follow()}>Follow</button> : <button className='unfollow-btn' onClick={() => unfollow()}>Unfollow</button>}
                 </div>
             </>:<>
                 <Link to={'/login'}>Login</Link>

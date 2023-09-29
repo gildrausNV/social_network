@@ -3,7 +3,6 @@ import './MainPage.css';
 import useFetchData from '../../useFetchData';
 import { AuthContext } from '../../App';
 import Post from '../profile/Post';
-import axios from 'axios';
 
 const MainPage = () => {
   const apiUrl = 'http://localhost:8080/api/v1/posts';

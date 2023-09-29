@@ -2,67 +2,25 @@ import { useContext, useEffect, useState } from "react";
 import usePostData from "../../usePostData";
 import "./Profile.css";
 import { AuthContext } from "../../App";
-import axios from "axios";
-import useFetchData from "../../useFetchData";
 import Comments from "./Comments";
 import Reactions from "./Reactions";
+import useFetchData2 from "../../useFetchData2";
 
 const Post = ({ post, deletePost, isCurrentUser }) => {
   const token = useContext(AuthContext);
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();
-  const [comments, setComments] = useState();
-  const [reactions, setReactions] = useState();
-
-  const getCommentsUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comments";
-  const getReactionsUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/reactions";
+  
   const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comment";
   const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
   const reportUrl = "http://localhost:8080/api/v1/reports/post/" + post.id;
 
-  useEffect(() => {
-    const getComments = async () => {
+  const getReactionsUrl = `http://localhost:8080/api/v1/posts/${post.id}/reactions`;
+  const { data: reactions, loading: reactionsLoading, refetchData: refetchReactions, updateUrl: updateReactionsUrl } = useFetchData2(getReactionsUrl, null, token);
+  const getCommentsUrl = `http://localhost:8080/api/v1/posts/${post.id}/comments`;
+  const { data: comments, loading: commentsLoading, refetchData: refetchComments, updateUrl: updateCommentsUrl } = useFetchData2(getCommentsUrl, null, token);
 
-      try {
-        const response = await axios.get(
-          getCommentsUrl,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setComments(response.data.content);
-        console.log(response.data.content)
-      } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
-      }
-    };
-    getComments();
-  }, [comment]);
-
-  useEffect(() => {
-    const getReactions = async () => {
-
-      try {
-        const response = await axios.get(
-          getReactionsUrl,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setReactions(response.data.content);
-      } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
-      }
-    };
-    getReactions();
-  }, []);
 
 
   const handleNewPostChange = (event) => {
@@ -116,7 +74,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
             <button className="like-btn" onClick={() => handleReactionSubmit('SAD')}>😭</button></>
           }
           <div className="text-container" style={{ paddingLeft: '40%' }}>
-            <u style={{ color: 'blue' }} onClick={toggleModalReactions}>Show reactions({reactions?.length})</u>
+            <u style={{ color: 'blue' }} onClick={toggleModalReactions}>Show reactions({reactions?.content.length})</u>
           </div>
         </div>
 
@@ -136,15 +94,15 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
             Comment
           </button>
           <div className="text-container" style={{ paddingLeft: '55%' }}>
-            <u style={{ color: 'blue' }} onClick={() => setModalComments(!showComments)}>Show comments({comments?.length})</u>
+            <u style={{ color: 'blue' }} onClick={() => setModalComments(!showComments)}>Show comments({comments?.content.length})</u>
           </div>
         </div>
       </div>
       {modalComments && (
         <div className="modal-overlay">
           <div className="modal">
-          <h1>Comments</h1>
-            <Comments comments={comments} />
+            <h1>Comments</h1>
+            <Comments comments={comments.content} />
             <button onClick={toggleModalComments}>Close</button>
           </div>
         </div>
@@ -152,8 +110,8 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
       {modalReactions && (
         <div className="modal-overlay">
           <div className="modal">
-          <h1>Reactions</h1>
-            <Reactions reactions={reactions} />
+            <h1>Reactions</h1>
+            <Reactions reactions={reactions.content} />
             <button onClick={toggleModalReactions}>Close</button>
           </div>
         </div>
