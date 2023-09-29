@@ -12,7 +12,8 @@ const Reports = () => {
     const [currentPage, setCurrentPage] = useState(0);
 
     const apiUrl = "http://localhost:8080/api/v1/reports";
-    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('token');
+    const token = user.token;
 
     const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, token);
 

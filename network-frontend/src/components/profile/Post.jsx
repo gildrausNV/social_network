@@ -7,7 +7,8 @@ import Reactions from "./Reactions";
 import useFetchData2 from "../../useFetchData2";
 
 const Post = ({ post, deletePost, isCurrentUser }) => {
-  const token = useContext(AuthContext);
+  const user = useContext(AuthContext);
+  const token = user.token;
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();

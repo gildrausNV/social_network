@@ -17,26 +17,20 @@ import Sidebar from './components/Sidebar/Sidebar';
 export const AuthContext = React.createContext();
 
 function App() {
+  const [user, setUser] = useState({
+    token: localStorage.getItem('token') || null,
+    id: localStorage.getItem('id') || null,
+    isAdmin: localStorage.getItem('admin') || null
+  })
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [id, setId] = useState(localStorage.getItem('id') || null);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('admin') || null);
 
-  useEffect(() => {
-    // localStorage.setItem('token', token);
-    // localStorage.setItem('id', id);
-    // localStorage.setItem('isAdmin', isAdmin);
-  }, [token]);
-
-  // const [showSidebar, setShowSidebar] = useState(false);
-
-  // const handleSidebarHover = (hovered) => {
-  //   setShowSidebar(hovered);
-  // };
 
 
   return (
     // <WebSocketTest/>
-    <AuthContext.Provider value={token}>
+    <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
           <Navbar isAdmin={isAdmin} />
@@ -51,9 +45,9 @@ function App() {
 
             <div className='page'>
               <Routes>
-                <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
-                <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
-                <Route path='/register' element={<Register setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} />} />
+                <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
+                <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
+                <Route path='/register' element={<Register setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser} />} />
                 <Route path='/profile' element={<CurrentUserProfile />} />
                 <Route path='/profile/:id' element={<OtherUserProfile />} />
                 <Route path='/main' element={<MainPage />} />

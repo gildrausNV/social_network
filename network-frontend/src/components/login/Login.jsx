@@ -6,13 +6,12 @@ import { AuthContext } from '../../App';
 
 import './Login.css';
 
-const Login = ({setToken, setId, setIsAdmin}) => {
+const Login = ({setToken, setId, setIsAdmin, setUserContext}) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
   });
   const [message, setMessage] = useState('');
-  const token = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleUserChange = (event) => {
@@ -43,6 +42,11 @@ const Login = ({setToken, setId, setIsAdmin}) => {
       setToken(token);
       setId(id);
       setIsAdmin(role==='ADMIN');
+      setUserContext({
+        id,
+        token,
+        isAdmin : role==='ADMIN'
+      });
       navigate('/main');
     } catch (error) {
       console.error('Login failed:', error);
@@ -53,6 +57,11 @@ const Login = ({setToken, setId, setIsAdmin}) => {
   useEffect(() => {
     localStorage.removeItem('token');
     setToken(null);
+    setUser({
+      token: null,
+      isAdmin: false,
+      id: 0
+    });
   }, [])
 
   return (

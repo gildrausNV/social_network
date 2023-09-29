@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Recommendations = () => {
   const apiUrl = 'http://localhost:8080/api/v1/users';
-  const token = useContext(AuthContext);
+  const user = useContext(AuthContext);
+  const token = user.token;
   const { data, loading, error } = useFetchData(apiUrl, token);
   const navigate = useNavigate();
 

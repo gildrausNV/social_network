@@ -6,12 +6,12 @@ import Post from '../profile/Post';
 
 const MainPage = () => {
   const apiUrl = 'http://localhost:8080/api/v1/posts';
-  const token = useContext(AuthContext);
+  const user = useContext(AuthContext);
   const [posts, setPosts] = useState();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, token);
+  const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, user.token);
 
   useEffect(() => {
     fetchWithParams({

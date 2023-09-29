@@ -4,9 +4,9 @@ import useFetchData from '../../useFetchData';
 import Profile from './Profile';
 
 const CurrentUserProfile = () => {
-  const { token } = useContext(AuthContext);
+  const user = useContext(AuthContext);
   const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
-  const { data, loading, error } = useFetchData(apiUrl, localStorage.getItem('token'));
+  const { data, loading, error } = useFetchData(apiUrl, user.token);
 
   if (loading) {
     return <div>Loading...</div>;

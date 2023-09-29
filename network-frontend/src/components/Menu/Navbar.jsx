@@ -3,7 +3,8 @@ import { AuthContext } from '../../App';
 import { useContext, useEffect, useState } from "react";
 
 const Navbar = ({ isAdmin }) => {
-    const token = useContext(AuthContext);
+    const user = useContext(AuthContext);
+    console.log(user);
     const [activeButton, setActiveButton] = useState("");
 
     const handleButtonClick = (buttonName) => {
@@ -12,7 +13,7 @@ const Navbar = ({ isAdmin }) => {
 
     return (
         <>
-            {token ?
+            {user.token ?
                 <>
                     <div className="navbar">
                         <div className="left-buttons">

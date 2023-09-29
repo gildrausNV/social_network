@@ -9,7 +9,8 @@ import Recommendations from '../profile/Recommendations';
 function Sidebar() {
     const [isHovered, setIsHovered] = useState(false);
     const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
-    const token = useContext(AuthContext);
+    const user = useContext(AuthContext);
+    const token = user.token;
     const { data, loading, error, refetchData } = useFetchData(apiUrl, token);
     const navigate = useNavigate();
 

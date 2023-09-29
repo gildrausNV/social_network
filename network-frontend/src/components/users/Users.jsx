@@ -8,11 +8,11 @@ import useFetchData2 from "../../useFetchData2";
 
 const Users = () => {
   const apiUrlBase = "http://localhost:8080/api/v1/users";
-  const token = useContext(AuthContext);
+  const user = useContext(AuthContext);
+  const token = user.token;
   const [selectedOption, setSelectedOption] = useState("followers");
   const apiUrl =
     selectedOption === "All" ? apiUrlBase : `${apiUrlBase}/${selectedOption}`;
-  const [isFollowingData, setIsFollowingData] = useState([]);
   const navigate = useNavigate();
 
   const { data: users, error, loading, refetchData, updateUrl, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);

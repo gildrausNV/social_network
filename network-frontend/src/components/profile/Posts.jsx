@@ -12,7 +12,8 @@ import useDeleteData from '../../useDeleteData';
 const Posts = ({ id, isCurrentUser, isFollowing }) => {
   const apiUrl = 'http://localhost:8080/api/v1/posts/users/' + id;
   const apiUrlPost = 'http://localhost:8080/api/v1/posts';
-  const token = useContext(AuthContext);
+  const user = useContext(AuthContext);
+  const token = user.token;
 
   const [newPostContent, setNewPostContent] = useState('');
 

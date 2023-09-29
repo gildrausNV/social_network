@@ -4,7 +4,7 @@ import './Register.css';
 import { AuthContext } from '../../App';
 import usePostData from '../../usePostData';
 
-const Register = ({ setId, setIsAdmin, setToken }) => {
+const Register = ({ setId, setIsAdmin, setToken, setUserContext }) => {
   const token = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -36,10 +36,15 @@ const Register = ({ setId, setIsAdmin, setToken }) => {
 
       localStorage.setItem('id', id);
       localStorage.setItem('token', token);
-      localStorage.setItem('isAdmin', role === 'ADMIN');
+      localStorage.setItem('isAdmin', role==='ADMIN');
       setToken(token);
       setId(id);
-      setIsAdmin(role === 'ADMIN');
+      setIsAdmin(role==='ADMIN');
+      setUserContext({
+        id,
+        token,
+        isAdmin : role==='ADMIN'
+      });
       navigate('/main');
 
     } catch (error) {

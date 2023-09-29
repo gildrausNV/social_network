@@ -7,9 +7,10 @@ import useFetchData from '../../useFetchData';
 import myImage from '../users/user.png';
 
 const Info = ({ id, isFollowing, follow, unfollow }) => {
-    const token = useContext(AuthContext)
+    const user = useContext(AuthContext);
+    const token = user.token;
     const apiUrl = 'http://localhost:8080/api/v1/users/'+id;
-    const { data, loading, error } = useFetchData(apiUrl, token);
+    const { data, loading, error } = useFetchData(apiUrl,token);
 
 
     return ( 
