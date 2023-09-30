@@ -37,7 +37,7 @@ function App() {
           <div className="main-container">
             <div className="left-container">
               {/* <Info id={id} className="info" /> */}
-              <Sidebar />
+              {token && <Sidebar />}
               <div className="recommendations-container">
                 {/* {isCurrentUser && <Recommendations id={id} />} */}
               </div>

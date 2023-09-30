@@ -5,13 +5,17 @@ import { AuthContext } from '../../App';
 import { Link } from 'react-router-dom';
 import useFetchData from '../../useFetchData';
 import myImage from '../users/user.png';
+import useFetchData2 from '../../useFetchData2';
 
 const Info = ({ id, isFollowing, follow, unfollow }) => {
     const user = useContext(AuthContext);
     const token = user.token;
     const apiUrl = 'http://localhost:8080/api/v1/users/'+id;
-    const { data, loading, error } = useFetchData(apiUrl,token);
+    const { data, loading, error, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
 
+    useEffect(() => {
+        fetchDataNewUrl('http://localhost:8080/api/v1/users/'+id);
+    }, [id])
 
     return ( 
         <div className="info">

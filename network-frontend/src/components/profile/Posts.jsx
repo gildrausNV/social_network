@@ -31,38 +31,42 @@ const Posts = ({ id, isCurrentUser, isFollowing }) => {
   };
 
 
-  const [posts, setPosts] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [params, setParams] = useState({
-    size: 1,
+    size: 2,
     page: currentPage,
   });
 
-  const { data, refetchData } = useFetchData2(apiUrl, params, token);
+  const { data, refetchDataParams } = useFetchData2(apiUrl, params , token);
 
-  useEffect(() => {
-    refetchData({
-      size: 1,
-      page: currentPage,
-    });
-    console.log(data);
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (data) {
-      setPosts(data.content);
-      console.log(data.content)
-      setTotalPages(data.totalPages);
-    }
-  }, [data]);
-
+  const [posts, setPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  
 
   const deletePost = async (id) => {
     const url = "http://localhost:8080/api/v1/posts/" + id;
     deleteRequest(url, localStorage.getItem("token"));
     setPosts(posts.filter((post) => post.id != id))
   };
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setPosts(data.content);
+  //     console.log(data.content)
+  //     setTotalPages(data.totalPages);
+  //   }
+  // }, [data]);
+
+  useEffect(() => {
+    refetchDataParams({
+      size: 2,
+      page: currentPage,
+    });
+    if (data?.content) {
+          setPosts(data.content);
+          setTotalPages(data.totalPages);
+        }
+  }, [currentPage]);
 
   const nextPage = () => {
     setCurrentPage((currentPage) => currentPage + 1);

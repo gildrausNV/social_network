@@ -11,7 +11,7 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, user.token);
+  const { data, loading, error, fetchWithParams } = useFetchData(apiUrl, user.token);
 
   useEffect(() => {
     fetchWithParams({

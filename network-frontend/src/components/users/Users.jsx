@@ -15,7 +15,7 @@ const Users = () => {
     selectedOption === "All" ? apiUrlBase : `${apiUrlBase}/${selectedOption}`;
   const navigate = useNavigate();
 
-  const { data: users, error, loading, refetchData, updateUrl, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
+  const { data: users, error, loading, updateUrl, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
 
   useEffect(() => {
     fetchDataNewUrl(apiUrl);

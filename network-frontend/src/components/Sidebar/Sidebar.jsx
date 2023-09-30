@@ -2,16 +2,17 @@ import React, { useContext, useState } from 'react';
 import './Sidebar.css'; // Import your CSS file
 import { Link, useNavigate } from 'react-router-dom';
 import myImage from './user.png';
-import useFetchData from '../../useFetchData';
 import { AuthContext } from '../../App';
 import Recommendations from '../profile/Recommendations';
+import useFetchData2 from '../../useFetchData2';
 
 function Sidebar() {
     const [isHovered, setIsHovered] = useState(false);
     const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
     const user = useContext(AuthContext);
     const token = user.token;
-    const { data, loading, error, refetchData } = useFetchData(apiUrl, token);
+    
+    const { data, loading, error } = useFetchData2(apiUrl, null, token);
     const navigate = useNavigate();
 
     const handleMouseEnter = () => {

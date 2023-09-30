@@ -18,7 +18,7 @@ const Profile = ({ id, isCurrentUser }) => {
   const { deleteRequest } = useDeleteData();
 
   const getIsFollowing = "http://localhost:8080/api/v1/users/isFollowing/" + id;
-  const { data: isFollowingFetched, loading: isFollowingLoading, refetchData: refetchIsFollowing, updateUrl: updateUrl } = useFetchData2(getIsFollowing, null, token);
+  const { data: isFollowingFetched, loading: isFollowingLoading, updateUrl: updateUrl, fetchDataNewUrl } = useFetchData2(getIsFollowing, null, token);
 
   
 
@@ -33,9 +33,8 @@ const Profile = ({ id, isCurrentUser }) => {
   };
   
   useEffect(() => {
-    refetchIsFollowing();
     setIsFollowing(isFollowingFetched);
-  }, [follow, unfollow])
+  }, [follow, unfollow, id])
 
   return (
     <div className="profile-container">
@@ -48,7 +47,6 @@ const Profile = ({ id, isCurrentUser }) => {
             <h3>Follow to see posts</h3>
           </div>
         }
-
       </div>
     </div>
   );

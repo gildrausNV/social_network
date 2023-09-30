@@ -1,38 +1,24 @@
 import axios from 'axios';
 import './Reports.css';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import usePostData from '../../usePostData';
-import useFetchData from '../../useFetchData';
 import useDeleteData from '../../useDeleteData';
+import useFetchData2 from '../../useFetchData2';
+import { AuthContext } from '../../App';
 
 const Reports = () => {
-    const [reports, setReports] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
     const apiUrl = "http://localhost:8080/api/v1/reports";
-    const user = localStorage.getItem('token');
+    const user = useContext(AuthContext);
     const token = user.token;
 
-    const { data, loading, error, refetchData, fetchWithParams } = useFetchData(apiUrl, token);
+    const { data: reports, loading, error } = useFetchData2(apiUrl, null, token);
 
     const { deleteRequest } = useDeleteData();
 
-    useEffect(() => {
-        fetchWithParams({
-            size: 3,
-            page: currentPage,
-        });
-    }, [currentPage, fetchWithParams]);
-
-    useEffect(() => {
-        if (data) {
-            setReports(data.content);
-            console.log(data.content)
-            setTotalPages(data.totalPages);
-        }
-    }, [data]);
 
     const deletePost = async (id) => {
         const url = "http://localhost:8080/api/v1/posts/" + id;
@@ -70,34 +56,9 @@ const Reports = () => {
         deleteRequest(url, localStorage.getItem("token"));
         window.location.reload();
     }
-    console.log(reports)
-
-    const nextPage = () => {
-        setCurrentPage((currentPage) => currentPage + 1);
-    };
-
-    const previousPage = () => {
-        setCurrentPage((currentPage) => currentPage - 1);
-    };
 
     return (
         <div className="reports">
-            <div className="pagination">
-                <button
-                    onClick={previousPage}
-                    disabled={currentPage === 0}
-                    className="pagination-button"
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={nextPage}
-                    disabled={currentPage === totalPages - 1}
-                    className="pagination-button"
-                >
-                    Next
-                </button>
-            </div>
             <table className="reports-table">
                 <thead>
                     <tr>
@@ -109,7 +70,7 @@ const Reports = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {reports && reports.map((report, index) => (
+                    {reports && reports.content.map((report, index) => (
                         <tr key={index} className="report-row">
                             <td>{report.reporter.username}</td>
                             <td>{report.reportedPost.creator.username}: {report.reportedPost.content}</td>

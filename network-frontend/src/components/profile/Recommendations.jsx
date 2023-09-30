@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../App';
 import useFetchData from '../../useFetchData';
 import { useNavigate } from 'react-router-dom';
+import useFetchData2 from '../../useFetchData2';
 
 const Recommendations = () => {
   const apiUrl = 'http://localhost:8080/api/v1/users';
   const user = useContext(AuthContext);
   const token = user.token;
-  const { data, loading, error } = useFetchData(apiUrl, token);
+  const { data, loading, error } = useFetchData2(apiUrl, null, token);
   const navigate = useNavigate();
 
   return (

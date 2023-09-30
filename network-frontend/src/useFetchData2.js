@@ -17,6 +17,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             });
             setData(response.data);
             setLoading(false);
+            console.log(response);
             return response;
         } catch (error) {
             setError(error);
@@ -43,17 +44,21 @@ const useFetchData2 = (initialUrl, params = null, token) => {
 
     useEffect(() => {
         fetchData(params);
-    }, [token, params]);
+    }, []);
 
-    const refetchData = (newParams) => {
-        fetchData(newParams);
+    const refetchData = () => {
+        fetchData(null);
+    };
+
+    const refetchDataParams = (params) => {
+        fetchData(params);
     };
 
     const updateUrl = (newUrl) => {
         setUrl(newUrl);
     };
 
-    return { data, loading, error, refetchData, updateUrl, fetchDataNewUrl };
+    return { data, loading, error, refetchData, refetchDataParams, updateUrl, fetchDataNewUrl };
 }
 
 export default useFetchData2;

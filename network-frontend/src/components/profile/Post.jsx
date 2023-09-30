@@ -12,33 +12,33 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();
-  
+
   const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comment";
   const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
   const reportUrl = "http://localhost:8080/api/v1/reports/post/" + post.id;
 
   const getReactionsUrl = `http://localhost:8080/api/v1/posts/${post.id}/reactions`;
-  const { data: reactions, loading: reactionsLoading, refetchData: refetchReactions, updateUrl: updateReactionsUrl } = useFetchData2(getReactionsUrl, null, token);
+  const { data: reactions, loading: reactionsLoading, refetchData: refetchReactions, updateUrl: updateReactionsUrl, fetchDataNewUrl: fetchDataNewUrlReactions } = useFetchData2(getReactionsUrl, null, token);
   const getCommentsUrl = `http://localhost:8080/api/v1/posts/${post.id}/comments`;
-  const { data: comments, loading: commentsLoading, refetchData: refetchComments, updateUrl: updateCommentsUrl } = useFetchData2(getCommentsUrl, null, token);
-
-
+  const { data: comments, loading: commentsLoading, refetchData: refetchComments, updateUrl: updateCommentsUrl, fetchDataNewUrl: fetchDataNewUrlComments } = useFetchData2(getCommentsUrl, null, token);
 
   const handleNewPostChange = (event) => {
     setComment(event.target.value);
   };
 
+  const handleReactionSubmit = (reaction) => {
+    postDataRequest(reactionUrl, { reactionType: reaction }, token);
+    window.location.reload();
+  }
+
   const handleCommentSubmit = () => {
     postDataRequest(commentUrl, { content: comment }, token);
     setComment("");
-  };
+    window.location.reload();
+  }
 
   const handleReportSubmit = () => {
     postDataRequest(reportUrl, null, token);
-  }
-
-  const handleReactionSubmit = (reaction) => {
-    postDataRequest(reactionUrl, { reactionType: reaction }, token);
   }
 
   const [modalComments, setModalComments] = useState(false);
