@@ -31,7 +31,6 @@ const Users = () => {
   const getUsersByUsername = async (username) => {
     if (username != '') {
       setSelectedOption('username/' + username);
-      console.log(apiUrl);
     }
   };
 

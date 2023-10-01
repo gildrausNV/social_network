@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../App';
-import useFetchData from '../../useFetchData';
 import useFetchData2 from '../../useFetchData2';
 import usePostData from '../../usePostData';
 import './Posts.css';
 import Post from './Post';
-import axios from 'axios';
 import useDeleteData from '../../useDeleteData';
 
-const Posts = ({ id, isCurrentUser, isFollowing }) => {
-  const apiUrl = 'http://localhost:8080/api/v1/posts/users/' + id;
+const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
   const apiUrlPost = 'http://localhost:8080/api/v1/posts';
+  const apiUrlUserPosts = 'http://localhost:8080/api/v1/posts/users/' + id;
+  const apiUrl = isMainPage ? apiUrlPost : apiUrlUserPosts
+
   const user = useContext(AuthContext);
   const token = user.token;
 
@@ -32,41 +32,42 @@ const Posts = ({ id, isCurrentUser, isFollowing }) => {
 
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [params, setParams] = useState({
+
+  const [totalPages, setTotalPages] = useState(0);
+
+  const { data: posts, error, loading, updateUrl, fetchDataNewUrl, refetchDataParams } = useFetchData2(apiUrl, {
     size: 2,
-    page: currentPage,
-  });
-
-  const { data, refetchDataParams } = useFetchData2(apiUrl, params , token);
-
-  const [posts, setPosts] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
-  
-
-  const deletePost = async (id) => {
-    const url = "http://localhost:8080/api/v1/posts/" + id;
-    deleteRequest(url, localStorage.getItem("token"));
-    setPosts(posts.filter((post) => post.id != id))
-  };
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setPosts(data.content);
-  //     console.log(data.content)
-  //     setTotalPages(data.totalPages);
-  //   }
-  // }, [data]);
+    page: currentPage
+  }, token);
 
   useEffect(() => {
     refetchDataParams({
       size: 2,
-      page: currentPage,
+      page: currentPage
     });
-    if (data?.content) {
-          setPosts(data.content);
-          setTotalPages(data.totalPages);
-        }
+    setTotalPages(posts?.totalPages);
   }, [currentPage]);
+
+  useEffect(() => {
+    if (!isMainPage) {
+      updateUrl('http://localhost:8080/api/v1/posts/users/' + id);
+      refetchDataParams({
+        size: 2,
+        page: currentPage
+      });
+    }
+  }, [id])
+
+
+  const deletePost = async (id) => {
+    const url = "http://localhost:8080/api/v1/posts/" + id;
+    deleteRequest(url, localStorage.getItem("token"));
+    refetchDataParams({
+      size: 1,
+      page: currentPage
+    });
+  };
+
 
   const nextPage = () => {
     setCurrentPage((currentPage) => currentPage + 1);
@@ -109,8 +110,7 @@ const Posts = ({ id, isCurrentUser, isFollowing }) => {
           Next
         </button>
       </div>
-
-      {posts != null && posts?.map((post, index) => (
+      {posts != null && posts?.content.map((post, index) => (
         <Post post={post} deletePost={deletePost} isCurrentUser={isCurrentUser} key={index} />
       ))}
     </div>

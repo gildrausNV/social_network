@@ -25,9 +25,10 @@ const useFetchData2 = (initialUrl, params = null, token) => {
         }
     };
 
-    const fetchDataNewUrl = async (newUrl) => {
+    const fetchDataNewUrl = async (newUrl, params = null) => {
         try {
             const response = await axios.get(newUrl, {
+                params,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -58,7 +59,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
         setUrl(newUrl);
     };
 
-    return { data, loading, error, refetchData, refetchDataParams, updateUrl, fetchDataNewUrl };
+    return { data, loading, error, refetchData, refetchDataParams, updateUrl, fetchDataNewUrl, fetchData };
 }
 
 export default useFetchData2;

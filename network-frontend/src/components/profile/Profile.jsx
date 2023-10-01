@@ -18,9 +18,7 @@ const Profile = ({ id, isCurrentUser }) => {
   const { deleteRequest } = useDeleteData();
 
   const getIsFollowing = "http://localhost:8080/api/v1/users/isFollowing/" + id;
-  const { data: isFollowingFetched, loading: isFollowingLoading, updateUrl: updateUrl, fetchDataNewUrl } = useFetchData2(getIsFollowing, null, token);
-
-  
+  const { data: isFollowingFetched, loading: isFollowingLoading, updateUrl: updateUrl, fetchDataNewUrl, refetchData } = useFetchData2(getIsFollowing, null, token);
 
   const follow = async () => {
     const url = "http://localhost:8080/api/v1/users/follow/" + id;
@@ -30,9 +28,11 @@ const Profile = ({ id, isCurrentUser }) => {
   const unfollow = async () => {
     const url = "http://localhost:8080/api/v1/users/unfollow/" + id;
     deleteRequest(url, token);
+    setIsFollowing(false);
   };
   
   useEffect(() => {
+    fetchDataNewUrl(getIsFollowing);
     setIsFollowing(isFollowingFetched);
   }, [follow, unfollow, id])
 
@@ -42,7 +42,7 @@ const Profile = ({ id, isCurrentUser }) => {
         {!isCurrentUser && <div className="info-container">
           <Info id={id} isFollowing={isFollowingFetched} follow={follow} unfollow={unfollow} className="info" />
         </div>}
-        {(isCurrentUser || isFollowing) ? <><Posts id={id} isCurrentUser={isCurrentUser} isFollowing={isFollowing} /></> :
+        {(isCurrentUser || isFollowing) ? <><Posts id={id} isCurrentUser={isCurrentUser} isFollowing={isFollowing} isMainPage={false}/></> :
           <div className="info-container" style={{ paddingTop: '10%' }}>
             <h3>Follow to see posts</h3>
           </div>

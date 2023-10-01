@@ -20,12 +20,11 @@ function App() {
   const [user, setUser] = useState({
     token: localStorage.getItem('token') || null,
     id: localStorage.getItem('id') || null,
-    isAdmin: localStorage.getItem('admin') || null
+    isAdmin: localStorage.getItem('isAdmin') || null
   })
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [id, setId] = useState(localStorage.getItem('id') || null);
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('admin') || null);
-
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
 
   return (

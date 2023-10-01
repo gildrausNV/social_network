@@ -4,12 +4,13 @@ import { useContext, useEffect, useState } from "react";
 
 const Navbar = ({ isAdmin }) => {
     const user = useContext(AuthContext);
-    console.log(user);
     const [activeButton, setActiveButton] = useState("");
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName);
     }
+
+    console.log('isAdmin' + isAdmin)
 
     return (
         <>

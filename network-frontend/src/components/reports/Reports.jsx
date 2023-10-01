@@ -6,6 +6,7 @@ import usePostData from '../../usePostData';
 import useDeleteData from '../../useDeleteData';
 import useFetchData2 from '../../useFetchData2';
 import { AuthContext } from '../../App';
+import useTimeCalculator from '../../useTimeCalculator';
 
 const Reports = () => {
     const [totalPages, setTotalPages] = useState(0);
@@ -26,30 +27,7 @@ const Reports = () => {
         window.location.reload();
     };
 
-    function calculateTimeAgo(givenDate) {
-        const currentDate = new Date();
-        const givenDateTime = new Date(givenDate);
-
-        if (!isNaN(givenDateTime)) {
-            const timeDifference = currentDate - givenDateTime;
-            const seconds = Math.floor(timeDifference / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
-
-            if (days > 0) {
-                return `${days} day${days !== 1 ? 's' : ''} ago`;
-            } else if (hours > 0) {
-                return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-            } else if (minutes > 0) {
-                return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-            } else {
-                return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
-            }
-        } else {
-            return "Invalid date";
-        }
-    }
+    const { calculateTime } = useTimeCalculator();
 
     const dismissReport = async (id) => {
         const url = "http://localhost:8080/api/v1/reports/" + id;
@@ -74,7 +52,7 @@ const Reports = () => {
                         <tr key={index} className="report-row">
                             <td>{report.reporter.username}</td>
                             <td>{report.reportedPost.creator.username}: {report.reportedPost.content}</td>
-                            <td>{calculateTimeAgo(report.timestamp)}</td>
+                            <td>{calculateTime(report.timestamp)}</td>
                             <td><button onClick={() => deletePost(report.reportedPost.id)} className='delete-btn'>Delete post</button></td>
                             <td><button onClick={() => dismissReport(report.id)} className='delete-btn'>Dismiss</button></td>
                         </tr>
