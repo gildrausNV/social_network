@@ -12,6 +12,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();
+  const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
 
   const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comment";
   const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
@@ -59,7 +60,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
         <div className="text-container">
           {post?.creator.firstname} {post?.creator.lastname}
         </div>
-        {isCurrentUser ? <div className="button-container">
+        {(isCurrentUser || isAdmin) ? <div className="button-container">
           <button className="delete-btn" onClick={() => deletePost(post.id)}>Delete</button>
         </div> : <div className="button-container">
           <button className="delete-btn" onClick={() => handleReportSubmit()}>Report</button>

@@ -16,7 +16,7 @@ const Reports = () => {
     const user = useContext(AuthContext);
     const token = user.token;
 
-    const { data: reports, loading, error } = useFetchData2(apiUrl, null, token);
+    const { data: reports, loading, error, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
 
     const { deleteRequest } = useDeleteData();
 

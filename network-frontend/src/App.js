@@ -26,13 +26,12 @@ function App() {
   const [id, setId] = useState(localStorage.getItem('id') || null);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
-
   return (
     // <WebSocketTest/>
     <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
-          <Navbar isAdmin={isAdmin} />
+          <Navbar />
           <div className="main-container">
             <div className="left-container">
               {/* <Info id={id} className="info" /> */}

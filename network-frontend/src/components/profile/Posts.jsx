@@ -28,8 +28,12 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
   const handlePostSubmit = async () => {
     await postDataRequest(apiUrlPost, { content: newPostContent }, token);
     setNewPostContent('');
+    refetchDataParams({
+      size: 2,
+      page: currentPage
+    });
+    setTotalPages(posts?.totalPages);
   };
-
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -41,23 +45,20 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
   }, token);
 
   useEffect(() => {
-    refetchDataParams({
-      size: 2,
-      page: currentPage
-    });
-    setTotalPages(posts?.totalPages);
-  }, [currentPage]);
-
-  useEffect(() => {
     if (!isMainPage) {
       updateUrl('http://localhost:8080/api/v1/posts/users/' + id);
       refetchDataParams({
         size: 2,
         page: currentPage
       });
+      setTotalPages(posts?.totalPages);
     }
-  }, [id])
-
+    refetchDataParams({
+      size: 2,
+      page: currentPage
+    });
+    setTotalPages(posts?.totalPages);
+  }, [currentPage, id]);
 
   const deletePost = async (id) => {
     const url = "http://localhost:8080/api/v1/posts/" + id;

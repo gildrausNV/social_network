@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from '../../App';
 import { useContext, useEffect, useState } from "react";
 
-const Navbar = ({ isAdmin }) => {
+const Navbar = () => {
     const user = useContext(AuthContext);
     const [activeButton, setActiveButton] = useState("");
 
@@ -10,7 +10,7 @@ const Navbar = ({ isAdmin }) => {
         setActiveButton(buttonName);
     }
 
-    console.log('isAdmin' + isAdmin)
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
 
     return (
         <>
@@ -18,7 +18,7 @@ const Navbar = ({ isAdmin }) => {
                 <>
                     <div className="navbar">
                         <div className="left-buttons">
-                            {!isAdmin && <Link to={'/profile'}>
+                            {isAdmin===false && <Link to={'/profile'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Profile' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Profile')}
@@ -34,7 +34,7 @@ const Navbar = ({ isAdmin }) => {
                                     Main page
                                 </button>
                             </Link>
-                            {!isAdmin && <Link to={'/users'}>
+                            {isAdmin===false && <Link to={'/users'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Users' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Users')}
@@ -42,7 +42,7 @@ const Navbar = ({ isAdmin }) => {
                                     Users
                                 </button>
                             </Link>}
-                            {isAdmin && <Link to={'/reports'}>
+                            {isAdmin===true && <Link to={'/reports'}>
                                 <button
                                     className={`navbar-button ${activeButton === 'Reports' ? 'active' : ''}`}
                                     onClick={() => handleButtonClick('Reports')}
