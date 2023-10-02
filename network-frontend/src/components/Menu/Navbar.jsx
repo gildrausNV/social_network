@@ -11,10 +11,11 @@ const Navbar = () => {
     }
 
     const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    const token = localStorage.getItem('token');
 
     return (
         <>
-            {user.token ?
+            {token ?
                 <>
                     <div className="navbar">
                         <div className="left-buttons">

@@ -91,11 +91,12 @@ const Login = ({setToken, setId, setIsAdmin, setUserContext}) => {
           />
         </div>
         <button type="submit" className='login-btn'>Login</button>
-        {message}
+        
       </form>
       <p>
         Don't have an account? <Link to="/register">Create one</Link>
       </p>
+      {message!=='' && <div className="error-message">{message}</div>}
     </div>
   );
 };

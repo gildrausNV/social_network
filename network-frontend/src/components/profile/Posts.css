@@ -255,3 +255,15 @@ textarea {
   margin-top: 10px;
   transition: background-color 0.3s ease;
 }
+
+.message{
+  padding-top: 50%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+}
+
+.message1{
+  padding-top: 5%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+}

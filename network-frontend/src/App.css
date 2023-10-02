@@ -97,6 +97,16 @@
   display: flex;
 }
 
+.error-message {
+  color: #ff0000; /* White text color */
+  padding: 10px; /* Add some padding to the message */
+  border-radius: 5px; /* Rounded corners for a nicer look */
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center-align the text */
+  margin: 10px 0; /* Add margin for spacing */
+}
+
+
 
 
 

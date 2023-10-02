@@ -32,14 +32,11 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
       size: 2,
       page: currentPage
     });
-    setTotalPages(posts?.totalPages);
   };
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  const [totalPages, setTotalPages] = useState(0);
-
-  const { data: posts, error, loading, updateUrl, fetchDataNewUrl, refetchDataParams } = useFetchData2(apiUrl, {
+  const { data: posts, totalPages, error, loading, updateUrl, fetchDataNewUrl, refetchDataParams } = useFetchData2(apiUrl, {
     size: 2,
     page: currentPage
   }, token);
@@ -51,13 +48,11 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
         size: 2,
         page: currentPage
       });
-      setTotalPages(posts?.totalPages);
     }
     refetchDataParams({
       size: 2,
       page: currentPage
     });
-    setTotalPages(posts?.totalPages);
   }, [currentPage, id]);
 
   const deletePost = async (id) => {
@@ -79,43 +74,50 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
   };
 
   return (
-    <div className="posts">
-      {isCurrentUser && <div className="new-post">
-        Share your thoughts:
-        <textarea
-          name="content"
-          id="content"
-          cols="30"
-          rows="10"
-          value={newPostContent}
-          onChange={handleNewPostChange}
-        />
-        <button onClick={handlePostSubmit} disabled={postLoading} className='comment-btn'>
-          {postLoading ? 'Posting...' : 'Post'}
-        </button>
-        {postError && <div>Error: {postError.message}</div>}
-      </div>}
-      <div className="pagination">
-        <button
-          onClick={previousPage}
-          disabled={currentPage === 0}
-          className="pagination-button"
-        >
-          Previous
-        </button>
-        <button
-          onClick={nextPage}
-          disabled={currentPage === totalPages - 1}
-          className="pagination-button"
-        >
-          Next
-        </button>
-      </div>
-      {posts != null && posts?.content.map((post, index) => (
-        <Post post={post} deletePost={deletePost} isCurrentUser={isCurrentUser} key={index} />
-      ))}
-    </div>
+    <>
+      {(posts?.content.length === 0 && isMainPage) ? <div className='message'>No posts from users you follow</div> : <div className="posts">
+        {isCurrentUser && <div className="new-post">
+          Share your thoughts:
+          <textarea
+            name="content"
+            id="content"
+            cols="30"
+            rows="10"
+            value={newPostContent}
+            onChange={handleNewPostChange}
+          />
+          <button onClick={handlePostSubmit} disabled={postLoading} className='comment-btn'>
+            {postLoading ? 'Posting...' : 'Post'}
+          </button>
+          {postError && <div>Error: {postError.message}</div>}
+        </div>}
 
+        {(posts?.content.length !== 0) && <><div className="pagination">
+          <button
+            onClick={previousPage}
+            disabled={currentPage === 0}
+            className="pagination-button"
+          >
+            Previous
+          </button>
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages - 1}
+            className="pagination-button"
+          >
+            Next
+          </button>
+        </div>
+        
+        {posts && posts?.content.map((post, index) => (
+          <Post post={post} deletePost={deletePost} isCurrentUser={isCurrentUser} key={index} />
+        ))}</>}
+
+        {(!isCurrentUser && posts?.content.length === 0) && <div className='message1'>This user didnt post anything</div>}
+
+        {(isCurrentUser && posts?.content.length === 0) && <div className='message1'>Post something!</div>}
+        
+      </div>}</>
   );
 };
 

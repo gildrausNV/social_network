@@ -59,7 +59,7 @@ const Users = () => {
       <div className="users-content">
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
-        {users && users?.map((user) => (
+        {users?.length !== 0 && users?.map((user) => (
           <div key={user.id} className="user">
             <img src={myImage} alt="" className="picture" />
             <div className="user-name">{user.firstname}</div>
@@ -74,6 +74,7 @@ const Users = () => {
             </div>
           </div>
         ))}
+        {users?.length === 0 && <div className="message1">No users found</div>}
       </div>
     </div>
   );

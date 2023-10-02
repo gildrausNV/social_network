@@ -6,6 +6,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);
 
     const fetchData = async (params) => {
         try {
@@ -17,6 +18,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             });
             setData(response.data);
             setLoading(false);
+            setTotalPages(response.data.totalPages);
             console.log(response);
             return response;
         } catch (error) {
@@ -35,6 +37,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             });
             setData(response.data);
             setLoading(false);
+            setTotalPages(response.data.totalPages);
             // console.log(newUrl + response.data);
             return response;
         } catch (error) {
@@ -59,7 +62,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
         setUrl(newUrl);
     };
 
-    return { data, loading, error, refetchData, refetchDataParams, updateUrl, fetchDataNewUrl, fetchData };
+    return { data, loading, error, totalPages, refetchData, refetchDataParams, updateUrl, fetchDataNewUrl, fetchData };
 }
 
 export default useFetchData2;

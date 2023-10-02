@@ -5,8 +5,8 @@ import { AuthContext } from '../../App';
 import usePostData from '../../usePostData';
 
 const Register = ({ setId, setIsAdmin, setToken, setUserContext }) => {
-  const token = useContext(AuthContext);
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -31,24 +31,10 @@ const Register = ({ setId, setIsAdmin, setToken, setUserContext }) => {
 
     try {
       const response = postDataRequest(url, postData);
-
-      const { token, id, role } = response.data;
-
-      localStorage.setItem('id', id);
-      localStorage.setItem('token', token);
-      localStorage.setItem('isAdmin', role==='ADMIN');
-      setToken(token);
-      setId(id);
-      setIsAdmin(role==='ADMIN');
-      setUserContext({
-        id,
-        token,
-        isAdmin : role==='ADMIN'
-      });
-      navigate('/main');
-
+      navigate('/login');
     } catch (error) {
       console.error('Register failed:', error);
+      // setMessage(error);
     }
   };
 
