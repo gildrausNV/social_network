@@ -23,9 +23,16 @@ public class Post {
     @Column(length = 2047)
     private String content;
 
+    @Column(length = 2047)
+    private String topic;
+
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
+
+    @ManyToOne
+    @JoinColumn(name = "trend_id")
+    private Trend trend;
 
     private LocalDateTime timePosted;
 }

@@ -6,10 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.social_network.domain.*;
-import rs.ac.bg.fon.social_network.repository.CommentRepository;
-import rs.ac.bg.fon.social_network.repository.PostRepository;
-import rs.ac.bg.fon.social_network.repository.ReactionRepository;
-import rs.ac.bg.fon.social_network.repository.ReportRepository;
+import rs.ac.bg.fon.social_network.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +22,8 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final ReportRepository reportRepository;
     private final ActionService actionService;
+    private final TrendRepository trendRepository;
+    private final TrendService trendService;
 
     public Page<Post> getAll(Pageable pageable) {
         User currentlyLoggedInUser = userService.getCurrentlyLoggedInUser();
@@ -58,6 +57,19 @@ public class PostService {
         actionService.createAction(userService.getCurrentlyLoggedInUser());
         post.setCreator(userService.getCurrentlyLoggedInUser());
         post.setTimePosted(LocalDateTime.now());
+        Trend trend = post.getTrend();
+        if(trendRepository.findByTopic(trend.getTopic()).isEmpty()){
+            trend.setNumberOfPosts(1);
+            post.setTrend(trendRepository.save(post.getTrend()));
+        }
+        else{
+            Trend newTrend = trendRepository.findByTopic(trend.getTopic()).get(0);
+            int num = newTrend.getNumberOfPosts() + 1;
+            trendRepository.update(num, newTrend.getId());
+            trend.setId(newTrend.getId());
+            trend.setNumberOfPosts(num);
+        }
+
         return postRepository.save(post);
     }
 
@@ -115,5 +127,13 @@ public class PostService {
             throw new AccessDeniedException("You cannot access posts from user that you do not follow!");
         }
         return postRepository.findByCreatorId(userId, pageable);
+    }
+
+    public List<Post> getByTopic(String topic) {
+        return postRepository.findByTopic(topic);
+    }
+
+    public List<Post> getPostTrend(Long trendId) {
+        return postRepository.findByTrend_Id(trendId);
     }
 }

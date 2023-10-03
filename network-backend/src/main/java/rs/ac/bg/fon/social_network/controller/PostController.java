@@ -29,6 +29,11 @@ public class PostController {
         return postService.getAllByUser(userId, pageable);
     }
 
+    @GetMapping("/trends/{trendId}")
+    public List<Post> getPostTrend(@PathVariable Long trendId){
+        return postService.getPostTrend(trendId);
+    }
+
     @GetMapping("/{id}")
     public Post getById(@PathVariable Long id) {
         return postService.getById(id);
