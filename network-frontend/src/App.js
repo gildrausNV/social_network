@@ -13,6 +13,7 @@ import MainPage from './components/main/MainPage';
 import Users from './components/users/Users';
 import Reports from './components/reports/Reports';
 import Sidebar from './components/Sidebar/Sidebar';
+import Trends from './components/Trends/Trends';
 
 export const AuthContext = React.createContext();
 
@@ -52,6 +53,10 @@ function App() {
                 <Route path='/users' element={<Users />} />
                 <Route path='/reports' element={<Reports />} />
               </Routes>
+            </div>
+
+            <div className="trends-container">
+              <Trends />
             </div>
 
           </div>

@@ -19,7 +19,7 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             setData(response.data);
             setLoading(false);
             setTotalPages(response.data.totalPages);
-            console.log(response);
+            // console.log(response);
             return response;
         } catch (error) {
             setError(error);

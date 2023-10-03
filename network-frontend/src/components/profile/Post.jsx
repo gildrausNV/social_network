@@ -66,6 +66,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           <button className="delete-btn" onClick={() => handleReportSubmit()}>Report</button>
         </div>}
       </div>
+      {post?.trend.topic && <div className="row-topic">{post?.trend.topic}</div>}
       <div className="row-content">{post?.content}</div>
       <div className="row">
         <div className="button-container">
