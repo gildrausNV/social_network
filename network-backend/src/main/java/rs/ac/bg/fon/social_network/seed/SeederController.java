@@ -2,7 +2,6 @@ package rs.ac.bg.fon.social_network.seed;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SeederController {
 
-    private final FakeService fakeService;
-
-    @GetMapping
-    public void seed() {
-//        fakeService.seedUsers();
-        fakeService.seedAdmin();
-    }
+//    private final FakeService fakeService;
+//
+//    @GetMapping
+//    public void seed() {
+////        fakeService.seedUsers();
+//        fakeService.seedAdmin();
+//    }
 
 }
