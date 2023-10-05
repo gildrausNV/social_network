@@ -1,0 +1,92 @@
+/* Chat Container */
+.chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+  
+  /* Chat Box */
+  .chat-box {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 70vh; /* Adjust as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+  }
+  
+  /* Chat Messages List */
+  .chat-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Sent Messages */
+  .message-data-sent {
+    background-color: #00ff00;
+    color: #fff;
+    border-radius: 8px;
+    align-self: flex-end; /* Right-align sent messages */
+    max-width: 70%; /* Limit message width */
+    margin-bottom: 10px; /* Adjust spacing between messages */
+    padding: 10px;
+  }
+  
+  /* Received Messages */
+  .message-data-received {
+    background-color: #00aeff;
+    color: #fff;
+    border-radius: 8px;
+    max-width: 70%; /* Limit message width */
+    margin-bottom: 10px; /* Adjust spacing between messages */
+    padding: 10px;
+  }
+  
+  /* Send Message Section */
+  .send-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px; /* Adjust spacing from messages */
+  }
+  
+  /* Input Field */
+  .input-message {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Send Button */
+  .send-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 10px; /* Adjust spacing from input field */
+  }
+  
+  /* Connect Button */
+  .register button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  

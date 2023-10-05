@@ -109,6 +109,77 @@
 
 
 
+/* WebSocketTest */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.chat-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.chat-messages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  /* margin-bottom: 10px; */
+}
 
 
-/* Add styling for Navbar and Sidebar here */
+.message-data {
+  flex: 1;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+.self .message-data {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.input-message {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* margin-top: 10px; */
+}
+
+.send-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.register button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+
+

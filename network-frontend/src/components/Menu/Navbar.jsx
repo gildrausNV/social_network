@@ -51,6 +51,14 @@ const Navbar = () => {
                                     Reports
                                 </button>
                             </Link>}
+                            {isAdmin===false && <Link to={'/chat'}>
+                                <button
+                                    className={`navbar-button ${activeButton === 'Chat' ? 'active' : ''}`}
+                                    onClick={() => handleButtonClick('Chat')}
+                                >
+                                    Chat
+                                </button>
+                            </Link>}
                         </div>
                         <div className="auth-buttons">
                             <Link to={'/login'}>

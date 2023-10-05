@@ -69,7 +69,7 @@ const Users = () => {
 
               </div>
               <div className="user-btn-row">
-                <button onClick={() => navigate('/chat/' + user.id)}>Chat</button>
+                <button onClick={() => navigate('/chat/' + user.username)}>Chat</button>
               </div>
             </div>
           </div>

@@ -14,6 +14,8 @@ import Users from './components/users/Users';
 import Reports from './components/reports/Reports';
 import Sidebar from './components/Sidebar/Sidebar';
 import Trends from './components/Trends/Trends';
+import WebSocketTest from './WebSocketTest';
+import Chat from './components/Chat/Chat';
 
 export const AuthContext = React.createContext();
 
@@ -28,17 +30,14 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
   return (
-    // <WebSocketTest/>
     <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
           <Navbar />
           <div className="main-container">
             <div className="left-container">
-              {/* <Info id={id} className="info" /> */}
               {token && <Sidebar />}
               <div className="recommendations-container">
-                {/* {isCurrentUser && <Recommendations id={id} />} */}
               </div>
             </div>
 
@@ -52,13 +51,14 @@ function App() {
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/reports' element={<Reports />} />
+                {/* <Route path='/chat/:username' element={ <WebSocketTest/>}/> */}
+                <Route path='/chat/:username' element={ <Chat />}/>
+                {/* <Route path='/chat' element={<Chat/>}/> */}
               </Routes>
             </div>
-
             <div className="trends-container">
-              <Trends />
+              {/* <Trends /> */}
             </div>
-
           </div>
         </Router>
       </div>
