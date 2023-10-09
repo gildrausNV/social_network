@@ -5,31 +5,40 @@ import { AuthContext } from '../../App';
 import useFetchData2 from '../../useFetchData2';
 import UsersOnline from './UsersOnline';
 import './Chat.css';
-import {over} from 'stompjs';
+import { over } from 'stompjs';
 
 var stompClient = null;
 
 const Chat = () => {
-    const { username } = useParams();
+    const { id } = useParams();
     const user = useContext(AuthContext);
     const currentUserId = user.id;
     const token = user.token;
     const apiUrlCurrentUser = `http://localhost:8080/api/v1/users/${currentUserId}`;
+    const apiUrlOtherUser = `http://localhost:8080/api/v1/users/${id}`;
     const socketUrl = `http://localhost:8080/ws`;
     const { data: currentUserData } = useFetchData2(apiUrlCurrentUser, null, token);
+    const { data: otherUserData } = useFetchData2(apiUrlOtherUser, null, token);
 
     const [chat, setChat] = useState([]);
     const [userData, setUserData] = useState({
-        sender: currentUserData?.username,
-        receiver: username,
+        sender: currentUserData?.id,
+        receiver: id,
         connected: false,
         message: '',
     });
 
+    const [connectedUsers, setConnectedUsers] = useState([]); // State to store connected users
+
     useEffect(() => {
-        setUserData({ ...userData, receiver: username });
-        setUserData({ ...userData, sender: currentUserData?.username });
-    }, [currentUserData]);
+        setUserData({ ...userData, receiver: id });
+        setUserData({ ...userData, sender: currentUserData?.id });
+        setChat([]);
+        console.log(id)
+        console.log(userData)
+        // Subscribe to user list updates when the component mounts
+        subscribeToUserListUpdates();
+    }, [currentUserData, id]);
 
     const connect = () => {
         let Sock = new SockJS(socketUrl);
@@ -40,23 +49,28 @@ const Chat = () => {
     const onConnected = () => {
         setUserData({ ...userData, connected: true });
         const systemNotification = {
-            senderName: userData.sender,
+            senderId: userData.sender,
             message: `${userData.sender} has joined the chat`,
         };
         stompClient.send('/app/system-notification', {}, JSON.stringify(systemNotification));
         stompClient.subscribe(`/user/${userData.sender}/private`, onPrivateMessage);
         stompClient.subscribe('/chatroom/public', onSystemNotification);
         userJoin();
+        subscribeToUserListUpdates();
     };
 
     const onSystemNotification = (payload) => {
-        const notificationData = JSON.parse(payload.body);
-        console.log(notificationData);
+        // const notificationData = JSON.parse(payload.body);
+        // if (notificationData.status === 'JOIN' && notificationData.receiverId !== 0) {
+        //     // Update the list of connected users
+        //     setConnectedUsers(notificationData.connectedUsers);
+        //     console.log("Users updated: " + notificationData.connectedUsers);
+        // }
     };
 
     const userJoin = () => {
         const chatMessage = {
-            senderName: userData.sender,
+            senderId: userData.sender,
             status: 'JOIN',
         };
         stompClient.send('/app/message', {}, JSON.stringify(chatMessage));
@@ -67,7 +81,7 @@ const Chat = () => {
         setChat((prevChat) => [
             ...prevChat,
             {
-                senderName: payloadData.senderName,
+                senderId: payloadData.senderId,
                 message: payloadData.message,
             },
         ]);
@@ -85,44 +99,70 @@ const Chat = () => {
     const sendPrivateMessage = () => {
         if (stompClient) {
             const chatMessage = {
-                senderName: userData.sender,
-                receiverName: userData.receiver,
+                senderId: userData.sender,
+                receiverId: id,
                 message: userData.message,
                 status: 'MESSAGE',
             };
-    
+
             if (userData.sender !== userData.receiver) {
                 stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage));
                 setUserData({ ...userData, message: '' });
+            } else {
+                console.log("Sender and receiver are the same user.");
             }
-    
+
             setChat((prevChat) => [
                 ...prevChat,
                 {
-                    senderName: userData.sender,
-                    message: userData.message, // Change userData.username to userData.sender
+                    senderId: userData.sender,
+                    message: userData.message,
                 },
             ]);
         }
     };
-    
 
     const registerUser = () => {
         connect();
     };
 
+    // const onSystemNotification = (payload) => {
+        // const notificationData = JSON.parse(payload.body);
+        // // console.log("Notification" + JSON.stringify(notificationData));
+    
+        // if (notificationData.status === 'JOIN' && notificationData.receiverId !== 0) {
+        //     // Update the list of connected users
+        //     setConnectedUsers(notificationData.connectedUsers);
+        //     console.log("Users updated: " + notificationData.connectedUsers);
+        // }
+        // // setConnectedUsers(notificationData.connectedUsers);
+        // console.log("Connected users:" + notificationData.connectedUsers);
+    // };
+    
+    // Function to subscribe to user list updates
+    const subscribeToUserListUpdates = () => {
+        if (stompClient) {
+            stompClient.subscribe('/chatroom/user-list', (payload) => {
+                const userListData = JSON.parse(payload.body);
+                // Update the state with the received list of connected users
+                setConnectedUsers(userListData.connectedUsers);
+                console.log("Received user list update: " + userListData.connectedUsers);
+            });
+        }
+    };
+    
+
     return (
         <div className="chat">
             {userData.connected ? (
                 <div className="chat">
-                    <UsersOnline />
                     <ul className="chat-messages">
                         {chat.map((message, index) => (
                             <div
                                 key={index}
-                                className={`message-data-${message.senderName === username ? 'sent' : 'received'}`}
+                                className={`message-data-${message.senderId !== userData.sender ? 'sent' : 'received'}`}
                             >
-                                {message.senderName === username ? `${message.senderName}: ${message.message}` : message.message}
+                                {message.senderId !== userData.sender ? `${otherUserData?.username}: ${message.message}` : message.message}
                             </div>
                         ))}
                     </ul>

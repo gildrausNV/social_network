@@ -16,6 +16,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Trends from './components/Trends/Trends';
 import WebSocketTest from './WebSocketTest';
 import Chat from './components/Chat/Chat';
+import UsersOnline from './components/Chat/UsersOnline';
 
 export const AuthContext = React.createContext();
 
@@ -52,8 +53,8 @@ function App() {
                 <Route path='/users' element={<Users />} />
                 <Route path='/reports' element={<Reports />} />
                 {/* <Route path='/chat/:username' element={ <WebSocketTest/>}/> */}
-                <Route path='/chat/:username' element={ <Chat />}/>
-                {/* <Route path='/chat' element={<Chat/>}/> */}
+                <Route path='/chat/:id' element={ <Chat />}/>
+                <Route path='/chat' element={<UsersOnline/>}/>
               </Routes>
             </div>
             <div className="trends-container">
