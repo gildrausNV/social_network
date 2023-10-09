@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import rs.ac.bg.fon.social_network.config.UserSessionRegistry;
+import rs.ac.bg.fon.social_network.domain.FollowNotification;
 import rs.ac.bg.fon.social_network.domain.Message;
 import rs.ac.bg.fon.social_network.domain.Status;
 
@@ -19,6 +20,8 @@ public class ChatController {
 
     @Autowired
     private UserSessionRegistry userSessionRegistry; // Autowire UserSessionRegistry
+
+
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
@@ -60,5 +63,16 @@ public class ChatController {
         System.out.println(userSessionRegistry.getConnectedUsers());
         sendUserListUpdate(); // Broadcast user list update to other users
     }
+
+    @MessageMapping("/follow-notification")
+    public void sendFollowNotification(@Payload FollowNotification notification) {
+        // Logic to send follow notifications to the user with ID 'notification.getFollowerId()'
+        simpMessagingTemplate.convertAndSendToUser(
+                notification.getFollowerId().toString(),
+                "/private",
+                notification.getMessage()
+        );
+    }
+
 
 }

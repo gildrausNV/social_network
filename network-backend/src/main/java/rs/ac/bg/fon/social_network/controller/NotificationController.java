@@ -34,4 +34,7 @@ public class NotificationController {
     public void deleteById(@PathVariable Long id) {
         notificationService.deleteById(id);
     }
+
+    @PostMapping("/{id}")
+    public Notification read(@PathVariable Long id) { return notificationService.read(id); }
 }

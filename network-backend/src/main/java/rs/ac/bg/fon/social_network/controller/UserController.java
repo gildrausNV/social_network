@@ -3,6 +3,7 @@ package rs.ac.bg.fon.social_network.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.social_network.domain.Action;
 import rs.ac.bg.fon.social_network.domain.User;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping
     public Page<User> getAll(Pageable pageable) {
@@ -53,11 +55,22 @@ public class UserController {
     @PostMapping("/follow/{followingUserId}")
     public void followAnotherUser(@PathVariable Long followingUserId) {
         userService.followAnotherUser(followingUserId);
+        Long userIdToFollow = followingUserId;
+        simpMessagingTemplate.convertAndSendToUser(
+                userIdToFollow.toString(),
+                "/follow-notification",
+                "You have a new follower!"
+        );
     }
 
     @DeleteMapping("/unfollow/{userIdToUnfollow}")
     public void unfollowAnotherUser(@PathVariable Long userIdToUnfollow) {
         userService.unfollow(userIdToUnfollow);
+        simpMessagingTemplate.convertAndSendToUser(
+                userIdToUnfollow.toString(),
+                "/follow-notification",
+                "Someone unfollowed you!"
+        );
     }
 
     @GetMapping("/isFollowing/{userId}")
