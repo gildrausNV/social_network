@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/login/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './components/Register/Register';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import Profile from './components/profile/Profile';
 import Navbar from './components/Menu/Navbar';
@@ -17,6 +17,9 @@ import Trends from './components/Trends/Trends';
 import WebSocketTest from './WebSocketTest';
 import Chat from './components/Chat/Chat';
 import UsersOnline from './components/Chat/UsersOnline';
+import SockJS from 'sockjs-client';
+import { over } from 'stompjs';
+import Notifications from './components/notifications/Notifications';
 
 export const AuthContext = React.createContext();
 
@@ -30,11 +33,59 @@ function App() {
   const [id, setId] = useState(localStorage.getItem('id') || null);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
+  const [newNotification, setNewNotification] = useState(false);
+
+  const notificationStompClient = useRef(null);
+
+useEffect(() => {
+  async function connectWebSocket() {
+    try {
+      // Create a WebSocket connection using SockJS
+      const socket = new SockJS('http://localhost:8080/ws'); // Adjust the URL as needed
+
+      // Create the Stomp client and connect to the WebSocket server
+      const client = await over(socket);
+      notificationStompClient.current = client;
+
+      // Establish the connection
+      client.connect({}, () => {
+        console.log('Connected to WebSocket for notifications');
+
+        // Subscribe to WebSocket notifications for new followers
+        const followNotificationSubscription = client.subscribe(`/user/${id}/follow-notification`, (message) => {
+          // Handle the follow notification, e.g., display it to the user
+          console.log('Received follow notification:', message.body);
+          setNewNotification(true);
+        });
+
+        return () => {
+          // Clean up the subscription and disconnect when the component unmounts
+          followNotificationSubscription.unsubscribe();
+          client.disconnect();
+          console.log('Disconnected from WebSocket for notifications');
+        };
+      }, notificationOnError); // Handle errors during connection
+    } catch (error) {
+      console.error('WebSocket connection error:', error);
+    }
+  }
+
+  // Call the async function to establish the WebSocket connection
+  connectWebSocket();
+}, [id]);
+
+
+  
+
+  const notificationOnError = () => {
+    console.log("ERROR")
+  }
+
   return (
     <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
-          <Navbar />
+          <Navbar newNotification={newNotification}/>
           <div className="main-container">
             <div className="left-container">
               {token && <Sidebar />}
@@ -55,6 +106,7 @@ function App() {
                 {/* <Route path='/chat/:username' element={ <WebSocketTest/>}/> */}
                 <Route path='/chat/:id' element={ <Chat />}/>
                 <Route path='/chat' element={<UsersOnline/>}/>
+                <Route path='/notifications' element={<Notifications setNewNotification={setNewNotification} newNotification={newNotification}/>}/>
               </Routes>
             </div>
             <div className="trends-container">

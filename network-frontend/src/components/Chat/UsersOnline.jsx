@@ -4,7 +4,7 @@ import { AuthContext } from '../../App';
 import useFetchData2 from '../../useFetchData2';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
-import ChatBox from './ChatBox'; // Import the ChatBox component
+import ChatBox from './ChatBox';
 
 var stompClient = null;
 

@@ -1,0 +1,34 @@
+/* Notifications.css */
+
+/* Style for each individual notification */
+.notification {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #fff; /* Default background color for read notifications */
+  }
+  
+  /* Style for unread notifications */
+  .notification.unread {
+    background-color: #ffc107; /* Background color for unread notifications (e.g., yellow) */
+  }
+  
+  /* Style for the pagination buttons */
+  .pagination {
+    margin-top: 20px;
+  }
+  
+  .pagination-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

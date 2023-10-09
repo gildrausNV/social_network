@@ -68,9 +68,6 @@ const Users = () => {
                 <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
 
               </div>
-              <div className="user-btn-row">
-                <button onClick={() => navigate('/chat/' + user.id)}>Chat</button>
-              </div>
             </div>
           </div>
         ))}

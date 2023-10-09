@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import useFetchData2 from '../../useFetchData2';
 import { AuthContext } from '../../App';
 
+
 const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
     const user = useContext(AuthContext);
     const token = user.token;
