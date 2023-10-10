@@ -34,6 +34,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
   const [newNotification, setNewNotification] = useState(null);
+  const [newMessage, setNewMessage] = useState(null);
 
   const notificationStompClient = useRef(null);
 
@@ -61,8 +62,14 @@ useEffect(() => {
         // Subscribe to WebSocket notifications for new followers
         const followNotificationSubscription = client.subscribe(`/user/${id}/follow-notification`, (message) => {
           // Handle the follow notification, e.g., display it to the user
-          console.log('Received follow notification:', message.body);
-          setNewNotification(message.body);
+          console.log('Received notification:', message.body);
+          const response = JSON.parse(message.body);
+          if(response.type === 'NOTIFICATION'){
+            setNewNotification(response.message);
+          }
+          else{
+            setNewMessage(response.message);
+          }
         });
 
         return () => {
@@ -102,7 +109,7 @@ useEffect(() => {
               </div>
             </div> */}
             <div className='page'>
-              <SidebarMenu newNotification={newNotification}/>
+              <SidebarMenu newNotification={newNotification} newMessage={newMessage}/>
               <Routes>
                 <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
                 <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
@@ -112,7 +119,7 @@ useEffect(() => {
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/reports' element={<Reports />} />
-                <Route path='/chat' element={<UsersOnline/>}/>
+                <Route path='/chat' element={<UsersOnline setNewMessage={setNewMessage}/>}/>
                 <Route path='/notifications' element={<Notifications setNewNotification={setNewNotification} newNotification={newNotification}/>}/>
               </Routes>
             </div>

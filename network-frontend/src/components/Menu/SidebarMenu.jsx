@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 import './SidebarMenu.css';
 
-const SidebarMenu = ({ newNotification }) => {
+const SidebarMenu = ({ newNotification, newMessage }) => {
     const user = useContext(AuthContext);
     const [activeButton, setActiveButton] = useState("");
 
@@ -13,6 +13,7 @@ const SidebarMenu = ({ newNotification }) => {
 
     const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
     const token = localStorage.getItem('token');
+
 
 
     return (
@@ -98,6 +99,12 @@ const SidebarMenu = ({ newNotification }) => {
                                         onClick={() => handleButtonClick("Chat")}
                                     >
                                         Chat
+                                        {newMessage && (
+                                            <span className="notification-badge">
+                                                <span className="red-dot">●</span>
+                                                <span className="tooltip">{newMessage}</span>
+                                            </span>
+                                        )}
                                     </Link>
                                 </li>
                                 <li>

@@ -9,7 +9,7 @@ import './Chat.css';
 
 var stompClient = null;
 
-const UsersOnline = () => {
+const UsersOnline = ({ setNewMessage }) => {
     const navigate = useNavigate();
     const user = useContext(AuthContext);
     const currentUserId = user.id;
@@ -33,6 +33,7 @@ const UsersOnline = () => {
     //   }, []);
 
     useEffect(() => {
+        setNewMessage(null);
         onConnected(); // Initiate connection
 
         // Add a beforeunload event listener to disconnect when leaving the page

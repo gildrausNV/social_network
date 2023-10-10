@@ -19,7 +19,8 @@ const Notifications = ({ setNewNotification }) => {
     }, token);
     console.log(notifications)
 
-    useEffect(() => { setNewNotification(false) }, [])
+    useEffect(() => { setNewNotification(false)
+    }, [])
 
     useEffect(() => {
         refetchDataParams({
