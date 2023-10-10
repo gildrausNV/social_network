@@ -1,193 +1,74 @@
-/* Navbar.css */
-/* Navbar.css */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  background-color: #f0f0f0;
-  padding: 10px 20px;
-  position: relative;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
-}
+/* App.css */
 
-.navbar a {
-  text-decoration: none;
-}
-
-
-
-/* Navbar.css */
-
-/* Initial styles for all buttons */
-.navbar-button {
-  background-color: transparent;
-  border: none;
-  color: #333;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px 10px;
-  outline: none;
-  position: relative; /* Position relative for pseudo-element */
-}
-
-/* Add a pseudo-element for the border */
-.navbar-button::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0; /* Initial width is 0 (no border) */
-  height: 2px; /* Border height */
-  background-color: #007bff; /* Border color */
-  transition: width 0.3s ease; /* Smoothly transition the width */
-}
-
-/* Style for the active button */
-.navbar-button.active {
-  color: #007bff;
-}
-
-.navbar-button.active::before {
-  width: 100%; /* Full width for the border */
-}
-
-
-
-.left-buttons {
-  display: flex;
-  gap: 10px; /* Adjust the gap between left buttons */
-  align-items: center;
-}
-
-.left-buttons button {
-  color: #333;
-  background-color: transparent;
-  padding: 5px 10px;
-}
-
-.auth-buttons {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.page{
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-}
-
-.App {
-  display: flex;
-  flex-direction: column;
-  height: 120vh;
-  overflow: hidden; /* Hide overflow to prevent scrollbar when sidebar is hidden */
-}
-
-/* Sidebar.css */
-
-/* Adjust the trigger element styles */
-
-
-.main-content {
-  flex: 1;
-}
-
-.main-container {
-  display: flex;
-}
-
-.error-message {
-  color: #ff0000; /* White text color */
-  padding: 10px; /* Add some padding to the message */
-  border-radius: 5px; /* Rounded corners for a nicer look */
-  font-weight: bold; /* Make the text bold */
-  text-align: center; /* Center-align the text */
-  margin: 10px 0; /* Add margin for spacing */
-}
-
-
-
-
-/* WebSocketTest */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+/* Reset some default styles for body and HTML elements */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
 }
 
-.chat-box {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  max-width: 400px;
-  width: 100%;
-}
-
-.chat-messages {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.message {
+/* Style the main container */
+.main-container {
   display: flex;
-  align-items: center;
-  /* margin-bottom: 10px; */
+  height: 100%;
 }
 
+/* Style the sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
 
-.message-data {
+.sidebar-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 10px;
+}
+
+.sidebar-button {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-button:hover {
+  background-color: #555;
+}
+
+.sidebar-button.active {
+  background-color: #555;
+}
+
+/* Style the page content */
+.page {
   flex: 1;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
+  padding: 20px;
 }
 
-.self .message-data {
-  background-color: #007bff;
-  color: #fff;
-}
+/* Add any additional styles you need for your page content */
 
-.input-message {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  /* margin-top: 10px; */
-}
+/* Style your Navbar if needed */
+/* .navbar {
+  Add your navbar styles here
+} */
 
-.send-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.register button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.red-dot {
-  background-color: red;
-  border-radius: 50%;
-  width: 8px;
-  height: 8px;
-  display: inline-block;
-  margin-left: 4px; /* Adjust as needed for spacing */
-  vertical-align: middle;
-}
-
+/* Style your recommendations container if needed */
+/* .recommendations-container {
+  Add your recommendations container styles here
+} */

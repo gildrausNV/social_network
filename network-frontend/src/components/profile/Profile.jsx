@@ -38,16 +38,14 @@ const Profile = ({ id, isCurrentUser }) => {
 
   return (
     <div className="profile-container">
-      <div className="right-container">
-        {!isCurrentUser && <div className="info-container">
+        <div className="info-container">
           <Info id={id} isFollowing={isFollowingFetched} follow={follow} unfollow={unfollow} className="info" />
-        </div>}
+        </div>
         {(isCurrentUser || isFollowing) ? <><Posts id={id} isCurrentUser={isCurrentUser} isFollowing={isFollowing} isMainPage={false}/></> :
           <div className="info-container" style={{ paddingTop: '10%' }}>
             <h3>Follow to see posts</h3>
           </div>
         }
-      </div>
     </div>
   );
 

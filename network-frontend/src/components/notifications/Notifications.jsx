@@ -14,7 +14,7 @@ const Notifications = ({ setNewNotification }) => {
     const token = user.token;
 
     const { data: notifications, totalPages, loading, error, refetchDataParams } = useFetchData2(apiUrl, {
-        size: 5,
+        size: 15,
         page: currentPage
     }, token);
     console.log(notifications)
@@ -23,7 +23,7 @@ const Notifications = ({ setNewNotification }) => {
 
     useEffect(() => {
         refetchDataParams({
-            size: 5,
+            size: 15,
             page: currentPage
         });
     }, [currentPage]);

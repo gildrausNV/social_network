@@ -1,92 +1,159 @@
-/* Chat Container */
+.chat-page {
+  display: flex;
+  flex: 1; /* Grow to fill available space */
+  padding-left: 100px;
+}
+
+/* UsersOnline.css */
+.users-online {
+  flex: 30%;
+  padding-right: 10px;
+}
+
+.user {
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease; /* Add transition effect for background color */
+}
+
+
+.selected {
+  background-color: #555; /* Background color for the selected user */
+  color: #fff; /* Text color for the selected user */
+}
+
+.green-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  margin-right: 5px; /* Adjust margin for spacing */
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  /* Center the user info vertically */
+}
+
+.user-name {
+  /* Remove display: flex; and align-items from .user-name */
+  margin-left: 5px; /* Adjust margin for spacing */
+}
+
+
+/* ChatContainer.css */
+.chat-container {
+  flex: 70%; /* Take up the right 70% */
+  padding-left: 10px; /* Add some padding between the two sections if desired */
+  height: 100vh;
+}
+
+/* CHAT CONTAINER */
+/* ChatBox.css */
+.chat-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.chat-header {
+  padding: 10px;
+  background-color: #333; /* Match the sidebar's background color */
+  color: #fff; /* Header text color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header span {
+  font-size: 18px;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
 .chat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-  }
-  
-  /* Chat Box */
-  .chat-box {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    height: 70vh; /* Adjust as needed */
-    overflow-y: auto; /* Enable vertical scrolling */
-    padding: 20px;
-  }
-  
-  /* Chat Messages List */
-  .chat-messages {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Sent Messages */
-  .message-data-sent {
-    background-color: #00ff00;
-    color: #fff;
-    border-radius: 8px;
-    align-self: flex-end; /* Right-align sent messages */
-    max-width: 70%; /* Limit message width */
-    margin-bottom: 10px; /* Adjust spacing between messages */
-    padding: 10px;
-  }
-  
-  /* Received Messages */
-  .message-data-received {
-    background-color: #00aeff;
-    color: #fff;
-    border-radius: 8px;
-    max-width: 70%; /* Limit message width */
-    margin-bottom: 10px; /* Adjust spacing between messages */
-    padding: 10px;
-  }
-  
-  /* Send Message Section */
-  .send-message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px; /* Adjust spacing from messages */
-  }
-  
-  /* Input Field */
-  .input-message {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* Send Button */
-  .send-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-left: 10px; /* Adjust spacing from input field */
-  }
-  
-  /* Connect Button */
-  .register button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.chat-messages {
+  list-style: none;
+  padding: 0;
+  height: 89%;
+}
+
+.message-data-sent,
+.message-data-received {
+  margin-bottom: 10px;
+}
+
+.message-data-sent {
+  text-align: right;
+}
+
+.message-data-received {
+  text-align: left;
+}
+
+/* Adjust the styles for the send-message section */
+.send-message {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #f0f0f0; /* Match the app's background color */
+}
+
+.input-message {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.send-button {
+  background-color: #333; /* Match the sidebar's background color */
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0; /* Prevent the button from growing */
+  width: auto; /* Adjust to your desired button width */
+}
+
+.send-button:hover {
+  background-color: #555; /* Darker color on hover */
+}
+
+/* ChatBox.css */
+/* ... (previous styles) */
+
+.message-data-sent {
+  text-align: right;
+  background-color: #7fdbda; /* Sent message background color (e.g., light blue) */
+  padding: 10px;
+  border-radius: 15px; /* Rounded corners for sent messages */
+  margin-left: auto; /* Right-align sent messages */
+}
+
+.message-data-received {
+  text-align: left;
+  background-color: #e6e6e6; /* Received message background color (e.g., light gray) */
+  padding: 10px;
+  border-radius: 15px; /* Rounded corners for received messages */
+  margin-right: auto; /* Left-align received messages */
+}
+

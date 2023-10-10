@@ -60,16 +60,14 @@ const Users = () => {
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
         {users?.length !== 0 && users?.map((user) => (
-          <div key={user.id} className="user">
-            <img src={myImage} alt="" className="picture" />
-            <div className="user-name">{user.firstname}</div>
-            <div className="user-btn"> 
-              <div className="user-btn-row">
-                <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
-
-              </div>
-            </div>
+          <div className="user" key={user.id}>
+          <img src={myImage} alt="" className="picture" />
+          <div className="user-name">{user.firstname}</div>
+          <div className="user-btn-row">
+            <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
           </div>
+        </div>
+        
         ))}
         {users?.length === 0 && <div className="message1">No users found</div>}
       </div>

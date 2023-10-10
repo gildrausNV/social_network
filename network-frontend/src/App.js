@@ -15,11 +15,11 @@ import Reports from './components/reports/Reports';
 import Sidebar from './components/Sidebar/Sidebar';
 import Trends from './components/Trends/Trends';
 import WebSocketTest from './WebSocketTest';
-import Chat from './components/Chat/Chat';
 import UsersOnline from './components/Chat/UsersOnline';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
 import Notifications from './components/notifications/Notifications';
+import SidebarMenu from './components/Menu/SidebarMenu';
 
 export const AuthContext = React.createContext();
 
@@ -33,18 +33,25 @@ function App() {
   const [id, setId] = useState(localStorage.getItem('id') || null);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') || null);
 
-  const [newNotification, setNewNotification] = useState(false);
+  const [newNotification, setNewNotification] = useState(null);
 
   const notificationStompClient = useRef(null);
+
+  const socketUrl = "http://localhost:8080/ws";
+
+  let wsUri = new URL(socketUrl);
+  
+      
 
 useEffect(() => {
   async function connectWebSocket() {
     try {
+      wsUri.searchParams.append('token', token);
       // Create a WebSocket connection using SockJS
-      const socket = new SockJS('http://localhost:8080/ws'); // Adjust the URL as needed
+      let Sock = new SockJS(wsUri.toString()); // Adjust the URL as needed
 
       // Create the Stomp client and connect to the WebSocket server
-      const client = await over(socket);
+      const client = await over(Sock);
       notificationStompClient.current = client;
 
       // Establish the connection
@@ -55,7 +62,7 @@ useEffect(() => {
         const followNotificationSubscription = client.subscribe(`/user/${id}/follow-notification`, (message) => {
           // Handle the follow notification, e.g., display it to the user
           console.log('Received follow notification:', message.body);
-          setNewNotification(true);
+          setNewNotification(message.body);
         });
 
         return () => {
@@ -71,8 +78,8 @@ useEffect(() => {
   }
 
   // Call the async function to establish the WebSocket connection
-  connectWebSocket();
-}, [id]);
+  if(token) connectWebSocket();
+}, [id, token]);
 
 
   
@@ -85,15 +92,17 @@ useEffect(() => {
     <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
-          <Navbar newNotification={newNotification}/>
+          {/* <Navbar newNotification={newNotification}/> */}
+          
           <div className="main-container">
-            <div className="left-container">
+            
+            {/* <div className="left-container">
               {token && <Sidebar />}
               <div className="recommendations-container">
               </div>
-            </div>
-
+            </div> */}
             <div className='page'>
+              <SidebarMenu newNotification={newNotification}/>
               <Routes>
                 <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
                 <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
@@ -103,14 +112,9 @@ useEffect(() => {
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/reports' element={<Reports />} />
-                {/* <Route path='/chat/:username' element={ <WebSocketTest/>}/> */}
-                <Route path='/chat/:id' element={ <Chat />}/>
                 <Route path='/chat' element={<UsersOnline/>}/>
                 <Route path='/notifications' element={<Notifications setNewNotification={setNewNotification} newNotification={newNotification}/>}/>
               </Routes>
-            </div>
-            <div className="trends-container">
-              {/* <Trends /> */}
             </div>
           </div>
         </Router>

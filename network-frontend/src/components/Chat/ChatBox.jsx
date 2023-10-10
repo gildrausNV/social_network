@@ -20,12 +20,14 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
 
     useEffect(() => {
         // Subscribe to private messages when the component mounts
-        const privateMessageSubscription = stompClient.subscribe(`/user/${userData.sender}/private`, onPrivateMessage);
-
-        // Clean up the subscription when the component unmounts
-        return () => {
+        if(userId){
+            const privateMessageSubscription = stompClient.subscribe(`/user/${userData.sender}/private`, onPrivateMessage);
+            return () => {
             privateMessageSubscription.unsubscribe();
         };
+        }
+        // Clean up the subscription when the component unmounts
+        
     }, [stompClient, userData.sender]);
 
     const onPrivateMessage = (payload) => {
@@ -73,11 +75,11 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
     return (
         <div className="chat-box">
             <div className="chat-header">
-                <span>{username} {userId}</span>
+                <span>{otherUserData?.username}</span>
             </div>
             <div className="chat">
                 <ul className="chat-messages">
-                    {chat.map((message, index) => (
+                    {chat?.map((message, index) => (
                         <div
                             key={index}
                             className={`message-data-${currentUserId === message.senderId ? 'sent' : 'received'}`}
@@ -94,7 +96,8 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
                         value={userData.message}
                         onChange={handleMessageChange}
                     />
-                    <button type="button" className="send-button" onClick={sendPrivateMessage}>
+                    
+                    <button type="button" className="send-button" onClick={sendPrivateMessage} disabled={userId==null}>
                         Send
                     </button>
                 </div>

@@ -69,17 +69,23 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
       {post?.trend.topic && <div className="row-topic">{post?.trend.topic}</div>}
       <div className="row-content">{post?.content}</div>
       <div className="row">
-        <div className="button-container">
-          {!isCurrentUser && <>
-            <button className="like-btn" onClick={() => handleReactionSubmit('LIKE')}>👍</button>
+        {!isCurrentUser ? <><div className="button-container">
+          <><button className="like-btn" onClick={() => handleReactionSubmit('LIKE')}>👍</button>
             <button className="like-btn" onClick={() => handleReactionSubmit('ANGRY')}>😡</button>
             <button className="like-btn" onClick={() => handleReactionSubmit('LOVE')}>😍</button>
-            <button className="like-btn" onClick={() => handleReactionSubmit('SAD')}>😭</button></>
-          }
+            <button className="like-btn" onClick={() => handleReactionSubmit('SAD')}>😭</button>
+          </>
           <div className="text-container" style={{ paddingLeft: '40%' }}>
             <u style={{ color: 'blue' }} onClick={toggleModalReactions}>Show reactions({reactions?.content.length})</u>
           </div>
-        </div>
+        </div></> : <><div className="button-container" style={{ width: '1100px', padding: '5px' }}>
+          <>
+          </>
+          <div className="text-container" style={{ paddingLeft: '40%' }}>
+            <u style={{ color: 'blue' }} onClick={toggleModalReactions}>Show reactions({reactions?.content.length})</u>
+          </div>
+        </div></>}
+
 
       </div>
       <div className="row">
