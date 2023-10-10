@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.social_network.domain.Action;
+import rs.ac.bg.fon.social_network.domain.FollowNotification;
+import rs.ac.bg.fon.social_network.domain.NotificationType;
 import rs.ac.bg.fon.social_network.domain.User;
 import rs.ac.bg.fon.social_network.service.UserService;
 
@@ -56,20 +58,26 @@ public class UserController {
     public void followAnotherUser(@PathVariable Long followingUserId) {
         userService.followAnotherUser(followingUserId);
         Long userIdToFollow = followingUserId;
+        FollowNotification followNotification = new FollowNotification();
+        followNotification.setType(NotificationType.NOTIFICATION);
+        followNotification.setMessage("Someone started following you!");
         simpMessagingTemplate.convertAndSendToUser(
                 userIdToFollow.toString(),
                 "/follow-notification",
-                "You have a new follower!"
+                followNotification
         );
     }
 
     @DeleteMapping("/unfollow/{userIdToUnfollow}")
     public void unfollowAnotherUser(@PathVariable Long userIdToUnfollow) {
         userService.unfollow(userIdToUnfollow);
+        FollowNotification followNotification = new FollowNotification();
+        followNotification.setType(NotificationType.NOTIFICATION);
+        followNotification.setMessage("Someone unfollowed you!");
         simpMessagingTemplate.convertAndSendToUser(
                 userIdToUnfollow.toString(),
                 "/follow-notification",
-                "Someone unfollowed you!"
+                followNotification
         );
     }
 

@@ -8,7 +8,6 @@ import lombok.*;
 @Setter
 @ToString
 public class FollowNotification {
-    private Long followerId;
-    private Long followingId;
     private String message;
+    private NotificationType type;
 }

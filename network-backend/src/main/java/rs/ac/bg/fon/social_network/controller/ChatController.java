@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import rs.ac.bg.fon.social_network.config.UserSessionRegistry;
 import rs.ac.bg.fon.social_network.domain.FollowNotification;
 import rs.ac.bg.fon.social_network.domain.Message;
+import rs.ac.bg.fon.social_network.domain.NotificationType;
 import rs.ac.bg.fon.social_network.domain.Status;
+import rs.ac.bg.fon.social_network.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,7 +23,8 @@ public class ChatController {
     @Autowired
     private UserSessionRegistry userSessionRegistry; // Autowire UserSessionRegistry
 
-
+    @Autowired
+    private UserService userService;
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
@@ -38,6 +41,14 @@ public class ChatController {
         System.out.println("Sending message to user with ID: " + receiverId);
         simpMessagingTemplate.convertAndSendToUser(receiverId.toString(), "/private", message);
         System.out.println(message.toString());
+        FollowNotification followNotification = new FollowNotification();
+        followNotification.setType(NotificationType.CHAT_MESSAGE);
+        followNotification.setMessage("Someone sent a message!");
+        simpMessagingTemplate.convertAndSendToUser(
+                receiverId.toString(),
+                "/follow-notification",
+                followNotification
+        );
         return message;
     }
 
@@ -64,15 +75,15 @@ public class ChatController {
         sendUserListUpdate(); // Broadcast user list update to other users
     }
 
-    @MessageMapping("/follow-notification")
-    public void sendFollowNotification(@Payload FollowNotification notification) {
-        // Logic to send follow notifications to the user with ID 'notification.getFollowerId()'
-        simpMessagingTemplate.convertAndSendToUser(
-                notification.getFollowerId().toString(),
-                "/private",
-                notification.getMessage()
-        );
-    }
+//    @MessageMapping("/follow-notification")
+//    public void sendFollowNotification(@Payload FollowNotification notification) {
+//        // Logic to send follow notifications to the user with ID 'notification.getFollowerId()'
+//        simpMessagingTemplate.convertAndSendToUser(
+//                notification.getFollowerId().toString(),
+//                "/private",
+//                notification.getMessage()
+//        );
+//    }
 
 
 }
