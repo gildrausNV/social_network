@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import './SidebarMenu.css';
+import myImage from '../users/user.png';
+import useFetchData2 from "../../useFetchData2";
 
 const SidebarMenu = ({ newNotification, newMessage }) => {
     const user = useContext(AuthContext);
+    const id = user.id;
     const [activeButton, setActiveButton] = useState("");
+    const navigate = useNavigate();
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName);
@@ -13,6 +17,13 @@ const SidebarMenu = ({ newNotification, newMessage }) => {
 
     const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
     const token = localStorage.getItem('token');
+
+    const apiUrl = 'http://localhost:8080/api/v1/users/' + id;
+    const { data, loading, error, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
+
+    useEffect(() => {
+        fetchDataNewUrl('http://localhost:8080/api/v1/users/' + id);
+    }, [id])
 
 
 
@@ -140,6 +151,15 @@ const SidebarMenu = ({ newNotification, newMessage }) => {
                     </ul>
                 </nav>
             </div>
+            {token && 
+            <div className="sidebar-bottom">
+            <div className="info" onClick={() => navigate('/profile')}>
+                <img src={myImage} alt="" className="picture" />
+                <div className="info-row">
+                    <p>{data?.firstname} {data?.lastname}</p>
+                </div>
+            </div>
+        </div>}
         </div>
     );
 };

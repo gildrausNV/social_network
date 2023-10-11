@@ -1,54 +1,75 @@
-.info-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 300px;
-}
-
-.profile-container {
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-  align-items: center;
-}
-
-
-
-.left-container {
-  width: 100px;
-  background-color: #f0f0f0;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: hidden;
-  opacity: 0;
-  transition: width 0.3s ease, opacity 0.3s ease; 
-}
-
-.left-container:hover {
-  width: 25%;
-  opacity: 1;
-}
-
-.right-container {
-  align-items: center;
-  justify-content: center;
-  /* display: flex; */
-  width: 100%;
-  flex: 3;
-  background-color: #ffffff;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.info-row {
+/* Style for the .info-container */
+.info-container-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.info-row p {
-  margin: 5px;
+/* Style for the .profile-container */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  margin-top: 20px;
+  padding-left: 300px;
+}
+
+/* Style for the .info-card */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px; /* Adjust the maximum width as needed */
+  text-align: center;
+  margin: 0 auto; /* Center horizontally */
+}
+
+/* Style for the .picture-card */
+.picture-card {
+  width: 100px; /* Adjust the image size as needed */
+  height: 100px;
+  border-radius: 50%; /* Make the image round */
+  object-fit: cover; /* Ensure the image covers the entire container */
+  margin-bottom: 10px;
+}
+
+/* Style for the .info-card-row */
+.info-card-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style for the button */
+.follow-btn, .unfollow-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  width: 100%; /* Make the button width 100% to match the container */
+}
+
+.follow-btn:hover {
+  background-color: #0056b3;
+}
+
+.unfollow-btn:hover {
+  background-color: #0056b3;
 }
 
 .recommended-user {

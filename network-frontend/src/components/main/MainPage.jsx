@@ -13,7 +13,7 @@ const MainPage = () => {
     <div className="main-page">
       <Posts id={null} isCurrentUser={false} isFollowing={true} isMainPage={true}/>
       <div className="trends-container">
-              {/* <Trends /> */}
+              <Trends />
         </div>
     </div>
   );

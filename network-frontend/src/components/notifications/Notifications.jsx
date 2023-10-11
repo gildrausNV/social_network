@@ -41,7 +41,7 @@ const Notifications = ({ setNewNotification }) => {
         const apiReadNotification = "http://localhost:8080/api/v1/notifications/" + id;
         postDataRequest(apiReadNotification, null, token);
         refetchDataParams({
-            size: 5,
+            size: 15,
             page: currentPage
         });
     }

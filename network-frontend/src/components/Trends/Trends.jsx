@@ -12,44 +12,50 @@ const Trends = () => {
     const user = useContext(AuthContext);
     const token = user.token;
     const [info, setInfo] = useState([]);
-    const { data: trends, updateUrl, refetchDataParams } = useFetchData2(apiUrl, null, token);
-    const { data: trendsGraphInfo, updateUrl: updateUrlTrendsGraph, refetchDataParams: refetchDataParamsTrendsGraph } = useFetchData2(apiUrlTrendsInfo, null, token);
+    const { data: trends, updateUrl, refetchDataParams, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
+    const { data: trendsGraphInfo, updateUrl: updateUrlTrendsGraph, refetchDataParams: refetchDataParamsTrendsGraph, fetchDataNewUrl: fetchDataNewUrlTrend } = useFetchData2(apiUrlTrendsInfo, null, token);
 
-    useEffect(() => {
-        updateUrl(apiUrl);
-        refetchDataParams(null);
-        console.log(apiUrl);
-    }, [selectedOption]);
+    // useEffect(() => {
+    //     updateUrl(`http://localhost:8080/api/v1/trends${selectedOption}`);
+    //     refetchDataParams(null);
+    //     console.log(trends);
+    // }, [selectedOption]);
+
+    function handleNewUrl(option) {
+        fetchDataNewUrl(`http://localhost:8080/api/v1/trends${option}`);
+    }
 
     function handleNewTrendSelected(id) {
         setSelectedTrend(id);
-        updateUrlTrendsGraph(apiUrlTrendsInfo);
-        refetchDataParamsTrendsGraph(null);
-        console.log(apiUrlTrendsInfo);
-        console.log(trendsGraphInfo);
+        fetchDataNewUrlTrend(`http://localhost:8080/api/v1/posts/trends/${id}`);
     }
 
     return (
-        <div className="trends">
-            <h2>Trends</h2>
-            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-                <option value="">All time</option>
-                <option value="/thisMonth">This month</option>
-                <option value="/thisWeek">This week</option>
-                <option value="/today">Today</option>
-            </select>
-            {trends && trends?.map((trend, position) => (
-                <div
-                    className={`trend ${trend.id === selectedTrend ? 'selected' : ''}`}
-                    key={trend?.id}
-                    onClick={() => handleNewTrendSelected(trend?.id)}
-                >
-                    {position + 1}. {trend?.topic} {trend?.numberOfPosts}
-                </div>
-            ))}
-            Selected trend length: {trendsGraphInfo?.length}
-            {selectedTrend && <TrendGraph info={trendsGraphInfo} />}
-        </div>
+        <>
+            <div className="trends">
+                <h2>Trends</h2>
+                <select value={selectedOption} onChange={(e) => handleNewUrl(e.target.value)}>
+                    <option value="">All time</option>
+                    <option value="/thisMonth">This month</option>
+                    <option value="/thisWeek">This week</option>
+                    <option value="/today">Today</option>
+                </select>
+                {trends && trends?.map((trend, position) => (
+                    <div
+                        className={`trend ${trend.id === selectedTrend ? 'selected' : ''}`}
+                        key={trend?.id}
+                        onClick={() => handleNewTrendSelected(trend?.id)}
+                    >
+                        {position + 1}. {trend?.topic} {trend?.numberOfPosts}
+                    </div>
+                ))}
+            </div>
+            {trendsGraphInfo && selectedTrend && <div className="trend-graph-container">
+                {trendsGraphInfo && <>Selected trend length: {trendsGraphInfo?.length}</>}
+                {selectedTrend && <TrendGraph info={trendsGraphInfo} />}
+            </div>}
+        </>
+
     );
 };
 

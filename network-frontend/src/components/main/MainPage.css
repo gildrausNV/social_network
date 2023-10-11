@@ -1,0 +1,15 @@
+.main-page {
+    margin-left: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* Adjust as needed */
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.trends-container {
+    flex: 1;
+    margin-left: 150px;
+    /* Adjust the margin as needed */
+}

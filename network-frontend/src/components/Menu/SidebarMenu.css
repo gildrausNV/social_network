@@ -86,7 +86,39 @@
     left: calc(100% + 10px); /* Adjust the position based on the width of the tooltip content */
   }
   
-  
+  /* Add this CSS to your existing styles */
+
+/* Style for the "info" container */
+.info {
+  display: flex;
+  flex-direction: row; /* Arrange items horizontally */
+  align-items: center; /* Vertically center items */
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  border-bottom: 1px solid #555; /* Add a border at the bottom */
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+/* Style for the picture */
+.picture {
+  width: 40px; /* Set the desired width for the picture */
+  height: 40px; /* Set the desired height for the picture */
+  margin-right: 10px; /* Adjust spacing between the picture and text */
+}
+
+/* Style for the <p> element */
+.info-row p {
+  margin: 0; /* Remove default margin for <p> element */
+}
+
+/* Hover effect */
+.info:hover {
+  background-color: #555; /* Change background color on hover */
+  cursor: pointer;
+}
+
+
   
   
   

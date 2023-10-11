@@ -14,7 +14,7 @@ const Profile = ({ id, isCurrentUser }) => {
   const user = useContext(AuthContext);
   const token = user.token;
   const [isFollowing, setIsFollowing] = useState();
-  const {response, postDataRequest } = usePostData();
+  const { response, postDataRequest } = usePostData();
   const { deleteRequest } = useDeleteData();
 
   const getIsFollowing = "http://localhost:8080/api/v1/users/isFollowing/" + id;
@@ -30,7 +30,7 @@ const Profile = ({ id, isCurrentUser }) => {
     deleteRequest(url, token);
     setIsFollowing(false);
   };
-  
+
   useEffect(() => {
     fetchDataNewUrl(getIsFollowing);
     setIsFollowing(isFollowingFetched);
@@ -38,15 +38,18 @@ const Profile = ({ id, isCurrentUser }) => {
 
   return (
     <div className="profile-container">
-        <div className="info-container">
-          <Info id={id} isFollowing={isFollowingFetched} follow={follow} unfollow={unfollow} className="info" />
-        </div>
-        {(isCurrentUser || isFollowing) ? <><Posts id={id} isCurrentUser={isCurrentUser} isFollowing={isFollowing} isMainPage={false}/></> :
-          <div className="info-container" style={{ paddingTop: '10%' }}>
+      <div className="info-container-card">
+        {!isCurrentUser && <Info id={id} isFollowing={isFollowingFetched} follow={follow} unfollow={unfollow} className="info" />}
+      </div>
+      <div className="posts">
+        {(isCurrentUser || isFollowing) ? <Posts id={id} isCurrentUser={isCurrentUser} isFollowing={isFollowing} isMainPage={false} /> :
+          <div style={{ paddingTop: '10%' }}>
             <h3>Follow to see posts</h3>
           </div>
         }
+      </div>
     </div>
+
   );
 
 

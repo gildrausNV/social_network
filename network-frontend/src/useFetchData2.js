@@ -20,6 +20,8 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             setLoading(false);
             setTotalPages(response.data.totalPages);
             // console.log(response);
+            // console.log(url);
+            // console.log(response.data.content);
             return response;
         } catch (error) {
             setError(error);
