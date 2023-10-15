@@ -3,7 +3,7 @@ import useFetchData2 from '../../useFetchData2';
 import { AuthContext } from '../../App';
 
 
-const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
+const ChatBox = ({ userId, username, stompClient, currentUserId, setNewMessage }) => {
     const user = useContext(AuthContext);
     const token = user.token;
     const id = user.id;
@@ -20,8 +20,8 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
 
     useEffect(() => {
         // Subscribe to private messages when the component mounts
-        if(userId){
-            const privateMessageSubscription = stompClient.subscribe(`/user/${userData.sender}/private`, onPrivateMessage);
+        if(id){
+            const privateMessageSubscription = stompClient.subscribe(`/user/${id}/private`, onPrivateMessage);
             return () => {
             privateMessageSubscription.unsubscribe();
         };
@@ -32,6 +32,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
 
     const onPrivateMessage = (payload) => {
         const payloadData = JSON.parse(payload.body);
+        console.log(payloadData)
         setChat((prevChat) => [
             ...prevChat,
             {
@@ -39,6 +40,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
                 message: payloadData.message,
             },
         ]);
+        setNewMessage(false);
     };
 
     const handleMessageChange = (event) => {
@@ -47,6 +49,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
     };
 
     const sendPrivateMessage = () => {
+        console.log(`/user/${id}/private`);
         if (stompClient) {
             const chatMessage = {
                 senderId: id,
@@ -75,7 +78,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
     return (
         <div className="chat-box">
             <div className="chat-header">
-                <span>{otherUserData?.username}</span>
+                <span>{username}</span>
             </div>
             <div className="chat">
                 <ul className="chat-messages">
@@ -84,7 +87,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
                             key={index}
                             className={`message-data-${currentUserId === message.senderId ? 'sent' : 'received'}`}
                         >
-                            {currentUserId !== message.senderId ? `${otherUserData?.username}: ${message.message}` : message.message}
+                            {currentUserId !== message.senderId ? `${username}: ${message.message}` : message.message}
                         </div>
                     ))}
                 </ul>
@@ -97,7 +100,7 @@ const ChatBox = ({ userId, username, stompClient, currentUserId }) => {
                         onChange={handleMessageChange}
                     />
                     
-                    <button type="button" className="send-button" onClick={sendPrivateMessage} disabled={userId==null}>
+                    <button type="button" className="send-button" onClick={sendPrivateMessage} disabled={userId===null}>
                         Send
                     </button>
                 </div>

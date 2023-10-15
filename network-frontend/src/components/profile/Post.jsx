@@ -13,6 +13,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const [comment, setComment] = useState();
   const { loading, error, postDataRequest } = usePostData();
   const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+  const [currentPage, setCurrentPage] = useState(0);
 
   const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + "/comment";
   const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
@@ -21,7 +22,25 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const getReactionsUrl = `http://localhost:8080/api/v1/posts/${post.id}/reactions`;
   const { data: reactions, loading: reactionsLoading, refetchData: refetchReactions, updateUrl: updateReactionsUrl, fetchDataNewUrl: fetchDataNewUrlReactions } = useFetchData2(getReactionsUrl, null, token);
   const getCommentsUrl = `http://localhost:8080/api/v1/posts/${post.id}/comments`;
-  const { data: comments, loading: commentsLoading, refetchData: refetchComments, updateUrl: updateCommentsUrl, fetchDataNewUrl: fetchDataNewUrlComments } = useFetchData2(getCommentsUrl, null, token);
+  const params = isCurrentUser ? { size: 3, currentPage: currentPage } : null;
+  const { data: comments, loading: commentsLoading, totalPages, refetchData: refetchComments, updateUrl: updateCommentsUrl, fetchDataNewUrl: fetchDataNewUrlComments, refetchDataParams } = useFetchData2(getCommentsUrl, params, token);
+
+  // console.log(comments)
+
+  useEffect(() => {
+    refetchDataParams({
+      size: 3,
+      page: currentPage
+    });
+  }, [currentPage]);
+
+  const nextPage = () => {
+    setCurrentPage((currentPage) => currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage((currentPage) => currentPage - 1);
+  };
 
   const handleNewPostChange = (event) => {
     setComment(event.target.value);
@@ -88,25 +107,55 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
 
 
       </div>
-      <div className="row">
-        <textarea
-          name="comment"
-          id=""
-          cols="30"
-          rows="10"
-          onChange={handleNewPostChange}
-        />
-      </div>
-      <div className="row">
-        <div className="button-container">
-          <button onClick={handleCommentSubmit} className="comment-btn">
-            Comment
+      {isCurrentUser ? <>
+        <div className="pagination">
+          <button
+            onClick={previousPage}
+            disabled={currentPage === 0}
+            className="pagination-button"
+          >
+            Previous
           </button>
-          <div className="text-container" style={{ paddingLeft: '55%' }}>
-            <u style={{ color: 'blue' }} onClick={() => setModalComments(!showComments)}>Show comments({comments?.content.length})</u>
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages - 1}
+            className="pagination-button"
+          >
+            Next
+          </button>
+        </div>
+        <div className="comments-container">
+          {comments?.content.map((comment, index) => (
+            <div className="comment" key={index}>
+              <div className="comment-details">
+                <p className="comment-content">{comment.creator.username}: {comment.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+
+      </> : <>
+        <div className="row">
+          <textarea
+            name="comment"
+            id=""
+            cols="30"
+            rows="10"
+            onChange={handleNewPostChange}
+          />
+        </div>
+        <div className="row">
+          <div className="button-container">
+            <button onClick={handleCommentSubmit} className="comment-btn">
+              Comment
+            </button>
+            <div className="text-container" style={{ paddingLeft: '55%' }}>
+              <u style={{ color: 'blue' }} onClick={() => setModalComments(!showComments)}>Show comments({comments?.content.length})</u>
+            </div>
           </div>
         </div>
-      </div>
+      </>}
       {modalComments && (
         <div className="modal-overlay">
           <div className="modal">

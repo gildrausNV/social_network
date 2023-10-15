@@ -78,11 +78,12 @@ const UsersOnline = ({ setNewMessage }) => {
                 senderId: currentUserId,
                 message: `${currentUserId} has joined the chat`,
             };
-            setConnected(true);
+            
             stompClient.send('/app/system-notification', {}, JSON.stringify(systemNotification));
-            stompClient.subscribe('/chatroom/public', onSystemNotification);
+            // stompClient.subscribe('/chatroom/public', onSystemNotification);
             userJoin();
             subscribeToUserListUpdates();
+            setConnected(true);
         } catch (error) {
             console.error(error.message);
         }
@@ -131,6 +132,13 @@ const UsersOnline = ({ setNewMessage }) => {
         }
     };
 
+    const [usernameToChat, setUsernameToChat] = useState(null);
+
+    function setUser(newUsername, newId){
+        setUserIdToChat(newId);
+        setUsernameToChat(newUsername);
+    }
+
     return (
         <div className='chat-page'>
             {!connected ? (
@@ -140,7 +148,7 @@ const UsersOnline = ({ setNewMessage }) => {
                     {connectedUsers.map((user) => (
                         <div
                             className={`user ${user.id === userIdToChat ? 'selected' : ''}`}
-                            onClick={() => setUserIdToChat(user.id)}
+                            onClick={() => setUser(user.username, user.id)}
                             key={user.id}
                         >
                             <div className="user-info">
@@ -158,9 +166,10 @@ const UsersOnline = ({ setNewMessage }) => {
                 
                     <ChatBox
                         userId={userIdToChat}
-                        username={user.username}
+                        username={usernameToChat}
                         stompClient={stompClient}
                         currentUserId={currentUserId}
+                        setNewMessage={setNewMessage}
                     />
             </div>}
         </div>
