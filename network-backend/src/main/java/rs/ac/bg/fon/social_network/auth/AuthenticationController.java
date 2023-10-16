@@ -3,6 +3,8 @@ package rs.ac.bg.fon.social_network.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -21,4 +23,8 @@ public class AuthenticationController {
             return authenticationService.login(request);
         }
 
+        @PostMapping("/verify")
+        public AuthenticationResponse verify(@RequestBody VerificationRequest request) throws AuthenticationException {
+            return authenticationService.verifyUser(request);
+        }
 }

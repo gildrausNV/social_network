@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +24,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
+    @JsonIgnore
+    private String verificationCode;
+
+    @JsonIgnore
+    private boolean isVerified;
 
     private String firstname;
 
