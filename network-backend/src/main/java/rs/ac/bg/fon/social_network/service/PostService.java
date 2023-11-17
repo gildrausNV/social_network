@@ -22,19 +22,14 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final ReportRepository reportRepository;
     private final ActionService actionService;
-    private final TrendRepository trendRepository;
-    private final TrendService trendService;
+
+    private final TopicService topicService;
 
     public Page<Post> getAll(Pageable pageable) {
         User currentlyLoggedInUser = userService.getCurrentlyLoggedInUser();
         if (currentlyLoggedInUser.getRole().equals(Role.ADMIN))
             return postRepository.findAll(pageable);
         return postRepository.findByCreatorFollowersIn(List.of(currentlyLoggedInUser), pageable);
-//        return postRepository
-//                .findAll()
-//                .stream()
-//                .filter(post -> post.getCreator().getFollowers().contains(currentlyLoggedInUser))
-//                .toList();
     }
 
     public Post getById(Long id) {
@@ -57,18 +52,8 @@ public class PostService {
         actionService.createAction(userService.getCurrentlyLoggedInUser());
         post.setCreator(userService.getCurrentlyLoggedInUser());
         post.setTimePosted(LocalDateTime.now());
-        Trend trend = post.getTrend();
-        if(trendRepository.findByTopic(trend.getTopic()).isEmpty()){
-            trend.setNumberOfPosts(1);
-            post.setTrend(trendRepository.save(post.getTrend()));
-        }
-        else{
-            Trend newTrend = trendRepository.findByTopic(trend.getTopic()).get(0);
-            int num = newTrend.getNumberOfPosts() + 1;
-            trendRepository.update(num, newTrend.getId());
-            trend.setId(newTrend.getId());
-            trend.setNumberOfPosts(num);
-        }
+        Topic topic = topicService.getTopicIfExists(post.getTopic());
+        post.setTopic(topic);
 
         return postRepository.save(post);
     }
@@ -129,11 +114,8 @@ public class PostService {
         return postRepository.findByCreatorId(userId, pageable);
     }
 
-    public List<Post> getByTopic(String topic) {
-        return postRepository.findByTopic(topic);
+    public List<Post> getByTopic(Long trendId) {
+        return postRepository.findByTopic_Id(trendId);
     }
 
-    public List<Post> getPostTrend(Long trendId) {
-        return postRepository.findByTrend_Id(trendId);
-    }
 }

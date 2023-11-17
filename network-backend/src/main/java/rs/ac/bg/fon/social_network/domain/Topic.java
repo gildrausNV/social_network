@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,13 +13,12 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Trend {
+public class Topic {
+
     @Id
     @GeneratedValue
     private Long id;
-    private String topic;
 
-    private int numberOfPosts;
-
+    private String name;
 
 }

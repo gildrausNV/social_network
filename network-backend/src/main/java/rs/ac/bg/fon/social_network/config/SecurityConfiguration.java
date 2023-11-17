@@ -39,9 +39,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/users/unfollow/**").hasAuthority(Role.USER.getAuthority())
                         .requestMatchers("/api/v1/users/followers").hasAuthority(Role.USER.getAuthority())
                         .requestMatchers("/api/v1/users/following").hasAuthority(Role.USER.getAuthority())
-
-                        // WebSocket-specific rules (for example, allow everyone to connect to the WebSocket endpoint)
-                        .requestMatchers("/ws/**").permitAll() // Adjust this as needed for your application
+                        .requestMatchers("/api/v1/topics**").hasAuthority(Role.USER.getAuthority())
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/ws**").permitAll()
 
                         .anyRequest().authenticated())
                 .sessionManagement()

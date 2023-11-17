@@ -5,17 +5,26 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.social_network.repository.UserRepository;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
+  private final UserRepository userRepository;
 
   private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
@@ -72,4 +81,42 @@ public class JwtService {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);
   }
+
+  public String extractTokenFromRequest(ServerHttpRequest request) {
+    // Example: Extract the token from the "token" query parameter
+    String token = request.getURI().getQuery().split("=")[1];
+    System.out.println("Extracted token: " + token); // Log the token
+    return token;
+  }
+
+
+  public boolean isTokenDefined(String token) {
+    return token != null && !token.isEmpty();
+  }
+
+  public Authentication createAuthenticationFromToken(String token) {
+    UserDetails userDetails = createUserDetailsFromToken(token);
+    return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
+  }
+
+  public UserDetails createUserDetailsFromToken(String token) {
+    Claims claims = extractAllClaims(token);
+
+    String username = claims.getSubject();
+    List<GrantedAuthority> authorities = extractAuthoritiesFromClaims(claims);
+    return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+  }
+
+  public List<GrantedAuthority> extractAuthoritiesFromClaims(Claims claims) {
+    List<String> roles = claims.get("roles", List.class);
+
+    if (roles != null) {
+      return roles.stream()
+              .map(SimpleGrantedAuthority::new)
+              .collect(Collectors.toList());
+    } else {
+      return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+  }
+
 }

@@ -1,6 +1,6 @@
 package rs.ac.bg.fon.social_network.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -9,20 +9,15 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
     private final JwtService jwtService;
-
-    @Autowired
-    public WebSocketConfiguration(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
-                .addInterceptors(new MyHandshakeInterceptor(jwtService)) // Provide JwtService here
+                .addInterceptors(new WebSocketHandshakeInterceptor(jwtService)) // Provide JwtService here
                 .withSockJS();
     }
 

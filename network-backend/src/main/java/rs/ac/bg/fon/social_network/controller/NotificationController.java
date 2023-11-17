@@ -20,11 +20,6 @@ public class NotificationController {
         return notificationService.getAll(pageable);
     }
 
-//    @GetMapping
-//    public Page<Notification> getAll(@RequestParam Boolean isRead, Pageable pageable) {
-//        return notificationService.getAll(isRead, pageable);
-//    }
-
     @GetMapping("/{id}")
     public Notification getById(@PathVariable Long id) {
         return notificationService.getById(id);

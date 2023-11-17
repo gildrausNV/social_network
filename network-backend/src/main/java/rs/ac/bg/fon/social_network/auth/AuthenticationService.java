@@ -1,10 +1,10 @@
 package rs.ac.bg.fon.social_network.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.social_network.config.JwtService;
@@ -13,10 +13,11 @@ import rs.ac.bg.fon.social_network.domain.User;
 import rs.ac.bg.fon.social_network.repository.UserRepository;
 
 import javax.mail.MessagingException;
-import javax.naming.AuthenticationException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,20 +26,19 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
     private final EmailService emailService;
-    private final Map<String, String> verificationCodes = new HashMap<>();
+    private final Map<User, String> verificationCodes = new HashMap<>();
 
-    public void addVerificationCode(String username, String verificationCode) {
-        verificationCodes.put(username, verificationCode);
+    public void addVerificationCode(User user, String verificationCode) {
+        verificationCodes.put(user, verificationCode);
     }
 
-    public String getVerificationCode(String username) {
-        return verificationCodes.get(username);
+    public String getVerificationCode(User user) {
+        return verificationCodes.get(user);
     }
 
-    public void removeVerificationCode(String username) {
-        verificationCodes.remove(username);
+    public void removeVerificationCode(User user) {
+        verificationCodes.remove(user);
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -57,64 +57,56 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, Role.USER, user.getId());
     }
 
-    public AuthenticationResponse login(LoginRequest request) {
+    public void login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()));
 
-        User user = userRepository.findByUsername(request.getUsername()).orElse(null);
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthenticationResponse("Incorrect username or password", null, 0)).getBody();
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Bad credentials");
         }
 
         String verificationCode = generateRandomVerificationCode();
-        addVerificationCode(user.getUsername(), verificationCode);
+        addVerificationCode(user, verificationCode);
         try {
             sendVerificationCodeEmail(user.getEmail(), verificationCode, user);
         } catch (MessagingException e) {
-            System.out.println("ERROR");
+            throw new BadCredentialsException(e.getMessage());
         }
 
-        return new AuthenticationResponse("Verification code sent to your email", null, 0);
     }
 
 
     private String generateRandomVerificationCode() {
-        int codeLength = 6;
         String characters = "0123456789";
         StringBuilder code = new StringBuilder();
 
         Random random = new Random();
-        for (int i = 0; i < codeLength; i++) {
+        IntStream.range(0,6).forEach(i -> {
             int index = random.nextInt(characters.length());
             code.append(characters.charAt(index));
-        }
+        });
+
         return code.toString();
     }
 
     private void sendVerificationCodeEmail(String recipientEmail, String verificationCode, User user) throws MessagingException {
-        System.out.println(verificationCode);
-        user.setVerificationCode(verificationCode);
-        emailService.sendEmail(recipientEmail, verificationCode, user.getUsername(), user.getPassword());
+        emailService.sendEmail(recipientEmail, verificationCode, user.getUsername());
     }
 
-    public AuthenticationResponse verifyUser(VerificationRequest request) throws AuthenticationException {
-        User user = userRepository.findByUsername(request.getUsername()).orElse(null);
-        if (user == null) {
-            return new AuthenticationResponse("Incorrect code", null, 0);
-        }
-
-        String storedVerificationCode = getVerificationCode(user.getUsername());
+    public AuthenticationResponse verifyUser(VerificationRequest request) {
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(NoSuchElementException::new);
+        String storedVerificationCode = getVerificationCode(user);
 
         if (storedVerificationCode != null && storedVerificationCode.equals(request.getVerificationCode())) {
-            user.setVerified(true);
             userRepository.save(user);
-            removeVerificationCode(user.getUsername());
+            removeVerificationCode(user);
             String jwtToken = jwtService.generateToken(user);
             return new AuthenticationResponse(jwtToken, user.getRole(), user.getId());
         } else {
-            throw new AuthenticationException("Incorrect code");
+            throw new BadCredentialsException("Bad verification code");
         }
     }
 

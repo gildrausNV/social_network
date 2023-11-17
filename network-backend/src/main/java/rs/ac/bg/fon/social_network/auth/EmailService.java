@@ -1,6 +1,6 @@
 package rs.ac.bg.fon.social_network.auth;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -10,21 +10,25 @@ import java.util.Properties;
 
 
 @Service
-@RequiredArgsConstructor
 public class EmailService {
+    @Value("${2fa.email}")
+    private String email;
 
-    public void sendEmail(String recipientEmail, String verificationCode, String username, String password) {
+    @Value("${email.password}")
+    private String emailPassword;
+
+    public void sendEmail(String recipientEmail, String verificationCode, String username) {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587"); // Use "465" if you prefer SSL/TLS
+        properties.put("mail.smtp.port", "587");
 
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("diplomski012@gmail.com", "bgbo bqal bpzh gexs");
+                return new PasswordAuthentication(email, emailPassword);
             }
         });
 
