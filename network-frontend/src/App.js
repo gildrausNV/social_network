@@ -99,17 +99,9 @@ useEffect(() => {
     <AuthContext.Provider value={user}>
       <div className='App'>
         <Router>
-          {/* <Navbar newNotification={newNotification}/> */}
-          
-          <div className="main-container">
-            
-            {/* <div className="left-container">
-              {token && <Sidebar />}
-              <div className="recommendations-container">
-              </div>
-            </div> */}
+          <SidebarMenu newNotification={newNotification} newMessage={newMessage}/>
+          {/* <div className="main-container"> */}
             <div className='page'>
-              <SidebarMenu newNotification={newNotification} newMessage={newMessage}/>
               <Routes>
                 <Route path='/' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
                 <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser}/>} />
@@ -123,7 +115,7 @@ useEffect(() => {
                 <Route path='/notifications' element={<Notifications setNewNotification={setNewNotification} newNotification={newNotification}/>}/>
               </Routes>
             </div>
-          </div>
+          {/* </div> */}
         </Router>
       </div>
     </AuthContext.Provider>

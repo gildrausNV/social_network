@@ -284,9 +284,12 @@ textarea {
 }
 
 .message{
-  padding-top: 50%;
+  width: 70%;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: larger;
+  display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .message1{

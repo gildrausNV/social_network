@@ -146,11 +146,11 @@ const Login = ({ setToken, setId, setIsAdmin, setUserContext }) => {
         Don't have an account? <Link to="/register">Create one</Link>
       </p>
       {message !== '' && <div className="error-message">{message}</div>}
-      {isSent && <>
+      {isSent && <div className='verification'>
         <label htmlFor="">Google Authenticator Verification Code</label>
         <input type='text' name='code' onChange={(e) => setCode(e.target.value)} />
         <button onClick={() => verify()}>Verify</button>
-      </>}
+      </div>}
     </div>
   );
 };

@@ -27,7 +27,7 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
   };
 
   const handlePostSubmit = async () => {
-    await postDataRequest(apiUrlPost, { content: newPostContent, topic: '', trend: { topic: newTopicContent } }, token);
+    await postDataRequest(apiUrlPost, { content: newPostContent, topic: { name: newTopicContent } }, token);
     setNewPostContent('');
     refetchDataParams({
       size: 2,
@@ -84,11 +84,11 @@ const Posts = ({ id, isCurrentUser, isFollowing, isMainPage }) => {
       {(posts?.content.length === 0 && isMainPage) ? <div className='message'>No posts from users you follow</div> : <div className="posts">
         {isCurrentUser && <div className="new-post">
           <div className="topic">
-            <label htmlFor="topic">Topic:</label>
+            <label htmlFor="name">Topic:</label>
             <textarea
               className='topic-content'
-              name="topic"
-              id="topic"
+              name="name"
+              id="name"
               cols="30"
               rows="10"
               value={newTopicContent}

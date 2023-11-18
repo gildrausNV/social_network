@@ -22,7 +22,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
   const getReactionsUrl = `http://localhost:8080/api/v1/posts/${post.id}/reactions`;
   const { data: reactions, loading: reactionsLoading, refetchData: refetchReactions, updateUrl: updateReactionsUrl, fetchDataNewUrl: fetchDataNewUrlReactions } = useFetchData2(getReactionsUrl, null, token);
   const getCommentsUrl = `http://localhost:8080/api/v1/posts/${post.id}/comments`;
-  const params = isCurrentUser ? { size: 3, currentPage: currentPage } : null;
+  const params = isCurrentUser ? { size: 1, currentPage: currentPage } : null;
   const { data: comments, loading: commentsLoading, totalPages, refetchData: refetchComments, updateUrl: updateCommentsUrl, fetchDataNewUrl: fetchDataNewUrlComments, refetchDataParams } = useFetchData2(getCommentsUrl, params, token);
 
   // console.log(comments)
@@ -85,7 +85,7 @@ const Post = ({ post, deletePost, isCurrentUser }) => {
           <button className="delete-btn" onClick={() => handleReportSubmit()}>Report</button>
         </div>}
       </div>
-      {post?.trend.topic && <div className="row-topic">{post?.trend.topic}</div>}
+      {post?.topic.name && <div className="row-topic">{post?.topic.name}</div>}
       <div className="row-content">{post?.content}</div>
       <div className="row">
         {!isCurrentUser ? <><div className="button-container">

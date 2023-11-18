@@ -1,22 +1,25 @@
 .chat-page {
   display: flex;
   flex: 1; /* Grow to fill available space */
-  padding-left: 100px;
+  padding-left: 200px;
 }
 
 /* UsersOnline.css */
 .users-online {
   flex: 30%;
   padding-right: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-
+/* 
 .user {
   cursor: pointer;
   padding: 10px;
   display: flex;
   align-items: center;
-  transition: background-color 0.3s ease; /* Add transition effect for background color */
-}
+  transition: background-color 0.3s ease;
+} */
 
 
 .selected {
@@ -33,12 +36,28 @@
   margin-bottom: 10px;
 }
 
+.user-chat {
+  background-color: gray;
+}
+
 .user-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  /* Center the user info vertically */
+  width: 100%;
+}
+
+
+.disconnect-btn {
+  text-align: center;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.disconnect-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+  transition: background-color 0.5s ease;
 }
 
 .user-name {

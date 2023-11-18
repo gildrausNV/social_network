@@ -20,8 +20,8 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             setLoading(false);
             setTotalPages(response.data.totalPages);
             // console.log(response);
-            // console.log(url);
-            // console.log(response.data.content);
+            console.log(url);
+            console.log(response.data.content);
             return response;
         } catch (error) {
             setError(error);
@@ -40,7 +40,8 @@ const useFetchData2 = (initialUrl, params = null, token) => {
             setData(response.data);
             setLoading(false);
             setTotalPages(response.data.totalPages);
-            // console.log(newUrl + response.data);
+            console.log(newUrl + response.data);
+            
             return response;
         } catch (error) {
             setError(error);

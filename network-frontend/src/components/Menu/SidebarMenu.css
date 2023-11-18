@@ -1,125 +1,118 @@
-/* Sidebar Styles */
 .sidebar {
-    width: 250px;
-    height: 100%;
-    background-color: #333;
-    color: #fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-  }
-  
-  .sidebar-top {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .sidebar-logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .sidebar-nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar-nav li {
-    margin-bottom: 10px;
-  }
-  
-  .sidebar-button {
-    display: block;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #fff;
-    transition: background-color 0.3s ease;
-  }
-  
-  .sidebar-button:hover {
-    background-color: #555;
-  }
-  
-  .sidebar-button.active {
-    background-color: #555;
-  }
-  
-  /* Sidebar Bottom Styles */
-  .sidebar-bottom {
-    padding: 20px;
-  }
-  
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+}
 
-  /* Add the tooltip styles */
-  .notification-badge {
-    position: relative;
-  }
-  
-  .red-dot {
-    font-size: 12px; /* Adjust the size as needed */
-    color: red;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -12px; /* Adjust the position as needed */
-  }
-  
-  .tooltip {
-    display: none;
-    position: absolute;
-    background-color: #000000;
-    padding: 8px;
-    border-radius: 4px;
-    top: 20px;
-    z-index: 1;
-    font-size: 14px;
-    /* white-space: nowrap; */
-    /* text-align: center; */
-    /* min-width: max-content;  */
-  }
-  
-  /* Show the tooltip on hover */
-  .sidebar-button:hover .tooltip {
-    display: block;
-    left: calc(100% + 10px); /* Adjust the position based on the width of the tooltip content */
-  }
-  
-  /* Add this CSS to your existing styles */
+.sidebar-top {
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 10px;
+}
+
+.sidebar-button {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-button:hover {
+  background-color: #555;
+}
+
+.sidebar-button.active {
+  background-color: #555;
+}
+
+/* Sidebar Bottom Styles */
+.sidebar-bottom {
+  padding: 20px;
+}
+
+
+/* Add the tooltip styles */
+.notification-badge {
+  position: relative;
+}
+
+.red-dot {
+  font-size: 12px; /* Adjust the size as needed */
+  color: red;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -12px; /* Adjust the position as needed */
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  background-color: #000000;
+  padding: 8px;
+  border-radius: 4px;
+  top: 20px;
+  z-index: 1;
+  font-size: 14px;
+  /* white-space: nowrap; */
+  /* text-align: center; */
+  /* min-width: max-content;  */
+}
+
+/* Show the tooltip on hover */
+.sidebar-button:hover .tooltip {
+  display: block;
+  left: calc(100% + 10px); /* Adjust the position based on the width of the tooltip content */
+}
+
+/* Add this CSS to your existing styles */
 
 /* Style for the "info" container */
 .info {
-  display: flex;
-  flex-direction: row; /* Arrange items horizontally */
-  align-items: center; /* Vertically center items */
-  padding: 20px;
-  background-color: #333;
-  color: white;
-  border-bottom: 1px solid #555; /* Add a border at the bottom */
-  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+display: flex;
+flex-direction: row; /* Arrange items horizontally */
+align-items: center; /* Vertically center items */
+padding: 20px;
+background-color: #333;
+color: white;
+border-bottom: 1px solid #555; /* Add a border at the bottom */
+transition: background-color 0.3s ease; /* Add a smooth transition effect */
 }
 
 /* Style for the picture */
 .picture {
-  width: 40px; /* Set the desired width for the picture */
-  height: 40px; /* Set the desired height for the picture */
-  margin-right: 10px; /* Adjust spacing between the picture and text */
+width: 40px; /* Set the desired width for the picture */
+height: 40px; /* Set the desired height for the picture */
+margin-right: 10px; /* Adjust spacing between the picture and text */
 }
 
 /* Style for the <p> element */
 .info-row p {
-  margin: 0; /* Remove default margin for <p> element */
+margin: 0; /* Remove default margin for <p> element */
 }
 
 /* Hover effect */
 .info:hover {
-  background-color: #555; /* Change background color on hover */
-  cursor: pointer;
+background-color: #555; /* Change background color on hover */
+cursor: pointer;
 }
-
-
-  
-  
-  
-  

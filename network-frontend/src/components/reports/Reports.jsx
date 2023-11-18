@@ -50,8 +50,8 @@ const Reports = () => {
                 <tbody>
                     {reports && reports.content.map((report, index) => (
                         <tr key={index} className="report-row">
-                            <td>{report.reporter.username}</td>
-                            <td>{report.reportedPost.creator.username}: {report.reportedPost.content}</td>
+                            <td>{report.reporter.firstname} {report.reporter.lastname}</td>
+                            <td>{report.reportedPost.creator.firstname} {report.reportedPost.creator.lastname}: {report.reportedPost.content}</td>
                             <td>{calculateTime(report.timestamp)}</td>
                             <td><button onClick={() => deletePost(report.reportedPost.id)} className='delete-btn'>Delete post</button></td>
                             <td><button onClick={() => dismissReport(report.id)} className='delete-btn'>Dismiss</button></td>

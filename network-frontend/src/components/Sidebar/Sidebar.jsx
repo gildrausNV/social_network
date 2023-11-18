@@ -15,19 +15,20 @@ function Sidebar() {
     const { data, loading, error } = useFetchData2(apiUrl, null, token);
     const navigate = useNavigate();
 
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
+    // const handleMouseEnter = () => {
+    //     setIsHovered(true);
+    // };
 
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
+    // const handleMouseLeave = () => {
+    //     setIsHovered(false);
+    // };
 
     return (
         <div
-            className={`sidebar ${isHovered ? 'hovered' : ''}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            className='Sidebar'
+            // className={`sidebar ${isHovered ? 'hovered' : ''}`}
+            // onMouseEnter={handleMouseEnter}
+            // onMouseLeave={handleMouseLeave}
         >
             {token ? <>
                 <img src={myImage} alt="" className="picture" onClick={() => navigate('/profile/' + data?.id)}/>

@@ -147,17 +147,17 @@ const UsersOnline = ({ setNewMessage }) => {
                 <div className="users-online">
                     {connectedUsers.map((user) => (
                         <div
-                            className={`user ${user.id === userIdToChat ? 'selected' : ''}`}
+                            className={`user-chat ${user.id === userIdToChat ? 'selected' : ''}`}
                             onClick={() => setUser(user.username, user.id)}
                             key={user.id}
                         >
                             <div className="user-info">
                                 <div className="green-dot"></div>
-                                <div className="user-name">{user.username}</div>
+                                <div className="user-name">{user.firstname} {user.lastname}</div>
                             </div>
                         </div>
                     ))}
-                    <div onClick={() => disconnect()} className='user'><div className='user-info'>Disconnect</div></div>
+                    <div onClick={() => disconnect()} className='disconnect-btn'>Disconnect</div>
                 </div>
 
 

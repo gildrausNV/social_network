@@ -6,6 +6,7 @@ import Post from '../profile/Post';
 import useFetchData2 from '../../useFetchData2';
 import Posts from '../profile/Posts';
 import Trends from '../Trends/Trends';
+import NewTrends from '../Trends/NewTrends';
 
 const MainPage = () => {
 
@@ -14,6 +15,7 @@ const MainPage = () => {
       <Posts id={null} isCurrentUser={false} isFollowing={true} isMainPage={true}/>
       <div className="trends-container">
               <Trends />
+              {/* <NewTrends /> */}
         </div>
     </div>
   );

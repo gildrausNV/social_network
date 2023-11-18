@@ -38,36 +38,42 @@ const Users = () => {
   return (
     <div className="users">
       <div className="users-button-container">
-        <div className="search-container">
-          <input type="text" className="search-input" placeholder="Search..." onChange={(event) => getUsersByUsername(event.target.value)} />
-          <img src={magnifyingGlass} alt="" className="picture" style={{ width: '30px', height: '30px', marginTop: '6px' }} />
+        <div className="users-buttons-left">
+          <div className="search-container">
+            <input type="text" className="search-input" placeholder="Search..." onChange={(event) => getUsersByUsername(event.target.value)} />
+            <img src={magnifyingGlass} alt="" className="picture" style={{ width: '30px', height: '30px', marginTop: '6px' }} />
+          </div>
         </div>
-        <button
-          onClick={() => handleButtonClick("followers")}
-          className={`user-button ${selectedOption === 'followers' ? 'active' : ''}`}
-        >
-          Followers
-        </button>
-        <button
-          onClick={() => handleButtonClick("following")}
-          className={`user-button ${selectedOption === 'following' ? 'active' : ''}`}
-        >
-          Following
-        </button>
-
+        <div className="users-buttons-right">
+          <button
+            onClick={() => handleButtonClick("followers")}
+            className={`user-button ${selectedOption === 'followers' ? 'active' : ''}`}
+          >
+            Followers
+          </button>
+          <button
+            onClick={() => handleButtonClick("following")}
+            className={`user-button ${selectedOption === 'following' ? 'active' : ''}`}
+          >
+            Following
+          </button>
+        </div>
       </div>
+      
       <div className="users-content">
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
         {users?.length !== 0 && users?.map((user) => (
           <div className="user" key={user.id}>
-          <img src={myImage} alt="" className="picture" />
-          <div className="user-name">{user.firstname}</div>
-          <div className="user-btn-row">
-            <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
+            <img src={myImage} alt="" className="picture" />
+            <div className="user-data-container">
+              <div className="user-name">{user.firstname}</div>
+              <div className="user-btn-row">
+                <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
+              </div>
+            </div>
           </div>
-        </div>
-        
+
         ))}
         {users?.length === 0 && <div className="message1">No users found</div>}
       </div>
