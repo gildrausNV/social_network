@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import './Sidebar.css'; // Import your CSS file
+import './Sidebar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import myImage from './user.png';
 import { AuthContext } from '../../App';
@@ -11,38 +11,117 @@ function Sidebar() {
     const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
     const user = useContext(AuthContext);
     const token = user.token;
-    
+    const [activeButton, setActiveButton] = useState("");
+
+    const handleButtonClick = (buttonName) => {
+        setActiveButton(buttonName);
+    }
+
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+
     const { data, loading, error } = useFetchData2(apiUrl, null, token);
     const navigate = useNavigate();
 
-    // const handleMouseEnter = () => {
-    //     setIsHovered(true);
-    // };
-
-    // const handleMouseLeave = () => {
-    //     setIsHovered(false);
-    // };
 
     return (
-        <div
-            className='Sidebar'
-            // className={`sidebar ${isHovered ? 'hovered' : ''}`}
-            // onMouseEnter={handleMouseEnter}
-            // onMouseLeave={handleMouseLeave}
-        >
-            {token ? <>
-                <img src={myImage} alt="" className="picture" onClick={() => navigate('/profile/' + data?.id)}/>
-                <div className="info-row">
-                    <p>Name: {data?.firstname} {data?.lastname}</p>
-                    <p>Username: {data?.username}</p>
-                    <p>Email: {data?.email}</p>
+        <div className='Sidebar'>
+            <div className="top-section">
+                <img src={myImage} alt="" className='logo-image'/>
+                <div className="details">
+                    <p>{user.name} username</p>
                 </div>
-                <div className="info-row">
-                    <Recommendations />
-                </div>
-            </> : <>
-                <Link to={'/login'}>Login</Link>
-            </>}
+            </div>
+            <div className="menu">
+            <ul>
+                        {!token ? (
+                            <>
+                                <li>
+                                    <Link
+                                        to="/login"
+                                        className={`sidebar-button ${activeButton === "Login" ? "active" : ""
+                                            }`}
+                                        onClick={() => handleButtonClick("Login")}
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/register"
+                                        className={`sidebar-button ${activeButton === "Register" ? "active" : ""
+                                            }`}
+                                        onClick={() => handleButtonClick("Register")}
+                                    >
+                                        Register
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            <li>
+                                <Link
+                                    to="/login"
+                                    className={`sidebar-button ${activeButton === "Logout" ? "active" : ""
+                                        }`}
+                                    onClick={() => handleButtonClick("Logout")}
+                                >
+                                    Logout
+                                </Link>
+                            </li>
+                        )}
+                        {token && (
+                            <li>
+                                <Link
+                                    to="/main"
+                                    className={`sidebar-button ${activeButton === "Main page" ? "active" : ""
+                                        }`}
+                                    onClick={() => handleButtonClick("Main page")}
+                                >
+                                    Main page
+                                </Link>
+                            </li>
+                        )}
+                        {token && !isAdmin && (
+                            <>
+                                <li>
+                                    <Link
+                                        to="/profile"
+                                        className={`sidebar-button ${activeButton === "Profile" ? "active" : ""
+                                            }`}
+                                        onClick={() => handleButtonClick("Profile")}
+                                    >
+                                        Profile
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/users"
+                                        className={`sidebar-button ${activeButton === "Users" ? "active" : ""
+                                            }`}
+                                        onClick={() => handleButtonClick("Users")}
+                                    >
+                                        Users
+                                    </Link>
+                                </li>
+
+                            </>
+                        )}
+                        {token && isAdmin && (
+                            <li>
+                                <Link
+                                    to="/reports"
+                                    className={`sidebar-button ${activeButton === "Reports" ? "active" : ""
+                                        }`}
+                                    onClick={() => handleButtonClick("Reports")}
+                                >
+                                    Reports
+                                </Link>
+                            </li>
+                        )}
+                    </ul>
+            </div>
+            <div className="bottom-section">
+
+            </div>
         </div>
     );
 }

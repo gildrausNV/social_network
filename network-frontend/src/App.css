@@ -1,7 +1,8 @@
-body{
+body {
   width: 100%;
   height: 100vh;
-  margin: 0px;
+  margin: 0;
+  position: relative; /* Make body a relative positioning reference */
 }
 
 #root {
@@ -9,7 +10,7 @@ body{
   height: 100%;
 }
 
-.App{
+.App {
   display: flex;
   background-color: rgb(235, 235, 235);
   width: 100%;
@@ -18,6 +19,15 @@ body{
 
 .page {
   width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Center the page content */
 }
 
-
+.chat-icon {
+  width: 20px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}

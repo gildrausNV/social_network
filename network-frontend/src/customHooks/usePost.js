@@ -6,19 +6,18 @@ const usePostData = () => {
   const [error, setError] = useState(null);
   const [response, setResponse] = useState('');
 
-  const authRequest = async (url, postData) => {
+  const postDataRequest = async (url, postData, token = null) => {
     setLoading(true);
     setError(null);
 
     try {
-        {}
-      const response = await axios.post(url, postData);
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.post(url, postData, { headers });
 
       setLoading(false);
       
       console.log(response.data);
       setResponse(response);
-    //   return response;
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -26,7 +25,7 @@ const usePostData = () => {
     }
   };
 
-  return { loading, error, response, authRequest };
+  return { loading, error, response, postDataRequest };
 };
 
 export default usePostData;

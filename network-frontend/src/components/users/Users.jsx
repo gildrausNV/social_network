@@ -1,84 +1,56 @@
-import { useState, useEffect, useContext } from "react";
-import "./Users.css";
-import { AuthContext } from "../../App";
-import myImage from './user.png';
-import magnifyingGlass from './glass3.png';
-import { useNavigate } from "react-router-dom";
-import useFetchData2 from "../../useFetchData2";
+import { useContext, useEffect, useState } from 'react';
+import authContext from '../../AuthContext';
+import UserDetails from './UserDetails';
+import './Users.css';
+import useFetchData from '../../customHooks/useFetch';
+import { Button } from '@mui/material';
 
 const Users = () => {
-  const apiUrlBase = "http://localhost:8080/api/v1/users";
-  const user = useContext(AuthContext);
-  const token = user.token;
-  const [selectedOption, setSelectedOption] = useState("followers");
-  const apiUrl =
-    selectedOption === "All" ? apiUrlBase : `${apiUrlBase}/${selectedOption}`;
-  const navigate = useNavigate();
 
-  const { data: users, error, loading, updateUrl, fetchDataNewUrl } = useFetchData2(apiUrl, null, token);
+    const apiUrl = "http://localhost:8080/api/v1/users";
+    const currentUser = useContext(authContext);
+    const [option, setOption] = useState('');
+    const { data: users, updateUrl } = useFetchData(apiUrl, currentUser.token);
 
-  useEffect(() => {
-    fetchDataNewUrl(apiUrl);
-  }, [apiUrl]);
+    useEffect(() => {
+        updateUrl("http://localhost:8080/api/v1/users" + option);
+    }, [option])
 
-
-  const handleButtonClick = (option) => {
-    setSelectedOption(option);
-  };
-
-
-
-  const getUsersByUsername = async (username) => {
-    if (username != '') {
-      setSelectedOption('username/' + username);
-    }
-  };
-
-
-  return (
-    <div className="users">
-      <div className="users-button-container">
-        <div className="users-buttons-left">
-          <div className="search-container">
-            <input type="text" className="search-input" placeholder="Search..." onChange={(event) => getUsersByUsername(event.target.value)} />
-            <img src={magnifyingGlass} alt="" className="picture" style={{ width: '30px', height: '30px', marginTop: '6px' }} />
-          </div>
-        </div>
-        <div className="users-buttons-right">
-          <button
-            onClick={() => handleButtonClick("followers")}
-            className={`user-button ${selectedOption === 'followers' ? 'active' : ''}`}
-          >
-            Followers
-          </button>
-          <button
-            onClick={() => handleButtonClick("following")}
-            className={`user-button ${selectedOption === 'following' ? 'active' : ''}`}
-          >
-            Following
-          </button>
-        </div>
-      </div>
-      
-      <div className="users-content">
-        {loading && <div>Loading...</div>}
-        {error && <div>Error: {error.message}</div>}
-        {users?.length !== 0 && users?.map((user) => (
-          <div className="user" key={user.id}>
-            <img src={myImage} alt="" className="picture" />
-            <div className="user-data-container">
-              <div className="user-name">{user.firstname}</div>
-              <div className="user-btn-row">
-                <button onClick={() => navigate('/profile/' + user.id)} className="user-btn">View profile</button>
-              </div>
+    return (
+        <div className='users'>
+            <div className="buttons-container">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOption('')}
+                >
+                    All
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOption('/followers')}
+                >
+                    Followers
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOption('/following')}
+                >
+                    Following
+                </Button>
             </div>
-          </div>
+            <div className="users-list">
+                {users && users.map((user) => (
+                    <>
+                        <UserDetails user={user} key={user.id} />
+                    </>
+                ))}
+            </div>
+        </div>
 
-        ))}
-        {users?.length === 0 && <div className="message1">No users found</div>}
-      </div>
-    </div>
-  );
-};
+    );
+}
 
 export default Users;
