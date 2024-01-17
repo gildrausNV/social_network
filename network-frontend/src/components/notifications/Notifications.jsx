@@ -1,74 +1,67 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import './Notifications.css';
-import useFetchData2 from '../../useFetchData2';
-import { AuthContext } from '../../App';
-import usePostData from '../../usePostData';
+import useFetchData from '../../customHooks/useFetch';
+import authContext from '../../AuthContext';
 
-const Notifications = ({ setNewNotification }) => {
-    // const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
-    const { postDataRequest } = usePostData();
-
+const Notifications = () => {
     const apiUrl = "http://localhost:8080/api/v1/notifications";
-    const user = useContext(AuthContext);
-    const token = user.token;
-
-    const { data: notifications, totalPages, loading, error, refetchDataParams } = useFetchData2(apiUrl, {
-        size: 15,
-        page: currentPage
-    }, token);
-    console.log(notifications)
-
-    useEffect(() => { setNewNotification(false)
-    }, [])
-
-    useEffect(() => {
-        refetchDataParams({
-            size: 15,
-            page: currentPage
-        });
-    }, [currentPage]);
+    const user = useContext(authContext);
+    const [currentPage, setCurrentPage] = useState(0);
+    const { data: notificationsData, updateParams, totalPages } = useFetchData(apiUrl, user.token, { size: 3, page: currentPage });
 
     const nextPage = () => {
         setCurrentPage((currentPage) => currentPage + 1);
+        updateParams({ size: 3, page: currentPage + 1 });
     };
 
     const previousPage = () => {
         setCurrentPage((currentPage) => currentPage - 1);
+        updateParams({ size: 3, page: currentPage - 1 });
     };
-
-    const read = (id) => {
-        const apiReadNotification = "http://localhost:8080/api/v1/notifications/" + id;
-        postDataRequest(apiReadNotification, null, token);
-        refetchDataParams({
-            size: 15,
-            page: currentPage
-        });
-    }
-
+    
     return (
         <div className="notifications">
-            <div className="pagination">
-                <button
-                    onClick={previousPage}
-                    disabled={currentPage === 0}
-                    className="pagination-button"
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={nextPage}
-                    disabled={currentPage === totalPages - 1}
-                    className="pagination-button"
-                >
-                    Next
-                </button>
-            </div>
-            {notifications?.content.map((notification) => (
-                <div className={`notification ${notification.isRead ? '' : 'unread'}`} onClick={() => read(notification.id)}>
-                    {notification.content}
+            <div className="page-buttons-container">
+                <div className="page-buttons">
+                <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={previousPage}
+                        disabled={currentPage === 0}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={nextPage}
+                        disabled={currentPage === totalPages - 1}
+                    >
+                        Next
+                    </Button>
                 </div>
-            ))}
+            </div>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Content</TableCell>
+                            <TableCell>Publisher</TableCell>
+                            <TableCell>Timestamp</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {notificationsData && notificationsData.map((notification) => (
+                            <TableRow key={notification.id}>
+                                <TableCell>{notification.content}</TableCell>
+                                <TableCell>{notification.publisher.firstname} {notification.publisher.lastname}</TableCell>
+                                <TableCell>{notification.timestamp}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
     );
 }

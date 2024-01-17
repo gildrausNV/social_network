@@ -1,0 +1,41 @@
+.home{
+    align-items: center;
+    justify-content: center;
+    width: 1000px;
+}
+
+.new-post-container{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.new-post {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 800px;
+    justify-content: center;
+  }
+  
+  .new-post > * {
+    margin-bottom: 10px;
+  }
+  
+  .new-post .MuiTextField-root {
+    width: 100%;
+  }
+  
+  .new-post .MuiButton-root {
+    width: 200px;
+    align-self: flex-end;
+  }
+
+  .posts-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  

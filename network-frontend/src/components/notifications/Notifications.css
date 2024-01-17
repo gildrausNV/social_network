@@ -1,80 +1,24 @@
+.notifications{
+  width: 1000px;
+  height: 600px;
+}
 
-.notifications {
-    padding: 20px;
-    padding-left: 300px;
-  }
-  
-  .pagination {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .pagination-button {
-    padding: 5px 10px;
-    margin: 0 5px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    outline: none;
-  }
-  
-  .pagination-button:hover {
-    background-color: #555;
-  }
-  
-  .notification {
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .notification.unread {
-    background-color: #e6e8ff; /* Change background color for unread notifications */
-  }
-  
-  /* Show the tooltip on hover */
-  .notification:hover {
-    background-color: #d9d9d9; /* Change background color on hover */
-  }
-  
-  /* Tooltip styles */
-  .notification:hover .tooltip {
-    display: block;
-    position: absolute;
-    background-color: #f0f0f0;
-    padding: 8px;
-    border-radius: 4px;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    font-size: 14px;
-    white-space: nowrap;
-    text-align: center;
-    min-width: max-content;
-  }
-  
-  /* Ensure the tooltip text is centered */
-  .notification:hover .tooltip span {
-    display: inline-block;
-  }
-  
-  /* Ensure the tooltip arrow is centered below the notification */
-  .notification:hover .tooltip::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent #f0f0f0 transparent;
-  }
-  
+.page-buttons-container{
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 400px;
+}
+
+.page-buttons button {
+  margin-right: 10px;
+  width: 150px;
+}
+
+

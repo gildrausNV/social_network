@@ -1,0 +1,89 @@
+.post{
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 800px;
+    /* height: 430px; */
+    margin: 20px;
+    padding: 10px;
+}
+
+.like-icon{
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+}
+
+.post-buttons p:hover{
+    cursor: pointer;
+}
+
+.like-icon:hover{
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.post-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-time{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+
+.posts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-buttons{
+    display: flex;
+    justify-content: end;
+}
+
+.page-button{
+    width: 100px;
+}
+
+.page-button:hover{
+    cursor: pointer;
+}
+
+.new-comment{
+    padding-bottom: 10px;
+}
+
+.new-comment-button{
+    width: 720px;
+    display: flex;
+    justify-content: end;
+}

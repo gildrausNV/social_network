@@ -1,33 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react';
-import useFetchData2 from '../../useFetchData2';
-import { AuthContext } from '../../App';
+import { Button } from '@mui/material';
+import './Chat.css';
+import authContext from '../../AuthContext';
+import { useContext, useEffect, useState } from 'react';
+import NewMessage from './NewMessage';
+import { Paper } from '@mui/material';
 
-
-const ChatBox = ({ userId, username, stompClient, currentUserId, setNewMessage }) => {
-    const user = useContext(AuthContext);
-    const token = user.token;
-    const id = user.id;
-    const apiUrlOtherUser = `http://localhost:8080/api/v1/users/${userId}`;
-    const { data: otherUserData } = useFetchData2(apiUrlOtherUser, null, token);
+const ChatBox = ({ stompClient, userToChat, setNewMessageRecieved, setUserToChat }) => {
+    const currentUser = useContext(authContext);
+    const token = currentUser.token;
+    const id = currentUser.id;
+    const apiUrlOtherUser = `http://localhost:8080/api/v1/users/${userToChat?.id}`;
+    const [newMessage, setNewMessage] = useState('');
+    // const { data: otherUserData } = useFetchData(apiUrlOtherUser, null, token);
 
     const [chat, setChat] = useState([]);
     const [userData, setUserData] = useState({
         sender: id,
-        receiver: userId,
+        receiver: userToChat?.id,
         connected: false,
         message: '',
     });
 
     useEffect(() => {
         // Subscribe to private messages when the component mounts
-        if(id){
+        if (id) {
             const privateMessageSubscription = stompClient.subscribe(`/user/${id}/private`, onPrivateMessage);
             return () => {
-            privateMessageSubscription.unsubscribe();
-        };
+                privateMessageSubscription.unsubscribe();
+                // setNewMessageRecieved(false);
+            };
         }
         // Clean up the subscription when the component unmounts
-        
+
     }, [stompClient, userData.sender]);
 
     const onPrivateMessage = (payload) => {
@@ -40,7 +44,8 @@ const ChatBox = ({ userId, username, stompClient, currentUserId, setNewMessage }
                 message: payloadData.message,
             },
         ]);
-        setNewMessage(false);
+        // setNewMessage('');
+        setNewMessageRecieved(true);
     };
 
     const handleMessageChange = (event) => {
@@ -48,13 +53,13 @@ const ChatBox = ({ userId, username, stompClient, currentUserId, setNewMessage }
         setUserData({ ...userData, message: value });
     };
 
-    const sendPrivateMessage = () => {
+    const sendPrivateMessage = (messageContent) => {
         console.log(`/user/${id}/private`);
         if (stompClient) {
             const chatMessage = {
                 senderId: id,
-                receiverId: userId,
-                message: userData.message,
+                receiverId: userToChat?.id,
+                message: messageContent,
                 status: 'MESSAGE',
             };
 
@@ -65,48 +70,37 @@ const ChatBox = ({ userId, username, stompClient, currentUserId, setNewMessage }
                 console.log("Sender and receiver are the same user.");
             }
 
-             setChat((prevChat) => [
+            setChat((prevChat) => [
                 ...prevChat,
                 {
                     senderId: userData.sender,
-                    message: userData.message,
+                    message: messageContent,
                 },
             ]);
+            setNewMessageRecieved(false);
         }
     };
 
     return (
-        <div className="chat-box">
-            <div className="chat-header">
-                <span>{username}</span>
+        <div className="message-container">
+            <h2>{userToChat?.firstname} {userToChat?.lastname}</h2>
+            <div className="messages">
+                {chat.map((message) => (
+                    // <div className={`message ${message.senderId === currentUser.id ? 'sent' : 'recieved'}`}>
+                    //     {message.message}
+                    // </div>
+                    <Paper
+                        // key={index}
+                        elevation={3}
+                        className={`message ${message.senderId === currentUser.id ? 'sent' : 'recieved'}`}
+                    >
+                        {message.message}
+                    </Paper>
+                ))}
             </div>
-            <div className="chat">
-                <ul className="chat-messages">
-                    {chat?.map((message, index) => (
-                        <div
-                            key={index}
-                            className={`message-data-${currentUserId === message.senderId ? 'sent' : 'received'}`}
-                        >
-                            {currentUserId !== message.senderId ? `${username}: ${message.message}` : message.message}
-                        </div>
-                    ))}
-                </ul>
-                <div className="send-message">
-                    <input
-                        type="text"
-                        className="input-message"
-                        placeholder="Enter the message"
-                        value={userData.message}
-                        onChange={handleMessageChange}
-                    />
-                    
-                    <button type="button" className="send-button" onClick={sendPrivateMessage} disabled={userId===null}>
-                        Send
-                    </button>
-                </div>
-            </div>
+            <NewMessage sendPrivateMessage={sendPrivateMessage} />
         </div>
     );
-};
+}
 
 export default ChatBox;
