@@ -1,126 +1,138 @@
-import React, { useContext, useState } from 'react';
 import './Sidebar.css';
-import { Link, useNavigate } from 'react-router-dom';
-import myImage from './user.png';
-import { AuthContext } from '../../App';
-import Recommendations from '../profile/Recommendations';
-import useFetchData2 from '../../useFetchData2';
+import { Link } from 'react-router-dom';
+import loginIcon from '../../icons/enter.png';
+import registerIcon from '../../icons/user.png';
+import menuIcon from '../../icons/menu.png';
+import menuIconShort from '../../icons/menu (1).png';
+import homeIcon from '../../icons/home.png';
+import notificationIcon from '../../icons/bell (1).png';
+import chatIcon from '../../icons/chat.png';
+import logoutIcon from '../../icons/logout.png';
+import usersIcon from '../../icons/group.png';
+import reportIcon from '../../icons/danger.png';
+import profileIcon from '../../icons/user (2).png';
+import { useContext, useState } from 'react';
+import authContext from '../../AuthContext';
 
-function Sidebar() {
-    const [isHovered, setIsHovered] = useState(false);
-    const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
-    const user = useContext(AuthContext);
-    const token = user.token;
-    const [activeButton, setActiveButton] = useState("");
-
-    const handleButtonClick = (buttonName) => {
-        setActiveButton(buttonName);
-    }
-
+const Sidebar = () => {
+    const [expand, setExpand] = useState(false);
+    const user = useContext(authContext);
     const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
-
-    const { data, loading, error } = useFetchData2(apiUrl, null, token);
-    const navigate = useNavigate();
-
+    const token = localStorage.getItem('token');
 
     return (
-        <div className='Sidebar'>
+        <div className={`sidebar ${expand ? "wide" : "narrow"}`}>
             <div className="top-section">
-                <img src={myImage} alt="" className='logo-image'/>
-                <div className="details">
-                    <p>{user.name} username</p>
+                {expand && <div className="icon-text">
+                    <h3>Social Network</h3>
+                </div>}
+                <div className={`menu-icon-container ${expand ? "wide" : "narrow"}`} onClick={() => setExpand(!expand)} >
+                    {expand ? <img src={menuIcon} alt="" className='menu-icon' /> : <img src={menuIconShort} alt="" className='menu-icon' />}
                 </div>
             </div>
-            <div className="menu">
-            <ul>
-                        {!token ? (
-                            <>
-                                <li>
-                                    <Link
-                                        to="/login"
-                                        className={`sidebar-button ${activeButton === "Login" ? "active" : ""
-                                            }`}
-                                        onClick={() => handleButtonClick("Login")}
-                                    >
-                                        Login
-                                    </Link>
+            <div className="middle-section">
+                <ul>
+                    {token ?
+                        <>
+                            <Link to={'/home'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={homeIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Home</button>
+                                    </div>}
                                 </li>
-                                <li>
-                                    <Link
-                                        to="/register"
-                                        className={`sidebar-button ${activeButton === "Register" ? "active" : ""
-                                            }`}
-                                        onClick={() => handleButtonClick("Register")}
-                                    >
-                                        Register
-                                    </Link>
+                            </Link>
+                            {!isAdmin && <Link to={'/notifications'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={notificationIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Notifications</button>
+                                    </div>}
                                 </li>
-                            </>
-                        ) : (
-                            <li>
-                                <Link
-                                    to="/login"
-                                    className={`sidebar-button ${activeButton === "Logout" ? "active" : ""
-                                        }`}
-                                    onClick={() => handleButtonClick("Logout")}
-                                >
-                                    Logout
-                                </Link>
+                            </Link>}
+                            {/* {!isAdmin && <Link to={'/chat'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={chatIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Chat</button>
+                                    </div>}
+                                </li>
+                            </Link>} */}
+                            <Link to={'/users'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={usersIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Users</button>
+                                    </div>}
+                                </li>
+                            </Link>
+                            {isAdmin && <Link to={'/reports'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={reportIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Reports</button>
+                                    </div>}
+                                </li>
+                            </Link>}
+                            {!isAdmin && <Link to={'/profile'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={profileIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Profile</button>
+                                    </div>}
+                                </li>
+                            </Link>}
+                        </>
+                        :
+                        <>
+                            <Link to={'/login'}>
+                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                    <div className="icon-container">
+                                        <img src={loginIcon} alt="" className='icon' />
+                                    </div>
+                                    {expand && <div className="icon-text">
+                                        <button>Login</button>
+                                    </div>}
+                                </li>
+                            </Link>
+                            <Link to={'/register'}><li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <div className="icon-container">
+                                    <img src={registerIcon} alt="" className='icon' />
+                                </div>
+                                {expand && <div className="icon-text">
+                                    <button>Register</button>
+                                </div>}
                             </li>
-                        )}
-                        {token && (
-                            <li>
-                                <Link
-                                    to="/main"
-                                    className={`sidebar-button ${activeButton === "Main page" ? "active" : ""
-                                        }`}
-                                    onClick={() => handleButtonClick("Main page")}
-                                >
-                                    Main page
-                                </Link>
-                            </li>
-                        )}
-                        {token && !isAdmin && (
-                            <>
-                                <li>
-                                    <Link
-                                        to="/profile"
-                                        className={`sidebar-button ${activeButton === "Profile" ? "active" : ""
-                                            }`}
-                                        onClick={() => handleButtonClick("Profile")}
-                                    >
-                                        Profile
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/users"
-                                        className={`sidebar-button ${activeButton === "Users" ? "active" : ""
-                                            }`}
-                                        onClick={() => handleButtonClick("Users")}
-                                    >
-                                        Users
-                                    </Link>
-                                </li>
-
-                            </>
-                        )}
-                        {token && isAdmin && (
-                            <li>
-                                <Link
-                                    to="/reports"
-                                    className={`sidebar-button ${activeButton === "Reports" ? "active" : ""
-                                        }`}
-                                    onClick={() => handleButtonClick("Reports")}
-                                >
-                                    Reports
-                                </Link>
-                            </li>
-                        )}
-                    </ul>
+                            </Link>
+                        </>
+                    }
+                </ul>
             </div>
             <div className="bottom-section">
-
+                <ul>
+                    <Link to={'/login'}>
+                        <li className={`link ${expand ? "wide" : "narrow"}`}>
+                            <div className="icon-container">
+                                <img src={logoutIcon} alt="" className='icon' />
+                            </div>
+                            {expand && <div className="icon-text">
+                                <button>Logout</button>
+                            </div>}
+                        </li>
+                    </Link>
+                </ul>
             </div>
         </div>
     );

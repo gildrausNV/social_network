@@ -1,69 +1,90 @@
-.Sidebar{
-    position: fixed;
-    background: #000;
-    width: 300px;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 30px 20px;
-    transition: width .2s ease-in;
+.sidebar {
+    transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+    overflow: hidden; 
 }
 
-.Sidebar.inactive{
-    width: 80px;
+.sidebar.wide {
+    background-color: rgb(255, 255, 255);
+    width: 230px;
 }
 
-.Sidebar .top-section{
-    position: relative;
-    border-bottom: solid rgb(74, 0, 74) 1px;
+.sidebar.narrow {
+    background-color: rgb(255, 255, 255);
+    width: 100px;
 }
 
-.top-section{
-    width: 100%;
-    height: 100px;
-    display: flex;
+.link {
+    padding: 5px;
     align-items: center;
-    /* justify-content: center; */
-}
-
-.logo-image{
-    width: 60px;
-    height: 60px;
-}
-
-p{
-    color: white;
-}
-
-.details{
     display: flex;
-    align-items: center;
-    padding-left: 20px;
+    width: 77%; 
+    color: rgb(0, 0, 0);
+    height: 40px;
+    margin-top: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    transition: opacity 0.5s ease-in-out; 
 }
 
-.menu li{
-    width: 70%;
+.link.narrow {
+    width: 37%; 
     height: 30px;
-    border-radius: 4px;
-    padding: 4px;
+}
+
+.link:hover {
+    opacity: 0.8; 
+}
+
+.icon-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.sidebar li:hover {
+    cursor: pointer;
+    border: 1px solid rgb(1, 0, 37);
+    border-radius: 15px;
+    transition: 0.7s;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar button {
+    background-color: transparent;
+    border: transparent;
+}
+
+.menu-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.top-section {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.menu li:hover{
-    background-color: rgb(255, 255, 255);
-    color: #000;
+.menu-icon-container {
+    width: 50px;
+    height: 50px;
+    padding-top: 22px;
 }
 
-.sidebar-button{
-    color: rgb(255, 255, 255);
+.menu-icon-container.narrow {
+    padding-left: 13px;
 }
 
-.sidebar-button.active{
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-}
-
-.menu li:hover{
+.menu-icon-container:hover {
     cursor: pointer;
+}
+
+.middle-section {
+    height: 84%;
 }

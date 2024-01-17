@@ -1,151 +1,26 @@
-/* Style for the .info-container */
-.info-container-card {
+.page-buttons {
+  display: flex;
+  justify-content: end;
+}
+
+.posts {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
 }
 
-/* Style for the .profile-container */
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 70%;
-  margin-top: 20px;
-  padding-left: 300px;
+.user-info {
+position: fixed;
+bottom: 20px;  /* Change top to bottom */
+right: 20px;
+z-index: 1000;
 }
 
-/* Style for the .info-card */
-.info-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 300px; /* Adjust the maximum width as needed */
-  text-align: center;
-  margin: 0 auto; /* Center horizontally */
-}
-
-/* Style for the .picture-card */
-.picture-card {
-  width: 100px; /* Adjust the image size as needed */
-  height: 100px;
-  border-radius: 50%; /* Make the image round */
-  object-fit: cover; /* Ensure the image covers the entire container */
-  margin-bottom: 10px;
-}
-
-/* Style for the .info-card-row */
-.info-card-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Style for the button */
-.follow-btn, .unfollow-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-  width: 100%; /* Make the button width 100% to match the container */
-}
-
-.follow-btn:hover {
-  background-color: #0056b3;
-}
-
-.unfollow-btn:hover {
-  background-color: #0056b3;
-}
-
-.recommended-user {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center;
-  width: 300px;
-  padding: 10px;
-  margin: 10px;
-  margin-left: 20px;
-  border: 1px solid #ccc;
-  background-color: #f5f5f5;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+.user-info-paper {
+padding: 20px;
 }
 
 
-.modal-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); 
-  z-index: 999;
-}
-
-.modal{
-  width: 100%;
-  max-width: 300px; 
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  /* margin-top: 20px; */
-  padding: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.follow-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.follow-btn:hover {
-  background-color: #0056b3; 
-}
-
-
-.unfollow-btn {
-  background-color: #fff; 
-  color: #007bff;
-  border: 1px solid #007bff;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.unfollow-btn:hover {
-  background-color: #007bff;
-  color: #fff;
+.profile {
+  margin: auto;
 }
 

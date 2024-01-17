@@ -1,24 +1,36 @@
 import { useContext } from 'react';
-import { AuthContext } from '../../App';
-import useFetchData from '../../useFetchData';
+import useDeleteData from '../../customHooks/useDelete';
+import usePostData from '../../customHooks/usePost';
 import Profile from './Profile';
-import useFetchData2 from '../../useFetchData2';
+import './Profile.css';
+import authContext from '../../AuthContext';
 
 const CurrentUserProfile = () => {
-  const user = useContext(AuthContext);
-  const apiUrl = 'http://localhost:8080/api/v1/users/currentlyLoggedIn';
-  const { data, loading, error } = useFetchData2(apiUrl, null, user.token);
+    const user = useContext(authContext);
+    const apiUrl = "http://localhost:8080/api/v1/posts/users/" + user.id;
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    const { deleteRequest } = useDeleteData();
 
 
-  return (
-    <>
-      <Profile id={data?.id} isCurrentUser={true}/>
-    </>
-  );
-};
+    const deletePost = async (id) => {
+        const url = "http://localhost:8080/api/v1/posts/" + id;
+        deleteRequest(url, user.token);
+    };
 
+    const apiUrlPost = 'http://localhost:8080/api/v1/posts';
+    const token = user.token;
+
+    const { loading: postLoading, error: postError, response, postDataRequest } = usePostData();
+
+    const handlePostSubmit = async (content) => {
+        await postDataRequest(apiUrlPost, content, token);
+    };
+
+    return ( 
+        <>
+            <Profile id={user.id} isLoggedInUser={true} handlePostSubmit={handlePostSubmit} deletePost={deletePost}/>
+        </>
+     );
+}
+ 
 export default CurrentUserProfile;
