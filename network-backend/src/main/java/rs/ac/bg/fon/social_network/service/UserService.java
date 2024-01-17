@@ -86,20 +86,28 @@ public class UserService {
         notificationRepository.save(notification);
     }
 
-    public List<User> getFollowers() {
+//    public Page<User> getAll(Pageable pageable) {
+////        return userRepository.findByRoleAndId(Role.USER, getCurrentlyLoggedInUser().getId(), pageable);
+//        return userRepository.findByRoleAndIdNot(Role.USER, getCurrentlyLoggedInUser().getId(), pageable);
+
+    public Page<User> getFollowers(Pageable pageable) {
         User currentlyLoggedInUser = getCurrentlyLoggedInUser();
         if (currentlyLoggedInUser.getRole().equals(Role.ADMIN)) {
             throw new IllegalStateException("You cannot have followers while being authenticated as admin");
         }
-        return currentlyLoggedInUser.getFollowers().stream().toList();
+
+        return userRepository.findByFollowing_Id(currentlyLoggedInUser.getId(), pageable);
+//        return currentlyLoggedInUser.getFollowers().stream().toList();
     }
 
-    public List<User> getFollowing() {
+    public Page<User> getFollowing(Pageable pageable) {
         User currentlyLoggedInUser = getCurrentlyLoggedInUser();
         if (currentlyLoggedInUser.getRole().equals(Role.ADMIN)) {
             throw new IllegalStateException("You cannot have followers while being authenticated as admin");
         }
-        return currentlyLoggedInUser.getFollowing().stream().toList();
+
+        return userRepository.findByFollowers_Id(currentlyLoggedInUser.getId(), pageable);
+//        return currentlyLoggedInUser.getFollowing().stream().toList();
     }
 
     public List<User> findByUsername(String username) {

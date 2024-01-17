@@ -45,13 +45,13 @@ public class UserController {
     }
 
     @GetMapping("/followers")
-    public List<User> getFollowers() {
-        return userService.getFollowers();
+    public Page<User> getFollowers(Pageable pageable) {
+        return userService.getFollowers(pageable);
     }
 
     @GetMapping("/following")
-    public List<User> getFollowing() {
-        return userService.getFollowing();
+    public Page<User> getFollowing(Pageable pageable) {
+        return userService.getFollowing(pageable);
     }
 
     @PostMapping("/follow/{followingUserId}")

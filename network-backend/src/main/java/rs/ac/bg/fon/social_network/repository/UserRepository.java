@@ -13,6 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByFollowers_Id(Long id, Pageable pageable);
+    Page<User> findByFollowing_Id(Long id, Pageable pageable);
     @Query("select u from User u where u.email = ?1")
     User findByEmail(String email);
     Page<User> findByRoleAndIdNot(Role role, Long id, Pageable pageable);
