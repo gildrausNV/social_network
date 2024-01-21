@@ -7,10 +7,10 @@ import { Button } from '@mui/material';
 
 const Users = () => {
 
-    const apiUrl = "http://localhost:8080/api/v1/users";
+    const fetchUsersUrl = "http://localhost:8080/api/v1/users";
     const currentUser = useContext(authContext);
     const [option, setOption] = useState('');
-    const { data: users, updateUrl } = useFetchData(apiUrl, currentUser.token);
+    const { data: users, updateUrl } = useFetchData(fetchUsersUrl, currentUser.token);
 
     useEffect(() => {
         updateUrl("http://localhost:8080/api/v1/users" + option);

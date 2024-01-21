@@ -6,11 +6,11 @@ import useFetchData from '../../customHooks/useFetch';
 import { Button } from '@mui/material';
 
 const Home = () => {
-    const apiUrl = "http://localhost:8080/api/v1/posts";
+    const fetchPostsUrl = "http://localhost:8080/api/v1/posts";
     const user = useContext(authContext);
     const [currentPage, setCurrentPage] = useState(0);
 
-    const { data: posts, updateParams, refetchData, totalPages } = useFetchData(apiUrl, user.token, { size: 3, page: currentPage });
+    const { data: posts, updateParams, refetchData, totalPages } = useFetchData(fetchPostsUrl, user.token, { size: 3, page: currentPage });
 
     const nextPage = () => {
         setCurrentPage((currentPage) => currentPage + 1);

@@ -13,8 +13,8 @@ const OtherUserProfile = () => {
     const { id } = useParams();
     const user = useContext(authContext);
     const token = user.token;
-    const apiUrl = 'http://localhost:8080/api/v1/users/' + id;
-    const { data, loading, error } = useFetchData2(apiUrl, null, token);
+    const fetchUserDataUrl = 'http://localhost:8080/api/v1/users/' + id;
+    const { data, loading, error } = useFetchData2(fetchUserDataUrl, null, token);
 
     const { response, postDataRequest } = usePostData();
     const { deleteRequest } = useDeleteData();

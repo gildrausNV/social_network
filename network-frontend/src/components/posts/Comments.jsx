@@ -10,7 +10,7 @@ import usePostData from '../../customHooks/usePost';
 
 const Comments = ({ id }) => {
     const getCommentsUrl = "http://localhost:8080/api/v1/posts/" + id + '/comments';
-    const commentUrl = "http://localhost:8080/api/v1/posts/" + id + '/comment';
+    const postCommentUrl = "http://localhost:8080/api/v1/posts/" + id + '/comment';
     const user = useContext(authContext);
 
     const { data: comments, updateParams, totalPages } = useFetchData(getCommentsUrl, user.token, null);
@@ -19,7 +19,7 @@ const Comments = ({ id }) => {
 
 
     const handleCommentSubmit = (comment) => {
-        postDataRequest(commentUrl, { content: comment }, user.token);
+        postDataRequest(postCommentUrl, { content: comment }, user.token);
         // window.location.reload();
     }
 

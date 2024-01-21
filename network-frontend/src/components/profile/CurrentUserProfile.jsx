@@ -7,7 +7,7 @@ import authContext from '../../AuthContext';
 
 const CurrentUserProfile = () => {
     const user = useContext(authContext);
-    const apiUrl = "http://localhost:8080/api/v1/posts/users/" + user.id;
+    const fetchPostsUrl = "http://localhost:8080/api/v1/posts/users/" + user.id;
 
     const { deleteRequest } = useDeleteData();
 

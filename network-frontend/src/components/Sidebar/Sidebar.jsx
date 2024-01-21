@@ -15,19 +15,19 @@ import { useContext, useState } from 'react';
 import authContext from '../../AuthContext';
 
 const Sidebar = () => {
-    const [expand, setExpand] = useState(false);
+    const [expandSidebar, setExpandSidebar] = useState(false);
     const user = useContext(authContext);
     const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
     const token = localStorage.getItem('token');
 
     return (
-        <div className={`sidebar ${expand ? "wide" : "narrow"}`}>
+        <div className={`sidebar ${expandSidebar ? "wide" : "narrow"}`}>
             <div className="top-section">
-                {expand && <div className="icon-text">
+                {expandSidebar && <div className="icon-text">
                     <h3>Social Network</h3>
                 </div>}
-                <div className={`menu-icon-container ${expand ? "wide" : "narrow"}`} onClick={() => setExpand(!expand)} >
-                    {expand ? <img src={menuIcon} alt="" className='menu-icon' /> : <img src={menuIconShort} alt="" className='menu-icon' />}
+                <div className={`menu-icon-container ${expandSidebar ? "wide" : "narrow"}`} onClick={() => setExpandSidebar(!expandSidebar)} >
+                    {expandSidebar ? <img src={menuIcon} alt="" className='menu-icon' /> : <img src={menuIconShort} alt="" className='menu-icon' />}
                 </div>
             </div>
             <div className="middle-section">
@@ -35,21 +35,21 @@ const Sidebar = () => {
                     {token ?
                         <>
                             <Link to={'/home'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={homeIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Home</button>
                                     </div>}
                                 </li>
                             </Link>
                             {!isAdmin && <Link to={'/notifications'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={notificationIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Notifications</button>
                                     </div>}
                                 </li>
@@ -65,31 +65,31 @@ const Sidebar = () => {
                                 </li>
                             </Link>} */}
                             <Link to={'/users'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={usersIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Users</button>
                                     </div>}
                                 </li>
                             </Link>
                             {isAdmin && <Link to={'/reports'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={reportIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Reports</button>
                                     </div>}
                                 </li>
                             </Link>}
                             {!isAdmin && <Link to={'/profile'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={profileIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Profile</button>
                                     </div>}
                                 </li>
@@ -98,20 +98,20 @@ const Sidebar = () => {
                         :
                         <>
                             <Link to={'/login'}>
-                                <li className={`link ${expand ? "wide" : "narrow"}`}>
+                                <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                     <div className="icon-container">
                                         <img src={loginIcon} alt="" className='icon' />
                                     </div>
-                                    {expand && <div className="icon-text">
+                                    {expandSidebar && <div className="icon-text">
                                         <button>Login</button>
                                     </div>}
                                 </li>
                             </Link>
-                            <Link to={'/register'}><li className={`link ${expand ? "wide" : "narrow"}`}>
+                            <Link to={'/register'}><li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                                 <div className="icon-container">
                                     <img src={registerIcon} alt="" className='icon' />
                                 </div>
-                                {expand && <div className="icon-text">
+                                {expandSidebar && <div className="icon-text">
                                     <button>Register</button>
                                 </div>}
                             </li>
@@ -123,11 +123,11 @@ const Sidebar = () => {
             <div className="bottom-section">
                 <ul>
                     <Link to={'/login'}>
-                        <li className={`link ${expand ? "wide" : "narrow"}`}>
+                        <li className={`link ${expandSidebar ? "wide" : "narrow"}`}>
                             <div className="icon-container">
                                 <img src={logoutIcon} alt="" className='icon' />
                             </div>
-                            {expand && <div className="icon-text">
+                            {expandSidebar && <div className="icon-text">
                                 <button>Logout</button>
                             </div>}
                         </li>

@@ -11,10 +11,9 @@ import useFetchData from '../../customHooks/useFetch';
 
 
 const Post = ({ post, deletePost, isLoggedInUser }) => {
-    const reportUrl = "http://localhost:8080/api/v1/reports/post/" + post.id;
-    const reactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
+    const postReportUrl = "http://localhost:8080/api/v1/reports/post/" + post.id;
+    const postReactionUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/react';
     const getReactionsUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/reactions';
-    const commentUrl = "http://localhost:8080/api/v1/posts/" + post.id + '/comment';
     const user = useContext(authContext);
     const [showReactions, setShowReactions] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -25,16 +24,11 @@ const Post = ({ post, deletePost, isLoggedInUser }) => {
     const { loading, error, postDataRequest } = usePostData();
 
     const handleReportSubmit = () => {
-        postDataRequest(reportUrl, null, user.token);
+        postDataRequest(postReportUrl, null, user.token);
     }
 
     const handleReactionSubmit = () => {
-        postDataRequest(reactionUrl, { reactionType: 'LIKE' }, user.token);
-        // window.location.reload();
-    }
-
-    const handleCommentSubmit = (comment) => {
-        postDataRequest(commentUrl, { content: comment }, user.token);
+        postDataRequest(postReactionUrl, { reactionType: 'LIKE' }, user.token);
         // window.location.reload();
     }
 
@@ -90,7 +84,7 @@ const Post = ({ post, deletePost, isLoggedInUser }) => {
                 </DialogActions>
             </Dialog>
             <div className="post-comments">
-                <Comments handleCommentSubmit={handleCommentSubmit} id={post.id} />
+                <Comments id={post.id} />
             </div>
         </div>
     );

@@ -11,10 +11,10 @@ import Posts from '../posts/Posts';
 
 const Profile = ({ id, isLoggedInUser, handlePostSubmit, deletePost }) => {
     const user = useContext(authContext);
-    const apiUrl = "http://localhost:8080/api/v1/posts/users/" + id;
+    const fetchPostsUrl = "http://localhost:8080/api/v1/posts/users/" + id;
     const [currentPage, setCurrentPage] = useState(0);
 
-    const { data: posts, updateParams, totalPages } = useFetchData(apiUrl, user.token, { size: 3, page: currentPage });
+    const { data: posts, updateParams, totalPages } = useFetchData(fetchPostsUrl, user.token, { size: 3, page: currentPage });
 
     const nextPage = () => {
         setCurrentPage((currentPage) => currentPage + 1);
@@ -49,7 +49,7 @@ const Profile = ({ id, isLoggedInUser, handlePostSubmit, deletePost }) => {
                     </Button>
                 </div>
             </div>
-            <Posts apiUrl={apiUrl} isLoggedInUser={isLoggedInUser} posts={posts}/>
+            <Posts apiUrl={fetchPostsUrl} isLoggedInUser={isLoggedInUser} posts={posts}/>
         </div>
     );
 }

@@ -6,10 +6,10 @@ import authContext from '../../AuthContext';
 import useDeleteData from '../../customHooks/useDelete';
 
 const Report = () => {
-    const apiUrl = "http://localhost:8080/api/v1/reports";
+    const fetchReportsUrl = "http://localhost:8080/api/v1/reports";
     const user = useContext(authContext);
     const [currentPage, setCurrentPage] = useState(0);
-    const { data: reports, updateParams, totalPages } = useFetchData(apiUrl, user.token, { size: 3, page: currentPage });
+    const { data: reports, updateParams, totalPages } = useFetchData(fetchReportsUrl, user.token, { size: 3, page: currentPage });
 
     const nextPage = () => {
         setCurrentPage((currentPage) => currentPage + 1);

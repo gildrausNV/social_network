@@ -9,7 +9,7 @@ const ChatBox = ({ stompClient, userToChat, setNewMessageRecieved, setUserToChat
     const currentUser = useContext(authContext);
     const token = currentUser.token;
     const id = currentUser.id;
-    const apiUrlOtherUser = `http://localhost:8080/api/v1/users/${userToChat?.id}`;
+    const fetchOtherUserDataUrl = `http://localhost:8080/api/v1/users/${userToChat?.id}`;
     const [newMessage, setNewMessage] = useState('');
     // const { data: otherUserData } = useFetchData(apiUrlOtherUser, null, token);
 
