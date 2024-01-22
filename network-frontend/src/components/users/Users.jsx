@@ -1,12 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import authContext from '../../AuthContext';
 import UserDetails from './UserDetails';
 import './Users.css';
 import useFetchData from '../../customHooks/useFetch';
 import { Button } from '@mui/material';
 
-const Users = () => {
+const MemoizedUserDetails = memo(UserDetails);
 
+const Users = () => {
     const fetchUsersUrl = "http://localhost:8080/api/v1/users";
     const currentUser = useContext(authContext);
     const [option, setOption] = useState('');
@@ -44,7 +45,8 @@ const Users = () => {
             <div className="users-list">
                 {users && users.map((user) => (
                     <>
-                        <UserDetails user={user} key={user.id} />
+                        {/* <UserDetails user={user} key={user.id} /> */}
+                        <MemoizedUserDetails user={user} key={user.id} />
                     </>
                 ))}
             </div>

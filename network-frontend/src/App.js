@@ -35,11 +35,6 @@ function App() {
   return (
     <authContext.Provider value={user}>
       <BrowserRouter>
-        {/* <Badge color="secondary" variant="dot" invisible={!newMessageRecieved}>
-          <Button onClick={() => setShowChat(true)}>
-            <img src={chatIcon} alt="Chat" className='chat-icon' />
-          </Button>
-        </Badge> */}
         <div className="App">
           <Sidebar />
           <div className="page">
@@ -63,7 +58,6 @@ function App() {
               <Route path='/login' element={<Login setToken={setToken} setId={setId} setIsAdmin={setIsAdmin} setUserContext={setUser} />} />
               <Route path='/register' element={<Register />} />
               <Route path='/home' element={<Home />} />
-              {/* <Route path='/chat' element={<Chat />} /> */}
               <Route path='/notifications' element={<Notifications />} />
               <Route path='/users' element={<Users />} />
               <Route path='/reports' element={<Report />} />

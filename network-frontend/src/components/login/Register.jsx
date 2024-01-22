@@ -14,14 +14,6 @@ const Register = () => {
         username: '',
         password: '',
     });
-    // const postData = {
-    //     username: formData.username,
-    //     password: formData.password,
-    //     firstname: formData.firstname,
-    //     lastname: formData.lastname,
-    //     email: formData.email,
-    //     gender: formData.gender
-    // }
 
     const handleSubmit = async (event) => {
         event.preventDefault();

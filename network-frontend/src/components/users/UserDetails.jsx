@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import userIcon from '../../icons/user (1).png';
 import { Typography, Avatar, Paper, Grid, Button } from '@mui/material';
+import { useEffect } from 'react';
 
 const UserDetails = ({ user }) => {
     const navigate = useNavigate();
