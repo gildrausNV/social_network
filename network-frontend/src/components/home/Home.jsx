@@ -4,6 +4,7 @@ import Posts from '../posts/Posts';
 import './Home.css';
 import useFetchData from '../../customHooks/useFetch';
 import { Button } from '@mui/material';
+import Topics from '../trends/Topics';
 
 const Home = () => {
     const fetchPostsUrl = "http://localhost:8080/api/v1/posts";
@@ -23,31 +24,37 @@ const Home = () => {
     };
 
     return (
-        <div className="home">
-            <div className="page-buttons-container">
-                <div className="page-buttons">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={previousPage}
-                        disabled={currentPage === 0}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={nextPage}
-                        disabled={currentPage === totalPages - 1}
-                    >
-                        Next
-                    </Button>
+        <>
+            <div className="home">
+                <div className="page-buttons-container">
+                    <div className="page-buttons">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={previousPage}
+                            disabled={currentPage === 0}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={nextPage}
+                            disabled={currentPage === totalPages - 1}
+                        >
+                            Next
+                        </Button>
+                    </div>
                 </div>
+                <div className="post-container">
+                    <Posts isLoggedInUser={false} posts={posts} />
+                </div>
+
             </div>
-            <div className="post-container">
-                <Posts isLoggedInUser={false} posts={posts}/>
+            <div className="topics-container">
+                <Topics />
             </div>
-        </div>
+        </>
     );
 }
 
